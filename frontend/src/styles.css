@@ -1,0 +1,33 @@
+.App {
+  font-family: sans-serif;
+  text-align: center;
+  background-color: #b0d5de;
+}
+
+.fill-window {
+  height: 100%;
+  position: absolute;
+  left: 0;
+  width: 100%;
+  overflow: auto;
+}
+
+Homepage {
+  margin: 8px;
+}
+
+.white {
+  color: #ffffff;
+}
+
+body {
+  margin: 0;
+}
+
+.cropped {
+  object-fit: cover;
+  overflow: auto;
+  width: 180px !important;
+  height: 160px !important;
+
+}
