@@ -1,5 +1,6 @@
 from django.db import models
 from .system_models import Participant, System
+
 class Variants(models.TextChoices):
     WELLBEING = 'WELL'
     EVALUATION = 'EVAL'
@@ -39,3 +40,10 @@ class Answer(models.Model):
 
 # A user evaluation of a system can be composed by querying all the answers with the participant and system ID.
 # The wellbeing of the user can be composed by querying all the answers with the participant ID and NULL system ID.
+
+class Smiley(models.Model):
+    value = models.IntegerField()
+    image = models.ImageField(upload_to='')
+
+    def __str__(self):
+        return str(self.image)

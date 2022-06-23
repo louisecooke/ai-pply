@@ -21,7 +21,7 @@ export default function ScenarioCard({ scenario }: CardProps) {
     <Card>
       <CardMedia
         component="img"
-        alt="green iguana"
+        alt="hiring-situation"
         height="140"
         image={scenario.image}
       />
