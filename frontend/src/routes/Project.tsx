@@ -1,5 +1,5 @@
 import * as React from "react";
-import { Button, Typography, Stack, FormControl, FormLabel, FormControlLabel, RadioGroup, Radio } from "@mui/material";
+import { Button, Typography, Stack, FormControl, FormLabel, FormControlLabel, RadioGroup, Radio, Container } from "@mui/material";
 import { SimpleSystemKeys } from "@mui/system";
 
 enum Q_TYPE {
@@ -69,37 +69,71 @@ export default function Project() {
         </div>));
   }
 
-  const mapData = () => {
-    return (
+  const mapOptions = (options: Option[]) => {
+    return options.map((o: Option) => (
+      <div key={o.id}>
+        <Stack direction='column'> 
+        <Radio value={o.value} color='secondary'/>
+        {o.text}
+        </Stack>
+      </div>));
+}
+
+  const defaultOption = (list: any[]) => {
+    if (list.length) {
+      return list[Math.floor(list.length / 2)].value;
+    } else {
+      return 0;
+    }
+  }
+
+  React.useEffect( () => {
+    getData();
+  }, []);
+
+  const wellBeing = () => {
+    return (<div> <FormLabel>How are you feeling today?</FormLabel>
+    <RadioGroup
+        aria-labelledby="demo-radio-buttons-group-label"
+        name="radio-buttons-group"
+        row
+        color='secondary'
+        defaultValue={defaultOption(smileys)}
+        sx={{justifyContent: 'center'}}
+      >
+      {mapSmileys(smileys)}
+    </RadioGroup></div>);
+   
+  }
+
+  return (
+    <div className="fill-window App">
+      <>
+      <br />
       <Stack>
         <FormControl>
+          {wellBeing()}
+          <br />
           {questions.map((q: Question) => (
-            <div key={q.id}>
+            <div>
+               <Stack key={q.id} sx={{margin: 10}}>
               <FormLabel>{q.text}</FormLabel>
               <RadioGroup
                   aria-labelledby="demo-radio-buttons-group-label"
                   name="radio-buttons-group"
                   row
                   color='secondary'
-                  defaultValue={1}
-                >{mapSmileys(smileys)}
+                  defaultValue={defaultOption(options)}
+                  sx={{justifyContent: 'space-between'}}
+                >
+                {mapOptions(options)}
               </RadioGroup>
-            </div>
+            </Stack>
+          </div>
+           
       ))}
         </FormControl>
       </Stack>
-      );
-  }
-
-
-  React.useEffect( () => {
-    getData();
-  }, []);
-
-  return (
-    <div className="fill-window App">
-      <>
-      {mapData()}
       <br />
       <br />
       </>
