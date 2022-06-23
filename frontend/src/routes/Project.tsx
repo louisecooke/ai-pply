@@ -2,8 +2,8 @@ import * as React from "react";
 import { Button, Typography, Stack } from "@mui/material";
 
 enum Q_TYPE {
-  WELLBEING = 'Wellbeing',
-  EVALUATION = 'Evaluation'
+  WELLBEING = 'WELL',
+  EVALUATION = 'EVAL'
 }
 
 type Option = {
@@ -25,7 +25,7 @@ export default function Project() {
   const [options, setOptions] = React.useState([] as Option[]);
   
   const getData = () => {
-    fetch("api/questions/wellbeing/").then((response) => response.json())
+    fetch(`api/questions/${Q_TYPE.WELLBEING}/`).then((response) => response.json())
     .then((data) =>
       {
         setQuestions(data);
