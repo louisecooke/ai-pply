@@ -32,7 +32,7 @@ DEBUG = True
 # Application definition
 
 INSTALLED_APPS = [
-    'api.apps.ApiConfig',
+    'api',
     'django.contrib.admin',
     'django.contrib.auth',
     'django.contrib.contenttypes',
@@ -59,7 +59,7 @@ ALLOWED_HOSTS=[
     'localhost'
 ]
 
-ROOT_URLCONF = 'main.urls'
+ROOT_URLCONF = 'project.urls'
 
 TEMPLATES = [
     {
@@ -79,7 +79,7 @@ TEMPLATES = [
     },
 ]
 
-WSGI_APPLICATION = 'main.wsgi.application'
+WSGI_APPLICATION = 'project.wsgi.application'
 
 
 # Database
