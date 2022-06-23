@@ -2,7 +2,8 @@ from django.contrib import admin
 
 # Register your models here.
 from .localization import Administration
-from .models import Participant, Completion, System, Question, Answer, Option
+from .models.system_models import Participant, Completion, System
+from .models.questionnaire_models import Question, Answer, Option
 from typing import final
 
 admin.site.site_header = Administration.header
