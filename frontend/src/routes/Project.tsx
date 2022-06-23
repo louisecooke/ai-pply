@@ -22,7 +22,8 @@ type Question = {
 
 export default function Project() {
   const [questions, setQuestions] = React.useState([] as Question[]);
-
+  const [options, setOptions] = React.useState([] as Option[]);
+  
   const getData = () => {
     fetch("api/questions/wellbeing/").then((response) => response.json())
     .then((data) =>
@@ -31,27 +32,33 @@ export default function Project() {
       }).catch((error) => {
         console.log(error);
       });
+
     fetch("api/options/").then((response) => response.json())
     .then((data) =>
       {
-        let list = data;
-        for (let op in list) {
-          
-        }
-        setQuestions();
+        setOptions(data);
       }).catch((error) => {
         console.log(error);
       });
   }
 
+    
+  const mapOptions = (options: Option[]) => {
+      return options.map((o: Option) => (
+        <Typography key={o.id}>
+          {o.text} {o.value}
+        </Typography>
+      ));
+  }
+
   const mapData = () => {
     return (
       <Stack>
-        {questions.map((q: Question) => ((
+        {questions.map((q: Question) => (
           <Typography key={q.id}>
             {q.text}: {q.variant}
           </Typography>
-        )))}
+        ))}
       </Stack>
       );
   }

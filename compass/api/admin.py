@@ -21,9 +21,8 @@ class ParticipantAdmin(ReadOnly):
 class QuestionAdmin(admin.ModelAdmin):
     list_display = ("text", "variant")
 
-
 class OptionAdmin(admin.ModelAdmin):
-    list_display = ("text", "question")
+    list_display = ("text", "variant")
 
 class AnswerAdmin(admin.ModelAdmin):
     list_display = ("option", "system", "participant")

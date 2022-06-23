@@ -33,18 +33,16 @@ class Completion(models.Model):
     completedOn = models.DateField()
     time = models.IntegerField(null=True)
 
+class Variants(models.TextChoices):
+    WELLBEING = 'WELL'
+    EVALUATION = 'EVAL'
 
 class Question(models.Model):
     text = models.CharField(max_length=400)
-    WELLBEING = 'WELL'
-    EVALUATION = 'EVAL'
-    VARIANT_CHOICES = [
-        (WELLBEING, 'User wellbeing'),
-        (EVALUATION, 'System evaluation')
-    ]
+
     variant = models.CharField(
         max_length=4,
-        choices=VARIANT_CHOICES,
+        choices=Variants.choices,
         null=True
     )
 
@@ -54,9 +52,13 @@ class Question(models.Model):
 
 
 class Option(models.Model):
-    question = models.ForeignKey(Question, related_name='options', on_delete=models.CASCADE, verbose_name="related question")
     text = models.CharField(max_length=200)
     value = models.IntegerField(null=True)
+    variant = models.CharField(
+        max_length=4,
+        choices=Variants.choices,
+        null=True
+    )
 
     def __str__(self):
         return self.text
