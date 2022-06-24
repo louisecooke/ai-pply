@@ -1,6 +1,7 @@
 import * as React from "react";
-import { Button, Typography, Stack, FormControl, FormLabel, FormControlLabel, RadioGroup, Radio, Container } from "@mui/material";
-import { SimpleSystemKeys } from "@mui/system";
+import { Button, Divider, Card, CardActions, 
+  Typography, Stack, FormControl, FormLabel,
+   RadioGroup, Radio, Container, CardContent } from "@mui/material";
 
 enum Q_TYPE {
   WELLBEING = 'WELL',
@@ -103,20 +104,28 @@ export default function Project() {
       >
       {mapSmileys(smileys)}
     </RadioGroup></div>);
-   
   }
 
   return (
     <div className="fill-window App">
-      <>
+      <Container>
       <br />
-      <Stack>
+      <Stack justifyContent='center'>
         <FormControl>
+          
+        <Card>
+          <CardContent>
+          <Typography variant='subtitle2' fontSize='10'>
           {wellBeing()}
           <br />
+          
           {questions.map((q: Question) => (
-            <div>
-               <Stack key={q.id} sx={{margin: 10}}>
+            <>
+            
+            <Divider flexItem />
+            <Stack key={q.id} justifyContent='flex-start' sx={{margin: 10}}>
+              
+                 
               <FormLabel>{q.text}</FormLabel>
               <RadioGroup
                   aria-labelledby="demo-radio-buttons-group-label"
@@ -129,14 +138,21 @@ export default function Project() {
                 {mapOptions(options)}
               </RadioGroup>
             </Stack>
-          </div>
+            
+            </>
            
       ))}
+      </Typography>
+      
+      <Button variant="contained">Submit</Button>
+      </CardContent>
+        
+      </Card>
         </FormControl>
       </Stack>
       <br />
       <br />
-      </>
+      </Container>
     </div>
   );
 }
