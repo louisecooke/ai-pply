@@ -1,7 +1,7 @@
 import "./styles.css";
 import Homepage from "./routes/Homepage";
 
-import Project from "./routes/Project";
+import Questionnaire from "./components/Questionnaire";
 import Team from "./routes/Team";
 
 import * as React from "react";
@@ -17,7 +17,7 @@ export default function App() {
           </Typography>
 
           <Typography sx={{ minWidth: 100 }}>
-            <Link to="/project" style={{textDecoration: 'none'}}><Typography variant='overline'>Project</Typography></Link>
+            <Link to="/questionnaire" style={{textDecoration: 'none'}}><Typography variant='overline'>Questionnaire</Typography></Link>
           </Typography>
 
           <Typography sx={{ minWidth: 100 }}>
@@ -26,7 +26,7 @@ export default function App() {
       </Stack>
       <Routes>
         <Route path="/*" element={<Homepage />} />
-        <Route path="project" element={<Project />} />
+        <Route path="questionnaire" element={<Questionnaire />} />
         <Route path="team" element={<Team />} />
       </Routes>
     </div>

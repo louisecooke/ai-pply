@@ -26,7 +26,7 @@ class OptionAdmin(admin.ModelAdmin):
     list_display = ("text", "variant")
 
 class AnswerAdmin(admin.ModelAdmin):
-    list_display = ("option", "system", "participant")
+    list_display = ("question", "option", "system", "participant")
 
 class SmileyAdmin(admin.ModelAdmin):
     list_display = ("value", "image")
