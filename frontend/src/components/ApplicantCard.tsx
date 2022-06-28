@@ -32,7 +32,7 @@ export default function ComparableCard({instance}: Props) {
         <CardMedia
           component="img"
           height="140"
-          image={blankProfile}
+          image={blankProfile.default}
           alt="applicant photo"
         />
         <CardContent>

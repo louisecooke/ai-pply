@@ -18,7 +18,7 @@ const resume = require("../imgs/andrea-piacquadio-resume.jpg");
 const hiringManager: Scenario = {
   name: "Hiring Manager",
   description: "Vet applicants for your recent job openings.",
-  image: resume,
+  image: resume.default,
   link: "/hiring"
 };
 
