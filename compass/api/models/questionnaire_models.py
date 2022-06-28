@@ -12,6 +12,9 @@ class Scale(models.Model):
         return self.title
 
 class Option(models.Model):
+    class Meta:
+        ordering = ("value", )
+
     text = models.CharField(max_length=200, null=True, blank=True)
     value = models.IntegerField()
     variant = models.CharField(
