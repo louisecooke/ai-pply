@@ -1,26 +1,25 @@
 import { Grid, Button, Container } from "@mui/material";
 import { Route, Routes } from "react-router-dom";
 import * as React from "react";
-import ScenarioCard from "../components/ScenarioCard";
 import SystemList from "./SystemList";
 import Questionnaire from "../components/Questionnaire";
 import "../styles.css";
 
-import { Q_TYPE, Scenario } from "../types";
+import { VARIANTS} from "../types";
 import ConsentForm from "./ConsentForm";
 import ScenarioExplanation from "./ScenarioExplanation";
 const resume = require("../imgs/andrea-piacquadio-resume.jpg");
 
-const hiringManager: Scenario = {
+/* const hiringManager: Scenario = {
   name: "Hiring Manager",
   description: "Vet applicants for your recent job openings.",
   image: resume.default,
   link: "/hiring"
-};
+}; */
 
-const scenarioList = [hiringManager];
+/* const scenarioList = [hiringManager]; */
 
-const scenarios = () => {
+/* const scenarios = () => {
   return (
     <Grid container spacing={10} justifyContent="space-evenly">
         {scenarioList.map((s: Scenario) => (
@@ -30,7 +29,7 @@ const scenarios = () => {
         ))}
     </Grid>);
 }
-
+ */
 function Opener() {
   return (
     <Grid container direction="column">
@@ -56,7 +55,7 @@ export default function Homepage() {
   const workflow = [
     Opener(),
     <ConsentForm />,
-    <Questionnaire variant={Q_TYPE.WELLBEING}/>,
+    <Questionnaire variant={VARIANTS.WELLBEING}/>,
     <ScenarioExplanation />,
     <SystemList onFinish={next}/>,
     <ConsentForm />

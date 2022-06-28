@@ -1,5 +1,5 @@
 import * as React from "react";
-import { Button, Grid } from "@mui/material";
+import { Grid } from "@mui/material";
 const { toMinutes } = require("../util/Functions");
 
 type Props = {
@@ -10,11 +10,6 @@ type Props = {
 export default function Timer({finished, onFinish} : Props) {
   const [time, setTime] = React.useState(0);
   const [active, setActive] = React.useState(true);
-
-  const toggleTimer = () => {
-    setActive(!active);
-  }
-
 
   React.useEffect(() => {
     if (finished) {

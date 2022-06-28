@@ -30,7 +30,7 @@ export interface Manipulation {
   image?: string;
 }
 
-export enum Q_TYPE {
+export enum VARIANTS {
   WELLBEING = 'WELL',
   EVALUATION = 'EVAL'
 }

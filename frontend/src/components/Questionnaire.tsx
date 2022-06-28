@@ -2,7 +2,7 @@ import * as React from "react";
 import { Button, Divider, Card,
   Typography, Stack, FormControl, FormLabel,
    RadioGroup, Radio, Container, CardContent } from "@mui/material";
-import { Q_TYPE } from '../types';
+import { VARIANTS } from '../types';
 
 type Option = {
   id: number;
@@ -21,13 +21,13 @@ type Scale = {
 type Question = {
   id: number;
   text: string;
-  variant: Q_TYPE;
+  variant: VARIANTS;
   scale: number;
   chosenOption: number;
 };
 
 type Props = {
-  variant: Q_TYPE;
+  variant: VARIANTS;
   finish?: Function;
 }
 
@@ -35,8 +35,10 @@ export default function Questionnaire({variant, finish} : Props) {
   const [questions, setQuestions] = React.useState([] as Question[]);
   const [scales, setScales] = React.useState([] as Scale[]);
   const [error, setError] = React.useState(false);
-  const [errorMessage, setErrorMessage] = React.useState('Please enter a value for all fields.');
   const [success, setSuccess] = React.useState(false);
+
+  
+  const errorMessage = 'Please enter a value for all fields.'
   
   const getData = () => {
     fetch(`api/questions/${variant}/`).then((response) => response.json())
@@ -56,6 +58,7 @@ export default function Questionnaire({variant, finish} : Props) {
       });
   }
 
+  //TODO add alt for image, change image/text logic.
   const mapScale = (scale: Scale | undefined) => {
     if (scale) {
       return scale.options.map((o: Option) => (
@@ -63,7 +66,7 @@ export default function Questionnaire({variant, finish} : Props) {
           <Stack direction='column'> 
           <Radio value={o.value} id={o.id.toString()} color='secondary' required/>
           {o.text}
-          {o.image && <img src={o.image} height='100' width='100'/>}
+          {o.image && <img src={o.image} height='100' width='100' alt={o.image}/>}
           </Stack>
         </div>));
     } else {

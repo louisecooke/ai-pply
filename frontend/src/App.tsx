@@ -1,12 +1,8 @@
 import "./styles.css";
 import Homepage from "./routes/Homepage";
 
-import Questionnaire from "./components/Questionnaire";
-import SystemList from "./routes/SystemList";
-
-import * as React from "react";
-import { Routes, Route, Link } from "react-router-dom";
-import { Button, Grid, Stack, Typography, Container } from "@mui/material";
+import {Link } from "react-router-dom";
+import { Stack, Typography } from "@mui/material";
 
 export default function App() {
   return (

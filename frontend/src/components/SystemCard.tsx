@@ -2,12 +2,8 @@ import {
   Card,
   CardMedia,
   CardContent,
-  CardActions,
-  Typography,
-  Button,
-  Container
+  Typography
 } from "@mui/material";
-import * as React from "react";
 
 import { Manipulation } from "../types";
 
@@ -40,11 +36,6 @@ export default function SystemCard({ system, chooseScenario }: CardProps) {
           <br />
         </Typography>
       </CardContent>
-{/*       <CardActions>
-        <Container>
-          <Button size="small" onClick={() => {chooseScenario(system)}} >START</Button>
-        </Container>
-      </CardActions> */}
     </Card>
   );
 }

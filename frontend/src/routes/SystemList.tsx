@@ -1,6 +1,6 @@
 import * as React from "react";
 import HiringTask from "./HiringTask";
-import { Applicant, Manipulation, Q_TYPE } from "../types";
+import { Applicant, Manipulation, VARIANTS } from "../types";
 import Questionnaire from "../components/Questionnaire";
 import SystemCard from "../components/SystemCard";
 import Button from "@mui/material/Button";
@@ -70,7 +70,7 @@ export default function SystemList({onFinish}: Props) {
       return (
       <Stack alignItems='center'>
       <SystemCard system={chosenSystem}></SystemCard>
-      <Questionnaire variant={Q_TYPE.EVALUATION} finish={finishQuestionnaire} />
+      <Questionnaire variant={VARIANTS.EVALUATION} finish={finishQuestionnaire} />
       </Stack>);
     }
   }
