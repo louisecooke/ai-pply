@@ -7,6 +7,10 @@ def apiOverview(request):
     api_urls = {
         'Participants': '/participants/',
         'Systems': '/systems/',
-        'Wellbeing Questions': '/questions/wellbeing/'
+        'All questions': '/questions/',
+        'Question variants (WELL, EVAL)': '/questions/<variant>/',
+        'Options': '/options/',
+        'Scales': '/scales/',
+        'Answers': '/answers/'
     }
     return Response(api_urls)
