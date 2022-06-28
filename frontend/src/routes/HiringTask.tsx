@@ -56,9 +56,9 @@ export default function HiringTask({system, applicants} : TaskProps) {
       <Timer finished={finished} onFinish={logTime}/>
       <Container>
       <Stack direction='row' justifyContent='center' spacing={5} alignItems='flex-start'>
-        {system.control && <ControlPanel key={key} preferences={preferences} setPreferences={applyChanges} revertToDefault={resetPreferences} /> }
+        {!finished && system.control && <ControlPanel key={key} preferences={preferences} setPreferences={applyChanges} revertToDefault={resetPreferences} /> }
         {finished ? 
-        <div>Task completed. Time: {totalTime}</div> :
+        <div>Task completed</div> :
         <Gallery columns={numColumns} content={profiles} onFinish={onFinish} singleton={true} receiveRecommendation={chooseApplicant} transparent={system.transparency}/>}
       </Stack>
       </Container>

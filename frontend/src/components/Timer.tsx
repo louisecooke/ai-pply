@@ -41,9 +41,6 @@ export default function Timer({finished, onFinish} : Props) {
         <Grid item>
         <h1>{toMinutes(time)}</h1>
         </Grid>
-        <Grid item>
-          <Button onClick={toggleTimer} color='secondary' variant='outlined'>{active ? "Pause" : "Restart"}</Button>
-        </Grid>
 
         </Grid>
     </div>
