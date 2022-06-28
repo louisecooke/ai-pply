@@ -1,8 +1,9 @@
 import * as React from "react";
-import { Container, Stack } from "@mui/material";
+import { Button, Container, Stack } from "@mui/material";
 import Gallery from "../components/Gallery";
 import ControlPanel from "../components/ControlPanel";
 import ComparableCard from "../components/ApplicantCard";
+import SystemCard from "../components/SystemCard";
 import Timer from "../components/Timer";
 import { Manipulation, FieldProperties, Applicant } from "../types";
 import { pickApplicant } from "../study-config/Configuration";
@@ -14,10 +15,10 @@ const { defaultPreferences } = require("../util/DummyData");
 type TaskProps = {
   system: Manipulation;
   applicants: Applicant[];
+  finish: Function;
 };
 
-export default function HiringTask({system, applicants} : TaskProps) {
-  console.log(system);
+export default function HiringTask({system, applicants, finish} : TaskProps) {
   const [finished, setFinished] = React.useState(false);
   const [totalTime, setTotalTime] = React.useState(0);
   const numColumns = 2;
@@ -43,8 +44,9 @@ export default function HiringTask({system, applicants} : TaskProps) {
     profiles.push(<ComparableCard instance={a} key={a.id}/>)
   });
 
-
-  const onFinish = () => setFinished(true);
+  const onFinish = () => {
+    setFinished(true);
+  }
   const logTime = (time: number) => setTotalTime(time);
 
   const chooseApplicant = (start: number, end: number) => {
@@ -56,10 +58,18 @@ export default function HiringTask({system, applicants} : TaskProps) {
       <Timer finished={finished} onFinish={logTime}/>
       <Container>
       <Stack direction='row' justifyContent='center' spacing={5} alignItems='flex-start'>
+        <Stack direction='column' marginTop='16px' spacing={2} alignItems='flex-end'>
+        <SystemCard system={system} />
         {!finished && system.control && <ControlPanel key={key} preferences={preferences} setPreferences={applyChanges} revertToDefault={resetPreferences} /> }
+        
+        </Stack>
         {finished ? 
-        <div>Task completed</div> :
-        <Gallery columns={numColumns} content={profiles} onFinish={onFinish} singleton={true} receiveRecommendation={chooseApplicant} transparent={system.transparency}/>}
+        <div>
+          Finished. Time: {totalTime}
+          <Button onClick={() => {finish()}} color='secondary'>Evaluate system.</Button>
+        </div> :
+        <Gallery columns={numColumns} content={profiles} onFinish={onFinish} singleton={true} receiveRecommendation={chooseApplicant} transparent={system.transparency}/>
+}
       </Stack>
       </Container>
     </div>

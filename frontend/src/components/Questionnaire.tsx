@@ -2,11 +2,7 @@ import * as React from "react";
 import { Button, Divider, Card,
   Typography, Stack, FormControl, FormLabel,
    RadioGroup, Radio, Container, CardContent } from "@mui/material";
-
-enum Q_TYPE {
-  WELLBEING = 'WELL',
-  EVALUATION = 'EVAL'
-}
+import { Q_TYPE } from '../types';
 
 type Option = {
   id: number;
@@ -30,7 +26,12 @@ type Question = {
   chosenOption: number;
 };
 
-export default function Questionnaire() {
+type Props = {
+  variant: Q_TYPE;
+  finish?: Function;
+}
+
+export default function Questionnaire({variant, finish} : Props) {
   const [questions, setQuestions] = React.useState([] as Question[]);
   const [scales, setScales] = React.useState([] as Scale[]);
   const [error, setError] = React.useState(false);
@@ -38,7 +39,7 @@ export default function Questionnaire() {
   const [success, setSuccess] = React.useState(false);
   
   const getData = () => {
-    fetch(`api/questions/${Q_TYPE.WELLBEING}/`).then((response) => response.json())
+    fetch(`api/questions/${variant}/`).then((response) => response.json())
     .then((data) =>
       {
         setQuestions(data);
@@ -97,7 +98,7 @@ export default function Questionnaire() {
       setError(true);
     } else {
       setError(false);
-      fetch("api/answers/", {
+      /* fetch("api/answers/", {
         method: 'POST',
         headers: {
           'Content-Type': 'application/json',
@@ -111,13 +112,13 @@ export default function Questionnaire() {
           setSuccess(true);
         }).catch((error) => {
           console.log(error);
-        });
+        }); */
+      finish && finish();
 
     }
   }
 
   return (
-    <div className="fill-window App">
       <Container>
       <br />
       <Stack justifyContent='center'>
@@ -126,12 +127,9 @@ export default function Questionnaire() {
         <Card>
           <CardContent>
           <Typography variant='subtitle2' fontSize='10'>
-          <br />
-          
+          <Stack
+            divider={<Divider flexItem />} >
           {questions.map((q: Question) => (
-            <>
-            
-            <Divider flexItem />
             <Stack key={q.id} justifyContent='flex-start' sx={{margin: 4}}>
               <FormLabel>{q.text}</FormLabel>
               <RadioGroup
@@ -145,10 +143,8 @@ export default function Questionnaire() {
                 {mapScale(scales.find(s => s.id === q.scale))}
               </RadioGroup>
             </Stack>
-            
-            </>
-           
-      ))}
+            ))}
+      </Stack>
       </Typography>
       
       {error && <Typography color='error'>{errorMessage}</Typography>}
@@ -162,6 +158,5 @@ export default function Questionnaire() {
       <br />
       <br />
       </Container>
-    </div>
   );
 }

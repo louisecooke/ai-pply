@@ -29,3 +29,8 @@ export interface Manipulation {
   control: boolean;
   image?: string;
 }
+
+export enum Q_TYPE {
+  WELLBEING = 'WELL',
+  EVALUATION = 'EVAL'
+}

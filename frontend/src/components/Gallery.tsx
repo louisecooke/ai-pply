@@ -15,8 +15,7 @@ type Props = {
 export default function Gallery({ columns, content, onFinish, singleton, receiveRecommendation, transparent }: Props) {
   const [page, setPage] = React.useState(0);
   const numPhotos = columns * columns;
-  
-  const buttonText = ((page + 1) * numPhotos < content.length ? "Next page" : "Finish");
+  const lastPage = ((page + 1) * numPhotos >= content.length);
   const [submittable, setSubmittable] = React.useState(true);
   const [error, setError] = React.useState(false);
 
@@ -24,19 +23,18 @@ export default function Gallery({ columns, content, onFinish, singleton, receive
 
   const elements = () => {
     let pagedElements: {element: string, recommended: boolean}[] = [];
-    if (page * numPhotos < content.length) {
-        recommendation = receiveRecommendation(page * numPhotos, (page + 1) * numPhotos);
-        for (let i = page * numPhotos; i < (page + 1) * numPhotos; i++) {
-            let tuple = {element: content[i], recommended: (content[i].key == recommendation.index)};
-            pagedElements.push(tuple);
-        }
-        return pagedElements.map((tuple) => Selectable(tuple.element, tuple.recommended, submittable, setSubmittable, recommendation, singleton));
-    } else {
-        return onFinish();
+    recommendation = receiveRecommendation(page * numPhotos, (page + 1) * numPhotos);
+    for (let i = page * numPhotos; i < (page + 1) * numPhotos; i++) {
+        let tuple = {element: content[i], recommended: (content[i].key == recommendation.index)};
+        pagedElements.push(tuple);
     }
-  }
+    return pagedElements.map((tuple) => Selectable(tuple.element, tuple.recommended, submittable, setSubmittable, recommendation, singleton));
+    }
 
   const pageTurn = () => {
+    if (lastPage) {
+      onFinish();
+    }
     if (!singleton || submittable) {
       setError(false);
       setPage(page + 1);
@@ -122,10 +120,10 @@ export default function Gallery({ columns, content, onFinish, singleton, receive
   return (
     <Stack justifyContent='flex-end' direction='row' spacing={6}>
         <ImageList cols={columns}>
-            {elements()}
+          {elements()}
         </ImageList>
         <div>
-        <Button color={error ? 'error' : 'secondary'} variant='contained' onClick={pageTurn} sx={{marginTop: 2}}>{buttonText}</Button>
+        <Button color={error ? 'error' : 'secondary'} variant='contained' onClick={pageTurn} sx={{marginTop: 2}}>{lastPage ? "Finish" : "Next page"}</Button>
         </div>
     </Stack>
     );

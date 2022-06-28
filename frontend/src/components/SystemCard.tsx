@@ -15,12 +15,12 @@ const defaultImg = require("../imgs/andrea-piacquadio-resume.jpg");
 
 type CardProps = {
   system: Manipulation;
-  chooseScenario: Function;
+  chooseScenario?: Function;
 };
 
 export default function SystemCard({ system, chooseScenario }: CardProps) {
   return (
-    <Card>
+    <Card sx={{maxHeight: 300, maxWidth: 300}}>
       <CardMedia
         component="img"
         alt="displayimg"
@@ -40,11 +40,11 @@ export default function SystemCard({ system, chooseScenario }: CardProps) {
           <br />
         </Typography>
       </CardContent>
-      <CardActions>
+{/*       <CardActions>
         <Container>
           <Button size="small" onClick={() => {chooseScenario(system)}} >START</Button>
         </Container>
-      </CardActions>
+      </CardActions> */}
     </Card>
   );
 }

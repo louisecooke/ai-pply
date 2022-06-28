@@ -1,19 +1,15 @@
-import { Grid, Button } from "@mui/material";
+import { Grid, Button, Container } from "@mui/material";
 import { Route, Routes } from "react-router-dom";
 import * as React from "react";
 import ScenarioCard from "../components/ScenarioCard";
 import SystemList from "./SystemList";
+import Questionnaire from "../components/Questionnaire";
 import "../styles.css";
 
-import { Scenario } from "../types";
+import { Q_TYPE, Scenario } from "../types";
+import ConsentForm from "./ConsentForm";
+import ScenarioExplanation from "./ScenarioExplanation";
 const resume = require("../imgs/andrea-piacquadio-resume.jpg");
-
-/* const imageID: Scenario = {
-  name: "Image ID",
-  description: "Help Audrey identify birds.",
-  image: birds,
-  link: "/image"
-}; */
 
 const hiringManager: Scenario = {
   name: "Hiring Manager",
@@ -36,44 +32,47 @@ const scenarios = () => {
 }
 
 function Opener() {
-  const [visibleScenarios, setVisibleScenarios] = React.useState(true);
   return (
     <Grid container direction="column">
-      {/* <Grid container direction="row" alignItems="center">
-        <Grid item><Grid container direction="row" alignItems="flex-end">
-        <Grid item>
-          <Audrey />
-        </Grid>
-        <Grid item sx={{ margin: "0px 60px 80px -30px" }}>
-          <h1 className="white">Meet Audrey...</h1>
-          <h2>ready to get started?</h2>
-          {!visibleScenarios && <Button
-          variant="contained"
-          color="secondary"
-          onClick={() => {
-            setVisibleScenarios(true);
-          }}
-          >LET'S GO</Button>}
-        </Grid>
-      </Grid>
-      </Grid> */}
       <Grid item>
-          {visibleScenarios && scenarios()}
+          Welcome, project description, etc.
       </Grid>
-      {/* </Grid> */}
     </Grid>
   );
 };
 
+
+
 export default function Homepage() {
+  
+  const [page, setPage] = React.useState(0);
+
+  const next = () => {
+    if (page + 1 < workflow.length) {
+      setPage(page + 1);
+    }
+  }
+
+  const workflow = [
+    Opener(),
+    <ConsentForm />,
+    <Questionnaire variant={Q_TYPE.WELLBEING}/>,
+    <ScenarioExplanation />,
+    <SystemList onFinish={next}/>,
+    <ConsentForm />
+  ]
+
   return (
-    <div className="fill-window App">
+    <Container>
+
       <Routes>
-        <Route path="*" element={<Opener />} />
-        <Route path="hiring" element={<SystemList />} />
+        <Route path="*" element={workflow[page]} />
+        <Route path="hiring" element={<SystemList onFinish={next}/>} />
       </Routes>
       <br />
       <br />
-    </div>
+      
+      <Button onClick={next} color='secondary'>Next in workflow</Button>
+    </Container>
   );
 }
