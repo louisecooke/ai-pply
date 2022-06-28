@@ -1,10 +1,10 @@
 from rest_framework import serializers
-from ..models.questionnaire_models import Question, Option, Smiley, Answer
+from ..models.questionnaire_models import Question, Option, Smiley, Answer, Scale
 
 class QuestionSerializer(serializers.ModelSerializer):
     class Meta:
         model = Question
-        fields = ('id', 'variant', 'text')
+        fields = '__all__'
 
 class OptionSerializer(serializers.ModelSerializer):
     class Meta:
@@ -21,4 +21,8 @@ class AnswerSerializer(serializers.ModelSerializer):
         model = Answer
         fields = ('question', 'option', 'participant', 'system')
 
-
+class ScaleSerializer(serializers.ModelSerializer):
+    options = OptionSerializer(many=True)
+    class Meta:
+        model = Scale
+        fields = ('id', 'title', 'options')

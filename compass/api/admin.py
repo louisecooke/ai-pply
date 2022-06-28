@@ -3,7 +3,7 @@ from django.contrib import admin
 # Register your models here.
 from .localization import Administration
 from .models.system_models import Participant, Completion, System
-from .models.questionnaire_models import Question, Answer, Option, Smiley
+from .models.questionnaire_models import Question, Answer, Option, Smiley, Scale
 from typing import final
 
 admin.site.site_header = Administration.header
@@ -20,13 +20,16 @@ class ParticipantAdmin(ReadOnly):
     pass
 
 class QuestionAdmin(admin.ModelAdmin):
-    list_display = ("text", "variant")
+    list_display = ("text", "variant", "scale")
 
 class OptionAdmin(admin.ModelAdmin):
-    list_display = ("text", "variant")
+    list_display = ("text", "image", "scale")
 
 class AnswerAdmin(admin.ModelAdmin):
     list_display = ("question", "option", "system", "participant")
+
+class ScaleAdmin(admin.ModelAdmin):
+    display = ("title")
 
 class SmileyAdmin(admin.ModelAdmin):
     list_display = ("value", "image")
@@ -35,6 +38,7 @@ admin.site.register(Question, QuestionAdmin)
 admin.site.register(Option, OptionAdmin)
 admin.site.register(Answer, AnswerAdmin)
 admin.site.register(Smiley, SmileyAdmin)
+admin.site.register(Scale, ScaleAdmin)
 
 admin.site.register(Participant)
 admin.site.register(Completion)
