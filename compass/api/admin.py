@@ -1,9 +1,8 @@
 from django.contrib import admin
 
-# Register your models here.
 from .localization import Administration
 from .models.system_models import Participant, Completion, System
-from .models.questionnaire_models import Question, Answer, Option, Smiley, Scale
+from .models.questionnaire_models import Question, Answer, Option, Scale
 from typing import final
 
 admin.site.site_header = Administration.header
@@ -31,13 +30,9 @@ class AnswerAdmin(admin.ModelAdmin):
 class ScaleAdmin(admin.ModelAdmin):
     display = ("title")
 
-class SmileyAdmin(admin.ModelAdmin):
-    list_display = ("value", "image")
-
 admin.site.register(Question, QuestionAdmin)
 admin.site.register(Option, OptionAdmin)
 admin.site.register(Answer, AnswerAdmin)
-admin.site.register(Smiley, SmileyAdmin)
 admin.site.register(Scale, ScaleAdmin)
 
 admin.site.register(Participant)

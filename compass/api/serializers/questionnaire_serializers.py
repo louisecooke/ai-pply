@@ -1,5 +1,5 @@
 from rest_framework import serializers
-from ..models.questionnaire_models import Question, Option, Smiley, Answer, Scale
+from ..models.questionnaire_models import Question, Option, Answer, Scale
 
 class QuestionSerializer(serializers.ModelSerializer):
     class Meta:
@@ -10,11 +10,6 @@ class OptionSerializer(serializers.ModelSerializer):
     class Meta:
         model = Option
         fields = '__all__'
-
-class SmileySerializer(serializers.ModelSerializer):
-    class Meta:
-        model = Smiley
-        fields = ('id', 'value', 'image')
 
 class AnswerSerializer(serializers.ModelSerializer):
     class Meta:
