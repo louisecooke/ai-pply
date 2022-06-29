@@ -23,6 +23,7 @@ export default function HiringTask({system, applicants, finish} : TaskProps) {
   const [totalTime, setTotalTime] = React.useState(0);
   const numColumns = 2;
   const initialPreferences = defaultPreferences() as FieldProperties;
+  const scale = system.transparency === system.control;
 
   const [key, setKey] = React.useState(0);
   const [preferences, setPreferences] = React.useState(initialPreferences);
@@ -41,7 +42,7 @@ export default function HiringTask({system, applicants, finish} : TaskProps) {
 
   var profiles: JSX.Element[] = [];
   applicants.map((a) => {
-    profiles.push(<ComparableCard instance={a} key={a.id}/>)
+    profiles.push(<ComparableCard instance={a} key={a.id} scale={scale}/>)
   });
 
   const onFinish = () => {
