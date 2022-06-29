@@ -25,6 +25,7 @@ export interface Recommendation {
 export interface Manipulation {
   id: number;
   title: string;
+  description: string;
   transparency: boolean;
   control: boolean;
   image?: string;

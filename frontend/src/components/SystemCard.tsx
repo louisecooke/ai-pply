@@ -29,10 +29,7 @@ export default function SystemCard({ system, chooseScenario }: CardProps) {
         </Typography>
         <br />
         <Typography variant="body2">
-          {system.transparency && "Watch me make decisions."}
-        </Typography>
-        <Typography variant="body2">
-          {system.control && "Help me make decisions."}
+          {system.description}
           <br />
         </Typography>
       </CardContent>

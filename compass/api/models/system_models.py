@@ -3,6 +3,7 @@ from PIL import Image
 
 class System(models.Model):
     title = models.CharField(max_length=80)
+    description = models.CharField(max_length=200, blank=True)
     transparency = models.BooleanField()
     control = models.BooleanField()
     image = models.ImageField(upload_to='')
