@@ -40,9 +40,11 @@ function Opener() {
   );
 };
 
+type Props = {
+  setTheme: Function;
+}
 
-
-export default function Homepage() {
+export default function Homepage({setTheme}: Props) {
   
   const [page, setPage] = React.useState(0);
 
@@ -53,11 +55,11 @@ export default function Homepage() {
   }
 
   const workflow = [
+    <SystemList setTheme={setTheme} onFinish={next}/>,
     Opener(),
     <ConsentForm />,
     <Questionnaire variant={VARIANTS.WELLBEING}/>,
     <ScenarioExplanation />,
-    <SystemList onFinish={next}/>,
     <ConsentForm />
   ]
 
@@ -66,7 +68,7 @@ export default function Homepage() {
 
       <Routes>
         <Route path="*" element={workflow[page]} />
-        <Route path="hiring" element={<SystemList onFinish={next}/>} />
+        <Route path="hiring" element={<SystemList setTheme={setTheme} onFinish={next}/>} />
       </Routes>
       <br />
       <br />

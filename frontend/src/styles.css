@@ -1,7 +1,7 @@
 .App {
   font-family: sans-serif;
   text-align: center;
-  background-color: #b0d5de;
+  /* background-color: #b0d5de; */
 }
 
 .fill-window {
@@ -14,10 +14,6 @@
 
 Homepage {
   margin: 8px;
-}
-
-.white {
-  color: #ffffff;
 }
 
 body {

@@ -5,6 +5,8 @@ import Questionnaire from "../components/Questionnaire";
 import SystemCard from "../components/SystemCard";
 import Button from "@mui/material/Button";
 import Stack from "@mui/material/Stack";
+import { systemThemes } from "../styling/SystemThemes";
+import { defaultTheme } from "../styling/DefaultThemes";
 
 const { randomApplicant } = require("../util/DummyData");
 const { numApplicants } = require("../study-config/Configuration");
@@ -25,9 +27,10 @@ enum ELEMENTS {
 
 type Props = {
   onFinish: Function;
+  setTheme: Function;
 }
 
-export default function SystemList({onFinish}: Props) {
+export default function SystemList({onFinish, setTheme}: Props) {
   const [chosenSystem, setChosenSystem] = React.useState({} as Manipulation);
   const [index, setIndex] = React.useState(-1);
   const [completed, setCompleted] = React.useState([] as number[]);
@@ -38,12 +41,14 @@ export default function SystemList({onFinish}: Props) {
   const nextSystem = () => {
     let index;
     if (completed.length === systems.length) {
+      setTheme(defaultTheme);
       onFinish();
     } else {
     do {
       index = Math.floor(Math.random() * systems.length);
     } while (completed.includes(index));
     setIndex(index);
+    setTheme(systemThemes[index]);
     setChosenSystem(systems[index].system);
     }
   }

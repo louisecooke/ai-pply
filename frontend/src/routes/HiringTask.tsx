@@ -54,8 +54,8 @@ export default function HiringTask({system, applicants, finish} : TaskProps) {
   }
 
   return (
-    <div>
-      <Timer finished={finished} onFinish={logTime}/>
+    <div>{/* 
+      <Timer finished={finished} onFinish={logTime}/> */}
       <Container>
       <Stack direction='row' justifyContent='center' spacing={5} alignItems='flex-start'>
         <Stack direction='column' marginTop='16px' spacing={2} alignItems='flex-end'>
@@ -65,8 +65,9 @@ export default function HiringTask({system, applicants, finish} : TaskProps) {
         </Stack>
         {finished ? 
         <div>
-          Finished. Time: {totalTime}
-          <Button onClick={() => {finish()}} color='secondary'>Evaluate system.</Button>
+          <div>
+          Finished. Time: {totalTime}</div>
+          <div><Button onClick={() => {finish()}} color='secondary'>Evaluate system.</Button></div>
         </div> :
         <Gallery columns={numColumns} content={profiles} onFinish={onFinish} singleton={true} receiveRecommendation={chooseApplicant} transparent={system.transparency}/>
 }

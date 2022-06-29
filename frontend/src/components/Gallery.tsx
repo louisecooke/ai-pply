@@ -67,7 +67,13 @@ export default function Gallery({ columns, content, onFinish, singleton, receive
     }
 
     const selectedStyle = { border: 20,
-        borderColor: '#590343',
+      borderColor: (theme) => theme.palette.secondary.main,
+    }
+
+    const defaultStyle = {
+
+      border: 20,
+      borderColor: (theme) => theme.palette.tertiary.main
     }
 
 
@@ -86,7 +92,7 @@ export default function Gallery({ columns, content, onFinish, singleton, receive
       <Button key={element} onClick={toggleSelect}
       onMouseEnter={handlePopoverOpen}
       onMouseLeave={handlePopoverClose}
-      sx={selected ? selectedStyle : { border: 20, borderColor: 'gray' }} >
+      sx={selected ? selectedStyle : defaultStyle}>
           <ImageListItem key={element} sx={{height: '160px', width: '220px'}}>
           {element}
           </ImageListItem>
