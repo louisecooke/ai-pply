@@ -8,7 +8,7 @@ import Timer from "../components/Timer";
 import { Manipulation, FieldProperties, Applicant } from "../types";
 import { pickApplicant } from "../study-config/Configuration";
 
-const { sumValues } = require("../util/Functions");
+import { defaultTheme } from "../styling/DefaultThemes";
 
 const { defaultPreferences } = require("../util/DummyData");
 
@@ -16,9 +16,10 @@ type TaskProps = {
   system: Manipulation;
   applicants: Applicant[];
   finish: Function;
+  setTheme: Function;
 };
 
-export default function HiringTask({system, applicants, finish} : TaskProps) {
+export default function HiringTask({system, applicants, finish, setTheme} : TaskProps) {
   const [finished, setFinished] = React.useState(false);
   const [totalTime, setTotalTime] = React.useState(0);
   const numColumns = 2;
@@ -45,7 +46,9 @@ export default function HiringTask({system, applicants, finish} : TaskProps) {
     profiles.push(<ComparableCard instance={a} key={a.id} scale={scale}/>)
   });
 
-  const onFinish = () => {
+  const endGallery = () => {
+    
+    setTheme(defaultTheme);
     setFinished(true);
   }
   const logTime = (time: number) => setTotalTime(time);
@@ -59,18 +62,13 @@ export default function HiringTask({system, applicants, finish} : TaskProps) {
       <Timer finished={finished} onFinish={logTime}/> */}
       <Container>
       <Stack direction='row' justifyContent='center' spacing={5} alignItems='flex-start'>
-        <Stack direction='column' marginTop='16px' spacing={2} alignItems='flex-end'>
+        <Stack direction='column' marginTop='16px' spacing={2} alignItems= {finished ? 'center' : 'flex-end'}>
         <SystemCard system={system} />
-        {!finished && system.control && <ControlPanel key={key} preferences={preferences} setPreferences={applyChanges} revertToDefault={resetPreferences} /> }
-        
+        {finished ? <Button variant='contained' onClick={() => {finish()}} color='secondary'>Evaluate system</Button> : 
+        system.control && <ControlPanel key={key} preferences={preferences} setPreferences={applyChanges} revertToDefault={resetPreferences} /> }
+
         </Stack>
-        {finished ? 
-        <div>
-          <div>
-          Finished. Time: {totalTime}</div>
-          <div><Button onClick={() => {finish()}} color='secondary'>Evaluate system.</Button></div>
-        </div> :
-        <Gallery columns={numColumns} content={profiles} onFinish={onFinish} singleton={true} receiveRecommendation={chooseApplicant} transparent={system.transparency}/>
+        {!finished && <Gallery columns={numColumns} content={profiles} onFinish={endGallery} singleton={true} receiveRecommendation={chooseApplicant} transparent={system.transparency}/>
 }
       </Stack>
       </Container>

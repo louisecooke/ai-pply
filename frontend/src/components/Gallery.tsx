@@ -71,7 +71,6 @@ export default function Gallery({ columns, content, onFinish, singleton, receive
     }
 
     const defaultStyle = {
-
       border: 20,
       borderColor: (theme) => theme.palette.tertiary.main
     }
@@ -129,7 +128,7 @@ export default function Gallery({ columns, content, onFinish, singleton, receive
           {elements()}
         </ImageList>
         <div>
-        <Button color={error ? 'error' : 'secondary'} variant='contained' onClick={pageTurn} sx={{marginTop: 2}}>{lastPage ? "Finish" : "Next page"}</Button>
+        <Button color={error ? 'error' : 'secondary'} variant='contained' onClick={pageTurn} sx={{marginTop: 2}}><Typography fontSize='14px'>{lastPage ? "Finish" : "Next"}</Typography></Button>
         </div>
     </Stack>
     );

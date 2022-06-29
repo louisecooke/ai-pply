@@ -1,13 +1,14 @@
-import { Grid, Button, Container } from "@mui/material";
+import { Grid, Button, Container, Stack, Card, CardContent } from "@mui/material";
 import { Route, Routes } from "react-router-dom";
 import * as React from "react";
 import SystemList from "./SystemList";
 import Questionnaire from "../components/Questionnaire";
 import "../styles.css";
 
-import { VARIANTS} from "../types";
+import { VARIANTS } from "../types";
 import ConsentForm from "./ConsentForm";
 import ScenarioExplanation from "./ScenarioExplanation";
+import Demographic from './Demographic';
 const resume = require("../imgs/andrea-piacquadio-resume.jpg");
 
 /* const hiringManager: Scenario = {
@@ -30,15 +31,7 @@ const resume = require("../imgs/andrea-piacquadio-resume.jpg");
     </Grid>);
 }
  */
-function Opener() {
-  return (
-    <Grid container direction="column">
-      <Grid item>
-          Welcome, project description, etc.
-      </Grid>
-    </Grid>
-  );
-};
+
 
 type Props = {
   setTheme: Function;
@@ -54,13 +47,29 @@ export default function Homepage({setTheme}: Props) {
     }
   }
 
+  function Opener() {
+    return (
+      <Stack>
+            <div>
+      <Card sx={{padding: 5}}>
+      <CardContent>
+      Welcome, project description, etc.
+      </CardContent> 
+      <Button variant='contained' color='secondary' onClick={next}>Start study</Button>
+      </Card>
+      <br />
+      <br />
+    </div>
+      </Stack>
+    );
+  };
+
   const workflow = [
-    <SystemList setTheme={setTheme} onFinish={next}/>,
     Opener(),
-    <ConsentForm />,
-    <Questionnaire variant={VARIANTS.WELLBEING}/>,
-    <ScenarioExplanation />,
-    <ConsentForm />
+    <ConsentForm next={next}/>,
+    <Questionnaire variant={VARIANTS.WELLBEING} finish={next}/>,
+    <SystemList setTheme={setTheme} onFinish={next}/>,
+    <Demographic />
   ]
 
   return (
@@ -73,7 +82,6 @@ export default function Homepage({setTheme}: Props) {
       <br />
       <br />
       
-      <Button onClick={next} color='secondary'>Next in workflow</Button>
     </Container>
   );
 }

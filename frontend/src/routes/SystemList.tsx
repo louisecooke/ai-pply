@@ -6,7 +6,7 @@ import SystemCard from "../components/SystemCard";
 import Button from "@mui/material/Button";
 import Stack from "@mui/material/Stack";
 import { systemThemes } from "../styling/SystemThemes";
-import { defaultTheme } from "../styling/DefaultThemes";
+import ScenarioExplanation from "./ScenarioExplanation";
 
 const { randomApplicant } = require("../util/DummyData");
 const { numApplicants } = require("../study-config/Configuration");
@@ -22,7 +22,7 @@ interface Completion {
 }
 
 enum ELEMENTS {
-    TASK, QUESTIONNAIRE
+    TASK, QUESTIONNAIRE, TRANSITION
 }
 
 type Props = {
@@ -37,20 +37,25 @@ export default function SystemList({onFinish, setTheme}: Props) {
   const [systems, setSystems] = React.useState([] as Completion[]);
   const [started, setStarted] = React.useState(false);
   const [visibleElement, setVisibleElement] = React.useState(ELEMENTS.TASK);
+  const [penultimate, setPenultimate] = React.useState(false);
+
+  const postQuestionnaireText = penultimate ? 'All finished.' : 'You have completed your evaluation. Ready for the next system?';
 
   const nextSystem = () => {
     let index;
-    if (completed.length === systems.length) {
-      setTheme(defaultTheme);
+    if (penultimate) {
       onFinish();
     } else {
-    do {
-      index = Math.floor(Math.random() * systems.length);
-    } while (completed.includes(index));
-    setIndex(index);
-    setTheme(systemThemes[index]);
-    setChosenSystem(systems[index].system);
+      do {
+        index = Math.floor(Math.random() * systems.length);
+      } while (completed.includes(index));
+      setIndex(index);
+      setTheme(systemThemes[index]);
+      setChosenSystem(systems[index].system);
     }
+    if (completed.length + 1 === systems.length) {
+      setPenultimate(true);
+    } 
   }
 
   const start = () => {
@@ -64,20 +69,34 @@ export default function SystemList({onFinish, setTheme}: Props) {
   }
 
   const finishQuestionnaire = () => {
+    setVisibleElement(ELEMENTS.TRANSITION);
+  }
+
+  const evaluateNext = () => {
     nextSystem();
     setVisibleElement(ELEMENTS.TASK);
   }
 
   const currentElement = () => {
-    if (visibleElement === ELEMENTS.TASK) {
-      return (<HiringTask system={chosenSystem} applicants={applicantList} finish={finishScenario}/>)
-    } else {
-      return (
-      <Stack alignItems='center'>
-      <SystemCard system={chosenSystem}></SystemCard>
-      <Questionnaire variant={VARIANTS.EVALUATION} finish={finishQuestionnaire} />
-      </Stack>);
-    }
+    switch (visibleElement) {
+      case (ELEMENTS.TASK): 
+        return (<HiringTask system={chosenSystem} applicants={applicantList} finish={finishScenario} setTheme={setTheme}/>)
+  
+      case (ELEMENTS.QUESTIONNAIRE):
+        return (
+          <Stack alignItems='center'>
+          <SystemCard system={chosenSystem}></SystemCard>
+          <Questionnaire variant={VARIANTS.EVALUATION} finish={finishQuestionnaire} />
+          </Stack>)
+
+      default:    
+        return (
+          <Stack alignItems='center' spacing={2}>
+            <div>{postQuestionnaireText}</div>
+            <Button variant='contained' color='secondary' onClick={evaluateNext}>Next</Button>
+          </Stack>
+        )
+    } 
   }
 
   const getSystems = async () => {
@@ -106,7 +125,7 @@ export default function SystemList({onFinish, setTheme}: Props) {
     <>
     <br/>
     <br/>
-    {!started ? <Button color='secondary' onClick={start}>Start</Button> :
+    {!started ? <ScenarioExplanation next={start} /> :
     chosenSystem.id && 
     currentElement()} 
     </>);

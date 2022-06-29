@@ -1,13 +1,21 @@
 import * as React from "react";
-import { Button, Container } from "@mui/material";
+import { Button, Container, Card, CardContent } from "@mui/material";
 
-export default function ScenarioExplanation() {
+type Props = {
+  next: () => void;
+}
+
+export default function ScenarioExplanation({next}: Props) {
   return (
-    <Container>
+    <div>
+      <Card sx={{padding: 5}}>
+      <CardContent>
       Scenario explanation here.
-      <Button>Agree</Button>
+      </CardContent> 
+      <Button variant='contained' color='secondary' onClick={next}>Let's go</Button>
+      </Card>
       <br />
       <br />
-    </Container>
+    </div>
   );
 }

@@ -28,7 +28,7 @@ type Question = {
 
 type Props = {
   variant: VARIANTS;
-  finish?: Function;
+  finish?: () => void;
 }
 
 export default function Questionnaire({variant, finish} : Props) {
@@ -96,7 +96,9 @@ export default function Questionnaire({variant, finish} : Props) {
   }
 
   const handleSubmit = () => {
-    let error = questions.find(e => e.chosenOption === undefined);
+    let error = false; 
+    //TODO re-enable this later
+    //questions.find(e => e.chosenOption === undefined);
     if (error) {
       setError(true);
     } else {
@@ -151,7 +153,7 @@ export default function Questionnaire({variant, finish} : Props) {
       </Typography>
       
       {error && <Typography color='error'>{errorMessage}</Typography>}
-      <Button type="submit" variant="contained" onClick={handleSubmit} color= {error ? 'error' : 'primary'} disabled={success}>Submit</Button>
+      <Button type="submit" variant="contained" onClick={handleSubmit} color={error ? 'error' : 'primary'} disabled={success}>Submit</Button>
       
       </CardContent>
         
