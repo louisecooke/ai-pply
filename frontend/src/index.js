@@ -3,12 +3,11 @@ import { createRoot } from "react-dom/client";
 import { BrowserRouter } from "react-router-dom";
 
 import { ThemeProvider } from "@mui/material/styles";
-import { outerTheme } from "./styling/Themes.js";
+import { outerTheme } from "./styling/DefaultThemes.js";
 
 import reportWebVitals from './reportWebVitals';
 
 import App from "./App";
-import * as React from "react";
 
 const rootElement = document.getElementById("root");
 const root = createRoot(rootElement);
