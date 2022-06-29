@@ -19,7 +19,7 @@ export default function App() {
     <div className="fill-window App">
       <Stack direction="row" justifyContent="flex-end" marginTop='14px' marginRight='20px' spacing='10px'>
       <Typography sx={{ minWidth: 100 }}>
-            <Link to="/" style={{textDecoration: 'none'}}><Typography variant='overline'>Try us out</Typography></Link>
+            <Link to="/" style={{textDecoration: 'none'}}><Typography variant='overline'>Participate</Typography></Link>
           </Typography>
 
           <Typography sx={{ minWidth: 100 }}>
