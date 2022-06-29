@@ -4,6 +4,7 @@ from .localization import Administration
 from .models.system_models import Participant, Completion, System
 from .models.questionnaire_models import Question, Answer, Option, Scale
 from typing import final
+from import_export.admin import ImportExportModelAdmin
 
 admin.site.site_header = Administration.header
 
@@ -18,16 +19,16 @@ class ReadOnly(admin.ModelAdmin):
 class ParticipantAdmin(ReadOnly):
     pass
 
-class QuestionAdmin(admin.ModelAdmin):
+class QuestionAdmin(ImportExportModelAdmin):
     list_display = ("text", "variant", "scale")
 
-class OptionAdmin(admin.ModelAdmin):
+class OptionAdmin(ImportExportModelAdmin):
     list_display = ("text", "image", "scale")
 
-class AnswerAdmin(admin.ModelAdmin):
+class AnswerAdmin(ImportExportModelAdmin):
     list_display = ("question", "option", "system", "participant")
 
-class ScaleAdmin(admin.ModelAdmin):
+class ScaleAdmin(ImportExportModelAdmin):
     display = ("title")
 
 admin.site.register(Question, QuestionAdmin)
@@ -38,3 +39,4 @@ admin.site.register(Scale, ScaleAdmin)
 admin.site.register(Participant)
 admin.site.register(Completion)
 admin.site.register(System)
+
