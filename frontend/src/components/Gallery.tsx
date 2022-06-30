@@ -90,12 +90,12 @@ export default function Gallery({ dimensions, content, onFinish, singleton, rece
   const open = Boolean(anchorEl);
 
   return (
-      <>
-      <Button key={element} onClick={toggleSelect}
+      <React.Fragment key={element.key}>
+      <Button onClick={toggleSelect}
       onMouseEnter={handlePopoverOpen}
       onMouseLeave={handlePopoverClose}
       sx={selected ? selectedStyle : defaultStyle}>
-          <ImageListItem key={element} sx={{height: '160px', width: '220px'}}>
+          <ImageListItem key={element.key} sx={{height: '160px', width: '220px'}}>
           {element}
           </ImageListItem>
       </Button>
@@ -121,7 +121,7 @@ export default function Gallery({ dimensions, content, onFinish, singleton, rece
     >
       <Typography sx={{ p: 1 }}>{recommendation.reason}</Typography>
     </Popover>}
-    </>
+    </React.Fragment>
   );
 }
 
