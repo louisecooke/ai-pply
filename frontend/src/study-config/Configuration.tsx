@@ -4,7 +4,11 @@ import { Applicant, Recommendation, FieldProperties } from "../types";
 //configurable constants for easy researcher access
 export const applicantFields = ['Education', 'Experience', 'Culture Fit'];
 export const defaultToggles = [50, 60, 30];
-export const numApplicants = 20;
+export const numApplicants = 30;
+export const dimensions = {
+    rows: 1,
+    columns: 5
+}
 
 const { sumValues, weighFactors } = require("../util/Functions");
 
@@ -35,4 +39,3 @@ export const pickApplicant = (applicants: Applicant[], preferences: FieldPropert
 
     return {index: chosenId, reason} as Recommendation;
 }
-

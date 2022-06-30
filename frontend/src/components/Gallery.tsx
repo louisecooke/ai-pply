@@ -4,7 +4,10 @@ import * as React from "react";
 import { Recommendation } from "../types";
 
 type Props = {
-  columns: number;
+  dimensions: {
+    columns: number;
+    rows: number;
+  };
   content: any[];
   onFinish: Function;
   singleton: boolean;
@@ -12,9 +15,9 @@ type Props = {
   transparent: boolean;
 };
 
-export default function Gallery({ columns, content, onFinish, singleton, receiveRecommendation, transparent }: Props) {
+export default function Gallery({ dimensions, content, onFinish, singleton, receiveRecommendation, transparent }: Props) {
   const [page, setPage] = React.useState(0);
-  const numPhotos = columns * columns;
+  const numPhotos = dimensions.columns * dimensions.rows;
   const lastPage = ((page + 1) * numPhotos >= content.length);
   const [submittable, setSubmittable] = React.useState(true);
   const [error, setError] = React.useState(false);
@@ -123,13 +126,14 @@ export default function Gallery({ columns, content, onFinish, singleton, receive
 }
 
   return (
-    <Stack justifyContent='flex-end' direction='row' spacing={6}>
-        <ImageList cols={columns}>
-          {elements()}
-        </ImageList>
-        <div>
+    <Stack alignItems='flex-end' direction='column' spacing={6} sx={{marginTop: 0}}>
+       <div>
         <Button color={error ? 'error' : 'secondary'} variant='contained' onClick={pageTurn} sx={{marginTop: 2}}><Typography fontSize='14px'>{lastPage ? "Finish" : "Next"}</Typography></Button>
         </div>
+        <ImageList cols={dimensions.columns}>
+          {elements()}
+        </ImageList>
+       
     </Stack>
     );
 }
