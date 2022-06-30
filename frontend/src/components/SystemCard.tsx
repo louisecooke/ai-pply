@@ -4,6 +4,7 @@ import {
   CardContent,
   Typography
 } from "@mui/material";
+import React from 'react';
 
 import { Manipulation } from "../types";
 
@@ -14,7 +15,7 @@ type CardProps = {
   chooseScenario?: Function;
 };
 
-export default function SystemCard({ system, chooseScenario }: CardProps) {
+function SystemCard({ system, chooseScenario }: CardProps) {
   return (
     <Card sx={{maxHeight: 287, maxWidth: 400}}>
       <CardMedia
@@ -36,3 +37,5 @@ export default function SystemCard({ system, chooseScenario }: CardProps) {
     </Card>
   );
 }
+
+export default React.memo(SystemCard);
