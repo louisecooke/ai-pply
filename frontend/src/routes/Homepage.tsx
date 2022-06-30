@@ -7,7 +7,7 @@ import "../styles.css";
 
 import { VARIANTS } from "../types";
 import ConsentForm from "./ConsentForm";
-import ScenarioExplanation from "./ScenarioExplanation";
+import Playground from "./Playground";
 import Demographic from './Demographic';
 const resume = require("../imgs/andrea-piacquadio-resume.jpg");
 
@@ -77,7 +77,7 @@ export default function Homepage({setTheme}: Props) {
 
       <Routes>
         <Route path="*" element={workflow[page]} />
-        <Route path="hiring" element={<SystemList setTheme={setTheme} onFinish={next}/>} />
+        <Route path="hiring" element={<Playground />} />
       </Routes>
       <br />
       <br />

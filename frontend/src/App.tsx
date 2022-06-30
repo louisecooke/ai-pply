@@ -1,8 +1,9 @@
 import "./styles.css";
 import Homepage from "./routes/Homepage";
+import Playground from "./routes/Playground";
 
 import * as React from "react";
-import {Link } from "react-router-dom";
+import { Link, Routes, Route } from "react-router-dom";
 import { Stack, Typography } from "@mui/material";
 
 import { ThemeProvider } from "@mui/material/styles";
@@ -23,14 +24,14 @@ export default function App() {
           </Typography>
 
           <Typography sx={{ minWidth: 100 }}>
-            <Link to="/team" style={{textDecoration: 'none'}}><Typography variant='overline'>Playground</Typography></Link>
+            <Link to="/playground" style={{textDecoration: 'none'}}><Typography variant='overline'>Playground</Typography></Link>
           </Typography>
       </Stack>
-        <Homepage setTheme={setTheme}/>
-{/*       <Routes>
-        <Route path="
-        <Route path="team" element={<SystemList onFinish={console.log('done')}/>} /> 
-      </Routes> */}
+      <Routes>
+        <Route path="" element={
+        <Homepage setTheme={setTheme} />}/>
+        <Route path="playground" element={<Playground />} /> 
+      </Routes>
     </div>
     </ThemeProvider>
   );
