@@ -19,3 +19,12 @@ export const weighFactors = (fields: FieldProperties, preferences: FieldProperti
     });
     return sum;
 }
+
+export const objectsEqual = (one: FieldProperties, two: FieldProperties) => {
+    return Object.keys(one).length === Object.keys(two).length &&
+    (Object.keys(one) as (keyof typeof one)[]).every((k) => {
+        return (
+            Object.prototype.hasOwnProperty.call(two, k) && one[k] === two[k]
+        );
+    });
+}

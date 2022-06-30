@@ -6,7 +6,8 @@ import ComparableCard from "../components/ApplicantCard";
 import SystemCard from "../components/SystemCard";
 import Timer from "../components/Timer";
 import { Manipulation, FieldProperties, Applicant } from "../types";
-import { pickApplicant } from "../study-config/Configuration";
+import { pickApplicant, dimensions } from "../study-config/Configuration";
+import { objectsEqual } from "../util/Functions";
 
 import { defaultTheme } from "../styling/DefaultThemes";
 
@@ -22,12 +23,12 @@ type TaskProps = {
 export default function HiringTask({system, applicants, finish, setTheme} : TaskProps) {
   const [finished, setFinished] = React.useState(false);
   const [totalTime, setTotalTime] = React.useState(0);
-  const numColumns = 2;
   const initialPreferences = defaultPreferences() as FieldProperties;
   const scale = system.transparency === system.control;
 
   const [key, setKey] = React.useState(0);
   const [preferences, setPreferences] = React.useState(initialPreferences);
+  const isDefault = objectsEqual(preferences, initialPreferences);
 
   const changeKey = () => setKey(key + 1);
 
@@ -61,14 +62,14 @@ export default function HiringTask({system, applicants, finish, setTheme} : Task
     <div>{/* 
       <Timer finished={finished} onFinish={logTime}/> */}
       <Container>
-      <Stack direction='row' justifyContent='center' spacing={5} alignItems='flex-start'>
-        <Stack direction='column' marginTop='16px' spacing={2} alignItems= {finished ? 'center' : 'flex-end'}>
+      <Stack direction='column' justifyContent='center' spacing={5} alignItems='center'>
+        <Stack direction='row' marginTop='16px' spacing={2} alignItems= {finished ? 'center' : 'flex-end'}>
         <SystemCard system={system} />
         {finished ? <Button variant='contained' onClick={() => {finish()}} color='secondary'>Evaluate system</Button> : 
-        system.control && <ControlPanel key={key} preferences={preferences} setPreferences={applyChanges} revertToDefault={resetPreferences} /> }
+        system.control && <ControlPanel key={key} preferences={preferences} setPreferences={applyChanges} defaultSaved={isDefault} revertToDefault={resetPreferences} /> }
 
         </Stack>
-        {!finished && <Gallery columns={numColumns} content={profiles} onFinish={endGallery} singleton={true} receiveRecommendation={chooseApplicant} transparent={system.transparency}/>
+        {!finished && <Gallery dimensions={dimensions} content={profiles} onFinish={endGallery} singleton={true} receiveRecommendation={chooseApplicant} transparent={system.transparency}/>
 }
       </Stack>
       </Container>

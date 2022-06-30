@@ -5,13 +5,14 @@ import { FieldProperties } from "../types";
 type PanelProps = {
     preferences: FieldProperties;
     setPreferences: Function;
+    defaultSaved: boolean;
     revertToDefault: Function;
 }
 
-export default function ControlPanel({ preferences, setPreferences, revertToDefault }: PanelProps) {
+export default function ControlPanel({ preferences, setPreferences, defaultSaved, revertToDefault }: PanelProps) {
     const [localState, setLocalState] = React.useState(preferences);
     const [applied, setApplied] = React.useState(true);
-    const [isDefault, setDefault] = React.useState(true);
+    const [isDefault, setDefault] = React.useState(defaultSaved);
 
     React.useEffect( () => {
       setLocalState(preferences);
@@ -30,7 +31,7 @@ export default function ControlPanel({ preferences, setPreferences, revertToDefa
             <Typography variant="caption" color="text.secondary" key={`${p}typ`}>
              {p}
             </Typography>
-            <Slider key={p} aria-label={p} value={localState[p]} sx={{maxWidth: '60%'}} onChange={(Event, value) => setValue(Event, value, p)}/>
+            <Slider key={p} aria-label={p} value={localState[p]} sx={{maxWidth: '60%'}} onChange={(Event, value) => setValue(Event, value, p)} color='secondary'/>
           </Stack>
         );  
     }
@@ -48,19 +49,19 @@ export default function ControlPanel({ preferences, setPreferences, revertToDefa
                Indicate above how important each factor is to you. <br />
                Our AI will work this information into its calculations.</Typography>
                <br />
-               <Stack spacing={1} direction='row'>
-               <Button variant='contained' onClick={() => {
+               <Stack spacing={4} direction='row' justifyContent='center'>
+               <Button variant='contained' color='secondary' onClick={() => {
                  setDefault(true);
                  setApplied(false);
                  revertToDefault(); 
-                }} disabled= {isDefault}>
-                REVERT TO DEFAULT</Button>
+                }} disabled={isDefault}>
+                <Typography fontSize='12px'>REVERT TO DEFAULT</Typography></Button>
 
-              <Button variant='contained' onClick={() => {
+              <Button variant='contained' color='secondary' onClick={() => {
                   setPreferences(localState);
                   setApplied(true);
                 }} disabled={isDefault || applied}>
-                Apply changes</Button>
+                <Typography fontSize='13px'>Apply changes</Typography></Button>
                 </Stack>
           </CardContent>
       </Card>
