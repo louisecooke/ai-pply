@@ -28,7 +28,7 @@ export default function App() {
           </Typography>
       </Stack>
       <Routes>
-        <Route path="" element={
+        <Route path="*" element={
         <Homepage setTheme={setTheme} />}/>
         <Route path="playground" element={<Playground />} /> 
       </Routes>
