@@ -4,25 +4,42 @@ import CardContent from '@mui/material/CardContent';
 import CardMedia from '@mui/material/CardMedia';
 import Typography from '@mui/material/Typography';
 import { CardActionArea, Slider, Stack} from '@mui/material';
-
+import { motion } from "framer-motion/dist/framer-motion";
 import { Comparable } from "../types";
 
 
 const blankProfile = require("../imgs/avatar-g4549a99eb_640.png");
 
 type Props = {
-    instance: Comparable;
-    scale: Boolean;
+    animated?: Boolean;
+    instance?: Comparable;
+    scale?: Boolean;
   };
 
-export default function ComparableCard({instance, scale}: Props) {
+const loadingApplicantVariants = {
+  start: {
+    y: "20%",
+  },
+  end: {
+    y: "0%",
+  },
+}
+
+const loadingApplicantTransition = {
+  duration: 0.5,
+  yoyo: 25,
+  ease: "easeInOut",
+
+}
+
+export default function ComparableCard({animated = false, instance, scale}: Props) {
   const renderScale = (p: string) => {
     return (
       <Stack spacing={2} direction='row' alignItems='center' justifyContent='space-between' key={p}>
         <Typography variant="caption" color="text.secondary">
           {p}
         </Typography>
-        <Slider aria-label={p} value={instance.fields[p]} components={{Thumb: Empty}} sx={{maxWidth: '50%'}}/> 
+        { instance && <Slider aria-label={p} value={instance.fields[p]} components={{Thumb: Empty}} sx={{maxWidth: '50%'}}/>} 
       </Stack>
     );  
   }
@@ -33,9 +50,10 @@ export default function ComparableCard({instance, scale}: Props) {
         <Typography variant="caption" color="text.secondary">
           {p}
         </Typography>
+        {instance &&
         <Typography>
           {instance.fields[p]}%
-        </Typography>
+        </Typography>}
 
       </Stack>
     );  
@@ -47,7 +65,7 @@ export default function ComparableCard({instance, scale}: Props) {
         <Typography gutterBottom variant="h5" component="div">
         Applicant
       </Typography>
-        {Object.keys(instance.fields).map(p => renderScale(p))}
+        {instance && Object.keys(instance.fields).map(p => renderScale(p))}
     </CardContent>);
   }
 
@@ -57,15 +75,41 @@ export default function ComparableCard({instance, scale}: Props) {
           <Typography gutterBottom variant="h5" component="div">
             Applicant
           </Typography>
+          {scale && 
           <Typography variant="caption" color="text.secondary">
             Ratings:
-        </Typography>
-            {Object.keys(instance.fields).map(p => renderPercentage(p))}
+        </Typography> }
+            {instance && Object.keys(instance.fields).map(p => renderPercentage(p))}
         </CardContent>
     );
   }
 
+
+  const animatedCard = () => {
+    return (
+   /*  <motion.div animate={{ scale: 0.75 }}
+    transition={{ type: "spring", stiffness: 350, damping: 25, repeat: Infinity, repeatDelay: 2, duration: 1 }}> */
+      <Card component={motion.div}
+          variants={loadingApplicantVariants}
+          transition={loadingApplicantTransition}
+          sx={{
+            border: 20,
+            borderColor: (theme) => theme.palette.secondary.main}}>
+          <CardMedia
+            component="img"
+            height="140"
+            image={blankProfile.default}
+            alt="applicant photo"
+          />
+          <CardContent>
+          <Typography>Applicant</Typography>
+          </CardContent>
+      </Card>
+    );
+  };
+
   return (
+    animated ? animatedCard() :
     <Card sx={{ maxWidth: 400 }}>
       <CardActionArea>
         <CardMedia
@@ -74,7 +118,7 @@ export default function ComparableCard({instance, scale}: Props) {
           image={blankProfile.default}
           alt="applicant photo"
         />
-          { scale ? scaleCard() : ratingCard() }
+          {scale ? scaleCard() : ratingCard()}
       </CardActionArea>
     </Card>
   );

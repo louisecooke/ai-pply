@@ -9,7 +9,7 @@ import { Manipulation, FieldProperties, Applicant } from "../types";
 import { pickApplicant, dimensions } from "../study-config/Configuration";
 import { objectsEqual } from "../util/Functions";
 
-import { defaultTheme } from "../styling/DefaultThemes";
+import { defaultTheme } from "../styling/DefaultThemes.js";
 
 const { defaultPreferences } = require("../util/DummyData");
 
@@ -25,7 +25,7 @@ export default function HiringTask({system, applicants, finish, setTheme} : Task
   const [totalTime, setTotalTime] = React.useState(0);
   const initialPreferences = defaultPreferences() as FieldProperties;
   const scale = system.transparency === system.control;
-  const loadingTime = 4000;
+  const loadingTime = 3000;
 
   const [key, setKey] = React.useState(0);
   const [preferences, setPreferences] = React.useState(initialPreferences);
@@ -46,6 +46,10 @@ export default function HiringTask({system, applicants, finish, setTheme} : Task
     setLoading(true);
     setPreferences(initialPreferences);
     changeKey();
+  }
+
+  const setSpinner = () => {
+    setLoading(false);
   }
 
   var profiles: JSX.Element[] = [];
@@ -77,7 +81,7 @@ export default function HiringTask({system, applicants, finish, setTheme} : Task
         </Stack>
         {!finished && <Gallery dimensions={dimensions} content={profiles} onFinish={endGallery} singleton={true} receiveRecommendation={chooseApplicant} transparent={system.transparency}/>
 }
-      {loading && <Spinner displayImage={<img src={system.image} height='180' width='240'/>} displayText='Loading...' timePeriod={loadingTime} callback={setLoading} />}
+      {loading && <Spinner displayImage={<img src={system.image} height='180' width='240'/>} displayText='Loading...' timePeriod={loadingTime} callback={setSpinner} />}
 
       </Stack>
       </Container>
