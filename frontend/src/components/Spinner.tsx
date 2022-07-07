@@ -9,24 +9,20 @@ const { toMinutes } = require("../util/Functions");
 
 type Props = {
   callback: () => void;
+  visible: boolean;
   displayImage?: React.ReactNode;
   displayText?: string;
   timePeriod?: number;
 }
 
-export default function Spinner({callback, displayImage, displayText, timePeriod} : Props) {
-  const [active, setActive] = React.useState(false);
-  let buttonText = active ? 'Reset' : 'Spin';
+export default function Spinner({callback, visible, displayImage, displayText, timePeriod} : Props) {
+  const [active, setActive] = React.useState(visible);
   const timerRef = React.useRef<number>();
 
   const stackVariants = {
     start: {
       transition: {
         staggerChildren: 0.2,
-        repeat: Infinity,
-        repeatDelay: 1,
-        duration: 1,
-        delay: 1
       },
     },
     end: {
@@ -37,12 +33,12 @@ export default function Spinner({callback, displayImage, displayText, timePeriod
   }
 
   React.useEffect(
-    () => () => {
-      clearTimeout(timerRef.current);
-      handleClick();
+    () => {
+      visible && handleClick();
     },
-    [],
+    [visible],
   );
+
 
   function handleClick() {
     setActive(true);
@@ -69,7 +65,7 @@ export default function Spinner({callback, displayImage, displayText, timePeriod
             variants={stackVariants}
             initial="start"
             animate="end">
-            {Array(5).fill('').map((_, i) => <ApplicantCard animated key={`card-${i}`} />)}
+            {Array(5).fill('').map((_, i) => <ApplicantCard animated key={`card-${i}`} loadingTime={timePeriod}/>)}
             </Stack>
             </Stack>
             <br/>

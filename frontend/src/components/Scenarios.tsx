@@ -1,6 +1,5 @@
-import { Button, Grid } from "@mui/material";
+/* import { Button, Grid } from "@mui/material";
 import { useState } from "react";
-import ScenarioCard from "./ScenarioCard";
 import { Scenario } from "../types";
 
 import * as React from "react";
@@ -42,3 +41,5 @@ export default function Scenarios({ ScenarioList }: Props) {
     </>
   );
 }
+ */
+export {}

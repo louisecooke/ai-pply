@@ -25,31 +25,26 @@ export default function HiringTask({system, applicants, finish, setTheme} : Task
   const [totalTime, setTotalTime] = React.useState(0);
   const initialPreferences = defaultPreferences() as FieldProperties;
   const scale = system.transparency === system.control;
-  const loadingTime = 3000;
-
-  const [key, setKey] = React.useState(0);
+  const [loadingTime, setLoadingTime] = React.useState(randomLoadingTime());
   const [preferences, setPreferences] = React.useState(initialPreferences);
   const isDefault = objectsEqual(preferences, initialPreferences);
   const [loading, setLoading] = React.useState(false);
 
   const systemCard = <SystemCard system={system} />; 
 
-  const changeKey = () => setKey(key + 1);
-
   const applyChanges = (controlPanel: FieldProperties) => {
     setLoading(true);
-    setPreferences(controlPanel);
-    changeKey(); 
+    setTimeout(() => setPreferences(controlPanel), loadingTime);
   }
 
   const resetPreferences = () => {
     setLoading(true);
-    setPreferences(initialPreferences);
-    changeKey();
+    setTimeout(() => setPreferences(initialPreferences), loadingTime);
   }
 
   const setSpinner = () => {
     setLoading(false);
+    setLoadingTime(randomLoadingTime());
   }
 
   var profiles: JSX.Element[] = [];
@@ -58,31 +53,29 @@ export default function HiringTask({system, applicants, finish, setTheme} : Task
   });
 
   const endGallery = () => {
-    
     setTheme(defaultTheme);
     setFinished(true);
   }
-  const logTime = (time: number) => setTotalTime(time);
 
   const chooseApplicant = (start: number, end: number) => {
     return pickApplicant(applicants.slice(start, end), preferences);
   }
 
+  function randomLoadingTime() {
+    return (((Math.round(Math.random() * 3) * 2) + 1) * 1000);
+  }
+
   return (
-    <div>{/* 
-      <Timer finished={finished} onFinish={logTime}/> */}
+    <div>
       <Container>
       <Stack direction='column' justifyContent='center' spacing={5} alignItems='center'>
         <Stack direction='row' marginTop='16px' spacing={2} alignItems= {finished ? 'center' : 'flex-end'}>
         {systemCard}
-        {finished ? <Button variant='contained' onClick={() => {finish()}} color='secondary'>Evaluate system</Button> : 
-        system.control && <ControlPanel key={key} preferences={preferences} setPreferences={applyChanges} defaultSaved={isDefault} revertToDefault={resetPreferences}/> }
-
+        {system.control && !finished && <ControlPanel preferences={preferences} setPreferences={applyChanges} defaultSaved={isDefault} revertToDefault={resetPreferences}/> }
         </Stack>
-        {!finished && <Gallery dimensions={dimensions} content={profiles} onFinish={endGallery} singleton={true} receiveRecommendation={chooseApplicant} transparent={system.transparency}/>
+        {finished ? <Button variant='contained' onClick={() => {finish()}} color='secondary'>Evaluate system</Button> :  <Gallery dimensions={dimensions} content={profiles} onFinish={endGallery} singleton={true} receiveRecommendation={chooseApplicant} transparent={system.transparency}/>
 }
-      {loading && <Spinner displayImage={<img src={system.image} height='180' width='240'/>} displayText='Loading...' timePeriod={loadingTime} callback={setSpinner} />}
-
+      <Spinner displayImage={<img src={system.image} height='180' width='240'/>} displayText='Loading...' timePeriod={loadingTime} callback={setSpinner} visible={loading}/>
       </Stack>
       </Container>
     </div>

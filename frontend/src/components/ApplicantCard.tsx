@@ -14,6 +14,7 @@ type Props = {
     animated?: Boolean;
     instance?: Comparable;
     scale?: Boolean;
+    loadingTime?: number;
   };
 
 const loadingApplicantVariants = {
@@ -27,12 +28,10 @@ const loadingApplicantVariants = {
 
 const loadingApplicantTransition = {
   duration: 0.5,
-  yoyo: 25,
   ease: "easeInOut",
-
 }
 
-export default function ComparableCard({animated = false, instance, scale}: Props) {
+export default function ComparableCard({animated = false, instance, scale, loadingTime = 4000}: Props) {
   const renderScale = (p: string) => {
     return (
       <Stack spacing={2} direction='row' alignItems='center' justifyContent='space-between' key={p}>
@@ -87,11 +86,9 @@ export default function ComparableCard({animated = false, instance, scale}: Prop
 
   const animatedCard = () => {
     return (
-   /*  <motion.div animate={{ scale: 0.75 }}
-    transition={{ type: "spring", stiffness: 350, damping: 25, repeat: Infinity, repeatDelay: 2, duration: 1 }}> */
       <Card component={motion.div}
           variants={loadingApplicantVariants}
-          transition={loadingApplicantTransition}
+          transition={{yoyo: loadingTime / 1000, ...loadingApplicantTransition}}
           sx={{
             border: 20,
             borderColor: (theme) => theme.palette.secondary.main}}>
