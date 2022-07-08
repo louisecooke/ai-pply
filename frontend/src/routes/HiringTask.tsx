@@ -30,6 +30,7 @@ export default function HiringTask({system, applicants, finish, setTheme} : Task
   const isDefault = objectsEqual(preferences, initialPreferences);
   const [loading, setLoading] = React.useState(false);
   const [changes, setChanges] = React.useState(0);
+  const [hoverTime, setHoverTime] = React.useState(0);
 
   const systemCard = <SystemCard system={system} />; 
 
@@ -75,6 +76,7 @@ export default function HiringTask({system, applicants, finish, setTheme} : Task
   }
 
   //returns an odd number between _ and 7, multiplied by 1000. this lines up with the animation design
+  //TODO (maybe): parameterize by the amount factors change to simulate a more realistic reevaluation
   function randomLoadingTime() {
     return (((Math.round(Math.random() * 3) * 2) + 1) * 1000);
   }
@@ -88,8 +90,10 @@ export default function HiringTask({system, applicants, finish, setTheme} : Task
         {system.control && !finished && <ControlPanel preferences={preferences} setPreferences={applyChanges} defaultSaved={isDefault} revertToDefault={resetPreferences}/> }
         </Stack>
         {finished ? <Button variant='contained' onClick={() => {finish()}} color='secondary'>Evaluate system</Button> : 
-        <Gallery key={changes} dimensions={dimensions} content={profiles} onFinish={endGallery} receiveRecommendation={chooseApplicant} transparent={system.transparency} changes={changes}/>
+        <Gallery key={changes} dimensions={dimensions} content={profiles} onFinish={endGallery} receiveRecommendation={chooseApplicant} transparent={system.transparency} changes={changes}
+        totalHoverTime={hoverTime} setTotalHoverTime={setHoverTime}/>
 }
+      <div>total time: {hoverTime}</div>
       <Spinner displayImage={<img src={system.image} height='180' width='240'/>} displayText='Loading...' timePeriod={loadingTime} callback={setSpinner} visible={loading}/>
       </Stack>
       </Container>

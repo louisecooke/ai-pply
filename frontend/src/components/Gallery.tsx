@@ -1,3 +1,4 @@
+
 import { Button, ImageList, ImageListItem, Typography, Popover, Stack } from "@mui/material";
 
 import * as React from "react";
@@ -14,15 +15,19 @@ type Props = {
   receiveRecommendation: Function;
   transparent: boolean;
   changes: number;
+  totalHoverTime: number;
+  setTotalHoverTime: Function;
 };
 
-export default function Gallery({ dimensions, content, onFinish, singleton = true, receiveRecommendation, transparent, changes }: Props) {
+export default function Gallery({ dimensions, content, onFinish, singleton = true, receiveRecommendation, transparent, changes, totalHoverTime, setTotalHoverTime }: Props) {
   const [page, setPage] = React.useState(0);
   const numPhotos = dimensions.columns * dimensions.rows;
   const lastPage = ((page + 1) * numPhotos >= content.length);
   const [submittable, setSubmittable] = React.useState(true);
   const [error, setError] = React.useState(false);
   const [recommendation, setRecommendation] = React.useState(receiveRecommendation(page * numPhotos, (page + 1) * numPhotos));
+  //this timer is in 1/100 of seconds
+  const [hoverTime, setHoverTime] = React.useState(totalHoverTime);
 
   React.useEffect( () => {
     setRecommendation(receiveRecommendation(page * numPhotos, (page + 1) * numPhotos));
@@ -45,6 +50,7 @@ export default function Gallery({ dimensions, content, onFinish, singleton = tru
       setError(false);
       setRecommendation(receiveRecommendation((page + 1) * numPhotos, (page + 2) * numPhotos));
       setPage(page + 1);
+      setTotalHoverTime(hoverTime);
       setSubmittable(true);
     } else {
       setError(true);
@@ -82,6 +88,18 @@ export default function Gallery({ dimensions, content, onFinish, singleton = tru
       borderColor: (theme) => theme.palette.tertiary.main
     }
 
+  React.useEffect(() => {
+    let interval;
+    if (anchorEl && recommended) {
+    interval = setInterval(() => {
+        setHoverTime((hoverTime) => hoverTime + 1);
+      }, 10);
+    } else if (!anchorEl && hoverTime !== 0) {
+        clearInterval(interval);
+      }
+    return () => clearInterval(interval as NodeJS.Timer);
+
+  }, [anchorEl, hoverTime]);
 
   const handlePopoverOpen = (event: React.MouseEvent<HTMLElement>) => {
     transparent && selected && setAnchorEl(event.currentTarget);
@@ -104,7 +122,7 @@ export default function Gallery({ dimensions, content, onFinish, singleton = tru
           </ImageListItem>
       </Button>
 
-      {recommended &&
+      {recommended && transparent &&
       <Popover
       id="mouse-over-popover"
       sx={{
@@ -137,7 +155,7 @@ export default function Gallery({ dimensions, content, onFinish, singleton = tru
         <ImageList cols={dimensions.columns}>
           {elements()}
         </ImageList>
-       
+       <div>Timer: {hoverTime}</div>
     </Stack>
     );
 }
