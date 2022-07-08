@@ -10,23 +10,26 @@ type Props = {
   };
   content: any[];
   onFinish: Function;
-  singleton: boolean;
+  singleton?: boolean;
   receiveRecommendation: Function;
   transparent: boolean;
+  changes: number;
 };
 
-export default function Gallery({ dimensions, content, onFinish, singleton, receiveRecommendation, transparent }: Props) {
+export default function Gallery({ dimensions, content, onFinish, singleton = true, receiveRecommendation, transparent, changes }: Props) {
   const [page, setPage] = React.useState(0);
   const numPhotos = dimensions.columns * dimensions.rows;
   const lastPage = ((page + 1) * numPhotos >= content.length);
   const [submittable, setSubmittable] = React.useState(true);
   const [error, setError] = React.useState(false);
+  const [recommendation, setRecommendation] = React.useState(receiveRecommendation(page * numPhotos, (page + 1) * numPhotos));
 
-  let recommendation = {index: -1, reason: ''} as Recommendation;
+  React.useEffect( () => {
+    setRecommendation(receiveRecommendation(page * numPhotos, (page + 1) * numPhotos));
+  }, [changes]);
 
   const elements = () => {
     let pagedElements: {element: string, recommended: boolean}[] = [];
-    recommendation = receiveRecommendation(page * numPhotos, (page + 1) * numPhotos);
     for (let i = page * numPhotos; i < (page + 1) * numPhotos; i++) {
         let tuple = {element: content[i], recommended: (content[i].key == recommendation.index)};
         pagedElements.push(tuple);
@@ -40,6 +43,7 @@ export default function Gallery({ dimensions, content, onFinish, singleton, rece
     }
     if (!singleton || submittable) {
       setError(false);
+      setRecommendation(receiveRecommendation((page + 1) * numPhotos, (page + 2) * numPhotos));
       setPage(page + 1);
       setSubmittable(true);
     } else {
