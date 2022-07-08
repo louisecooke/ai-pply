@@ -10,7 +10,7 @@ export const dimensions = {
     columns: 5
 }
 
-const { sumValues, weighFactors } = require("../util/Functions");
+const { weighFactors } = require("../util/Functions");
 
 export const pickApplicant = (applicants: Applicant[], preferences: FieldProperties) => {
     let chosenId = 0;
@@ -25,17 +25,12 @@ export const pickApplicant = (applicants: Applicant[], preferences: FieldPropert
     });
     
     for (let i = 0; i < applicants.length; i++) {
-        let assessment: number = weighFactors(applicants[i].fields, preferences); //sumValues(applicants[i].fields);
+        let assessment: number = weighFactors(applicants[i].fields, preferences);
         if (assessment > max) {
             max = assessment;
             chosenId = applicants[i].id;
         }
     }
 
-    let reason = `You indicated that ${maxKey} was most important to you.`;
-    if (JSON.stringify(Object.values(preferences)) === JSON.stringify(defaultToggles)) {
-        reason = `This decision was made based on our existing user data.`;
-    }
-
-    return {index: chosenId, reason} as Recommendation;
+    return { chosenId, maxKey };
 }
