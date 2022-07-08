@@ -22,7 +22,6 @@ type TaskProps = {
 
 export default function HiringTask({system, applicants, finish, setTheme} : TaskProps) {
   const [finished, setFinished] = React.useState(false);
-  const [totalTime, setTotalTime] = React.useState(0);
   const initialPreferences = defaultPreferences() as FieldProperties;
   const scale = system.transparency === system.control;
   const [loadingTime, setLoadingTime] = React.useState(randomLoadingTime());
@@ -64,7 +63,7 @@ export default function HiringTask({system, applicants, finish, setTheme} : Task
 
   const chooseApplicant = (start: number, end: number) => {
     let applicant = pickApplicant(applicants.slice(start, end), preferences);
-    let reason =  generateReason(applicant.maxKey, start, system.control);
+    let reason =  generateReason(applicant.maxKey, system.control);
     return { index: applicant.chosenId, reason: reason} as Recommendation;
   }
 
@@ -95,7 +94,7 @@ export default function HiringTask({system, applicants, finish, setTheme} : Task
 
   
 
-function generateReason(maxKey: string, start: number, control: boolean) {
+function generateReason(maxKey: string, control: boolean) {
   if (control && isDefault) return `This decision was made based on our existing user data.`;
   if (control && maxKey) {
     return `This decision was made based on our existing user data, plus your recent input. I've just considered that you see ${maxKey} as a valuable factor.`
