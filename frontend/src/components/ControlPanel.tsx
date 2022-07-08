@@ -6,10 +6,9 @@ type PanelProps = {
     preferences: FieldProperties;
     setPreferences: Function;
     defaultSaved: boolean;
-    revertToDefault: Function;
 }
 
-export default function ControlPanel({ preferences, setPreferences, defaultSaved, revertToDefault }: PanelProps) {
+export default function ControlPanel({ preferences, setPreferences, defaultSaved }: PanelProps) {
     const [localState, setLocalState] = React.useState(preferences);
     const [applied, setApplied] = React.useState(true);
     const [isDefault, setDefault] = React.useState(defaultSaved);
@@ -53,7 +52,7 @@ export default function ControlPanel({ preferences, setPreferences, defaultSaved
                <Button variant='contained' color='secondary' onClick={() => {
                  setDefault(true);
                  setApplied(false);
-                 revertToDefault(); 
+                 setPreferences(); 
                 }} disabled={isDefault}>
                 <Typography fontSize='12px'>REVERT TO DEFAULT</Typography></Button>
 

@@ -34,18 +34,11 @@ export default function HiringTask({system, applicants, finish, setTheme} : Task
 
   const systemCard = <SystemCard system={system} />; 
 
-  const applyChanges = (controlPanel: FieldProperties) => {
+  const applyChanges = (givenPreferences?: FieldProperties) => {
+    let preferences = givenPreferences ? givenPreferences : initialPreferences;
     setLoading(true);
     setTimeout(() => {
-      setPreferences(controlPanel);
-      setChanges(changes + 1);
-    }, loadingTime);
-  }
-
-  const resetPreferences = () => {
-    setLoading(true);
-    setTimeout(() => {
-      setPreferences(initialPreferences);
+      setPreferences(preferences);
       setChanges(changes + 1);
     }, loadingTime);
   }
@@ -87,7 +80,7 @@ export default function HiringTask({system, applicants, finish, setTheme} : Task
       <Stack direction='column' justifyContent='center' spacing={5} alignItems='center'>
         <Stack direction='row' marginTop='16px' spacing={2} alignItems= {finished ? 'center' : 'flex-end'}>
         {systemCard}
-        {system.control && !finished && <ControlPanel preferences={preferences} setPreferences={applyChanges} defaultSaved={isDefault} revertToDefault={resetPreferences}/> }
+        {system.control && !finished && <ControlPanel preferences={preferences} setPreferences={applyChanges} defaultSaved={isDefault}/> }
         </Stack>
         {finished ? <Button variant='contained' onClick={() => {finish()}} color='secondary'>Evaluate system</Button> : 
         <Gallery key={changes} dimensions={dimensions} content={profiles} onFinish={endGallery} receiveRecommendation={chooseApplicant} transparent={system.transparency} changes={changes}
