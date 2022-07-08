@@ -89,7 +89,6 @@ export default function HiringTask({system, applicants, finish, setTheme} : Task
         <Gallery key={changes} dimensions={dimensions} content={profiles} onFinish={endGallery} receiveRecommendation={chooseApplicant} transparent={system.transparency} changes={changes}
         runTimer={runTimer}/>
 }
-      <div>total time: {hoverTime.current}</div>
       <Spinner displayImage={<img src={system.image} height='180' width='240'/>} displayText='Loading...' timePeriod={loadingTime} callback={setSpinner} visible={loading}/>
       </Stack>
   );
