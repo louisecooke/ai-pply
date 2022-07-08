@@ -1,5 +1,5 @@
 import { createTheme } from "@mui/material";
-import { outerTheme } from "./DefaultThemes";
+import { outerTheme } from "./DefaultThemes.js";
 
 const threePartTheme = (one, two, three) => {
   return createTheme({
@@ -39,4 +39,4 @@ const themeThree = threePartTheme('#efeeb4', '#454d66', '#dad873');
 const themeFour = threePartTheme('#e7daff', '#6545a4', '#ead062');
 
 
-export const systemThemes = [themeOne, themeTwo, themeThree, themeFour]; //themeThree, themeFour];
+export const systemThemes = [themeOne, themeTwo, themeThree, themeFour];
