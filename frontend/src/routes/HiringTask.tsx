@@ -29,7 +29,13 @@ export default function HiringTask({system, applicants, finish, setTheme} : Task
   const isDefault = objectsEqual(preferences, initialPreferences);
   const [loading, setLoading] = React.useState(false);
   const [changes, setChanges] = React.useState(0);
-  const [hoverTime, setHoverTime] = React.useState(0);
+
+  // in 1/100 seconds
+  const hoverTime = React.useRef(0);
+
+  function runTimer() {
+    hoverTime.current += 1;
+  }
 
   const systemCard = <SystemCard system={system} />; 
 
@@ -83,9 +89,9 @@ export default function HiringTask({system, applicants, finish, setTheme} : Task
         </Stack>
         {finished ? <Button variant='contained' onClick={() => {finish()}} color='secondary'>Evaluate system</Button> : 
         <Gallery key={changes} dimensions={dimensions} content={profiles} onFinish={endGallery} receiveRecommendation={chooseApplicant} transparent={system.transparency} changes={changes}
-        totalHoverTime={hoverTime} setTotalHoverTime={setHoverTime}/>
+        runTimer={runTimer}/>
 }
-      <div>total time: {hoverTime}</div>
+      <div>total time: {hoverTime.current}</div>
       <Spinner displayImage={<img src={system.image} height='180' width='240'/>} displayText='Loading...' timePeriod={loadingTime} callback={setSpinner} visible={loading}/>
       </Stack>
       </Container>
