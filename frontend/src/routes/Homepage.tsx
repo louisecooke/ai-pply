@@ -49,6 +49,7 @@ export default function Homepage({setTheme}: Props) {
 
   function Opener() {
     return (
+      <Container>
       <Stack>
             <div>
       <Card sx={{padding: 5}}>
@@ -61,6 +62,7 @@ export default function Homepage({setTheme}: Props) {
       <br />
     </div>
       </Stack>
+      </Container>
     );
   };
 
@@ -73,7 +75,7 @@ export default function Homepage({setTheme}: Props) {
   ]
 
   return (
-    <Container>
+    <Container maxWidth={false}>
 
       <Routes>
         <Route path="*" element={workflow[page]} />

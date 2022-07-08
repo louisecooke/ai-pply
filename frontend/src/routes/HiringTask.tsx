@@ -80,8 +80,6 @@ export default function HiringTask({system, applicants, finish, setTheme} : Task
   }
 
   return (
-    <div>
-      <Container>
       <Stack direction='column' justifyContent='center' spacing={5} alignItems='center'>
         <Stack direction='row' marginTop='16px' spacing={2} alignItems= {finished ? 'center' : 'flex-end'}>
         {systemCard}
@@ -94,8 +92,6 @@ export default function HiringTask({system, applicants, finish, setTheme} : Task
       <div>total time: {hoverTime.current}</div>
       <Spinner displayImage={<img src={system.image} height='180' width='240'/>} displayText='Loading...' timePeriod={loadingTime} callback={setSpinner} visible={loading}/>
       </Stack>
-      </Container>
-    </div>
   );
 
   

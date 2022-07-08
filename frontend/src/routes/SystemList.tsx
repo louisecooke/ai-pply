@@ -3,8 +3,7 @@ import HiringTask from "./HiringTask";
 import { Applicant, Manipulation, VARIANTS } from "../types";
 import Questionnaire from "../components/Questionnaire";
 import SystemCard from "../components/SystemCard";
-import Button from "@mui/material/Button";
-import Stack from "@mui/material/Stack";
+import { Button, Container, Stack } from "@mui/material";
 import { systemThemes } from "../styling/SystemThemes";
 import ScenarioExplanation from "./ScenarioExplanation";
 
@@ -84,10 +83,12 @@ export default function SystemList({onFinish, setTheme}: Props) {
   
       case (ELEMENTS.QUESTIONNAIRE):
         return (
+          <Container>
           <Stack alignItems='center'>
           <SystemCard system={chosenSystem}></SystemCard>
           <Questionnaire variant={VARIANTS.EVALUATION} finish={finishQuestionnaire} />
-          </Stack>)
+          </Stack>
+          </Container>)
 
       default:    
         return (

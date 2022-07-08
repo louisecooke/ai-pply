@@ -1,5 +1,5 @@
 import * as React from "react";
-import { Button, Card, CardContent } from "@mui/material";
+import { Button, Card, CardContent, Container } from "@mui/material";
 
 type Props = {
   next: () => void;
@@ -7,7 +7,7 @@ type Props = {
 
 export default function ConsentForm({next}: Props) {
   return (
-    <div>
+    <Container>
       <Card sx={{padding: 5}}>
       <CardContent>
       Placeholder here to obtain informed consent from participants.
@@ -16,6 +16,6 @@ export default function ConsentForm({next}: Props) {
       </Card>
       <br />
       <br />
-    </div>
+    </Container>
   );
 }

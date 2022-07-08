@@ -7,7 +7,7 @@ type Props = {
 
 export default function ScenarioExplanation({next}: Props) {
   return (
-    <div>
+      <Container>
       <Card sx={{padding: 5}}>
       <CardContent>
       Scenario explanation here.
@@ -16,6 +16,6 @@ export default function ScenarioExplanation({next}: Props) {
       </Card>
       <br />
       <br />
-    </div>
+      </Container>
   );
 }
