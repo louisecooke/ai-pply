@@ -6,8 +6,8 @@ import ComparableCard from "../components/ApplicantCard";
 import SystemCard from "../components/SystemCard";
 import Spinner from "../components/Spinner";
 import { Manipulation, FieldProperties, Applicant, Recommendation } from "../types";
-import { pickApplicant, dimensions } from "../study-config/Configuration";
-import { objectsEqual } from "../util/Functions";
+import { pickApplicants, dimensions } from "../study-config/Configuration";
+import { objectsEqual, randomBetween } from "../util/Functions";
 
 import { defaultTheme } from "../styling/DefaultThemes.js";
 
@@ -67,10 +67,10 @@ export default function HiringTask({system, applicants, finish, setTheme} : Task
     setFinished(true);
   }
 
-  const chooseApplicant = (start: number, end: number) => {
-    let applicant = pickApplicant(applicants.slice(start, end), preferences);
-    let reason =  generateReason(applicant.maxKey, system.control);
-    return { index: applicant.chosenId, reason: reason} as Recommendation;
+  //TODO refactor to include reason at choice level, not afterward. it is too complicated at the mo.
+  const chooseApplicants = (start: number, end: number, control: boolean) => {
+    let choices: Recommendation[] = pickApplicants(applicants.slice(start, end), preferences, control);
+    return choices;
   }
 
   //returns an odd number between _ and 7, multiplied by 1000. this lines up with the animation design
@@ -86,7 +86,7 @@ export default function HiringTask({system, applicants, finish, setTheme} : Task
         {system.control && !finished && <ControlPanel preferences={preferences} setPreferences={applyChanges} defaultSaved={isDefault}/> }
         </Stack>
         {finished ? <Button variant='contained' onClick={() => {finish()}} color='secondary'>Evaluate system</Button> : 
-        <Gallery key={changes} dimensions={dimensions} content={profiles} onFinish={endGallery} receiveRecommendation={chooseApplicant} transparent={system.transparency} changes={changes}
+        <Gallery key={changes} dimensions={dimensions} content={profiles} onFinish={endGallery} receiveRecommendation={chooseApplicants} transparent={system.transparency} control={system.control} changes={changes}
         runTimer={runTimer}/>
 }
       <Spinner displayImage={<img src={system.image} height='180' width='240'/>} displayText='Loading...' timePeriod={loadingTime} callback={setSpinner} visible={loading}/>
@@ -95,18 +95,7 @@ export default function HiringTask({system, applicants, finish, setTheme} : Task
 
   
 
-function generateReason(maxKey: string, control: boolean) {
-  if (control && isDefault) return `This decision was made based on our existing user data.`;
-  if (control && maxKey) {
-    return `This decision was made based on our existing user data, plus your recent input. I've just considered that you see ${maxKey} as a valuable factor.`
-  }
-    let degrees = randomBetween(2, 6);
-    let percent = randomBetween(81, 95);
-    return `When presented with a comparison between similar applicants (within ${degrees} degrees of latitude), ${percent}% of users made an equivalent decision.`
-  }
+
 }
 
 
-function randomBetween(low: number, high: number) {
-  return Math.round(Math.random() * (high - low)) + low;
-}

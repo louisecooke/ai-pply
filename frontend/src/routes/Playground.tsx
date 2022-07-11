@@ -1,6 +1,8 @@
 import * as React from "react";
 import { Button, Container, Card, CardContent, Typography } from "@mui/material";
 import { objectsEqual } from "../util/Functions";
+import Spinner from "../components/Spinner";
+import SystemList from "./SystemList";
 
 const preferencesOne = {
   education: 20,
@@ -26,6 +28,10 @@ const preferencesFour = {
 }
 
 export default function Playground() {
+  let length = 4000;
+  const next = () => {
+
+  }
   //expect one = four != two != three
   return (
     <div>
@@ -33,14 +39,8 @@ export default function Playground() {
       <Card sx={{padding: 5}}>
       <CardContent>
       <Typography>
-      One and two: 
-      {objectsEqual(preferencesOne, preferencesTwo) ? 'yes' : 'no'}
-      <br />
-      One and three:
-      {objectsEqual(preferencesOne, preferencesThree) ? 'yes' : 'no'}
-      <br />
-      One and four:
-      {objectsEqual(preferencesOne, preferencesFour) ? 'yes' : 'no'}
+      {/* <SystemList setTheme={setTheme} onFinish={next}/> */}
+     {/*  <Spinner displayText="a simple spinner" timePeriod={length} callback={() => {}}/> */}
       <br />
       </Typography>
       </CardContent> 

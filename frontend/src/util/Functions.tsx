@@ -11,11 +11,25 @@ export const sumValues = (obj: Object) => {
     return sum;
 };
 
-export const weighFactors = (fields: FieldProperties, preferences: FieldProperties) => {
+/* export const weighFactors = (fields: FieldProperties, preferences: FieldProperties) => {
     let sum = 0;
     let keys = Object.keys(fields);
     keys.forEach((i) => {
         sum += fields[i] * preferences[i];
+    });
+    return sum;
+} */
+
+export const weighFactors = (fields: FieldProperties, preferences: FieldProperties) => {
+    let sum = 0;
+    let keys = Object.keys(fields);
+    let maxKey = Object.keys(preferences).reduce((a, b) => fields[a] > fields[b] ? a : b);
+    keys.forEach((i) => {
+        if (i === maxKey) {
+            sum += fields[i] * 1.3;
+        } else {
+            sum += fields[i] * 0.7;
+        }
     });
     return sum;
 }
@@ -28,3 +42,7 @@ export const objectsEqual = (one: FieldProperties, two: FieldProperties) => {
         );
     });
 }
+
+export function randomBetween(low: number, high: number) {
+    return Math.round(Math.random() * (high - low)) + low;
+  }

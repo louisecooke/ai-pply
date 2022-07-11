@@ -1,4 +1,6 @@
 import { FieldProperties } from "../types";
+import { randomBetween } from "./Functions";
+
 const { applicantFields, defaultToggles } = require("../study-config/Configuration");
 
 export const randomString = (length: number) => {
@@ -17,7 +19,7 @@ export const randomString = (length: number) => {
 export const randomApplicant = () => {
     let toggles: number[] = [];
     for (let i = 0; i < applicantFields.length; i++ ) {
-        toggles.push((Math.round(Math.random() * 100)));
+        toggles.push(randomBetween(24, 92));
     }
     return setPreferences(toggles);
 }
@@ -33,3 +35,4 @@ const setPreferences = (values: number[]) => {
     })
     return fieldSet as FieldProperties;
 }
+

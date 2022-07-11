@@ -14,29 +14,30 @@ type Props = {
   singleton?: boolean;
   receiveRecommendation: Function;
   transparent: boolean;
+  control: boolean;
   changes: number;
   runTimer: Function;
 };
 
-export default function Gallery({ dimensions, content, onFinish, singleton = true, receiveRecommendation, transparent, changes, runTimer }: Props) {
+export default function Gallery({ dimensions, content, onFinish, singleton = false, receiveRecommendation, transparent, control, changes, runTimer }: Props) {
   const [page, setPage] = React.useState(0);
   const numPhotos = dimensions.columns * dimensions.rows;
   const lastPage = ((page + 1) * numPhotos >= content.length);
   const [submittable, setSubmittable] = React.useState(true);
   const [error, setError] = React.useState(false);
-  const [recommendation, setRecommendation] = React.useState(receiveRecommendation(page * numPhotos, (page + 1) * numPhotos));
+  const [recommendations, setRecommendations] = React.useState(receiveRecommendation(page * numPhotos, (page + 1) * numPhotos, control) as Recommendation[]);
 
   React.useEffect( () => {
-    setRecommendation(receiveRecommendation(page * numPhotos, (page + 1) * numPhotos));
+    setRecommendations(receiveRecommendation(page * numPhotos, (page + 1) * numPhotos, control) as Recommendation[]);
   }, [changes]);
 
   const elements = () => {
-    let pagedElements: {element: string, recommended: boolean}[] = [];
+    let pagedElements: {element: string, reason: string}[] = [];
     for (let i = page * numPhotos; i < (page + 1) * numPhotos; i++) {
-        let tuple = {element: content[i], recommended: (content[i].key == recommendation.index)};
+        let tuple = {element: content[i], reason: recommendations[i - (page * numPhotos)].reason};
         pagedElements.push(tuple);
     }
-    return pagedElements.map((tuple) => Selectable(tuple.element, tuple.recommended, submittable, setSubmittable, recommendation, singleton));
+    return pagedElements.map((tuple) => Selectable(tuple.element, tuple.reason, submittable, setSubmittable, singleton));
     }
 
   const pageTurn = () => {
@@ -45,7 +46,7 @@ export default function Gallery({ dimensions, content, onFinish, singleton = tru
     }
     if (!singleton || submittable) {
       setError(false);
-      setRecommendation(receiveRecommendation((page + 1) * numPhotos, (page + 2) * numPhotos));
+      setRecommendations(receiveRecommendation((page + 1) * numPhotos, (page + 2) * numPhotos));
       setPage(page + 1);
       setSubmittable(true);
     } else {
@@ -53,7 +54,8 @@ export default function Gallery({ dimensions, content, onFinish, singleton = tru
     }
   }
 
-  const Selectable = (element: any, recommended: boolean, submittable: boolean, setSubmittable: Function, recommendation: Recommendation, singleton?: boolean) => {
+  const Selectable = (element: any, reason: string, submittable: boolean, setSubmittable: Function, singleton?: boolean) => {
+    let recommended = reason !== '';
     const [selected, setSelected] = React.useState(recommended);
     const [anchorEl, setAnchorEl] = React.useState<HTMLElement | null>(null);
 
@@ -137,7 +139,7 @@ export default function Gallery({ dimensions, content, onFinish, singleton = tru
       onClose={handlePopoverClose}
       disableRestoreFocus
     >
-      <Typography sx={{ p: 1 }}>{recommendation.reason}</Typography>
+      <Typography sx={{ p: 1 }}>{reason}</Typography>
     </Popover>}
     </React.Fragment>
   );
