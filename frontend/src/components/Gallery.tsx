@@ -19,20 +19,27 @@ type Props = {
   runTimer: Function;
   remainingApplicants: number;
   addChosen: Function;
+  removeChosen: Function
 };
 
-export default function Gallery({ dimensions, content, onFinish, singleton = false, receiveRecommendation, transparent, control, changes, runTimer, remainingApplicants, addChosen}: Props) {
+export default function Gallery({ dimensions, content, onFinish, singleton = false, receiveRecommendation, transparent, control, changes, runTimer, remainingApplicants, addChosen, removeChosen}: Props) {
   const [page, setPage] = React.useState(0);
   const numPhotos = dimensions.columns * dimensions.rows;
   const lastPage = ((page + 1) * numPhotos >= content.length);
   const [submittable, setSubmittable] = React.useState(true);
   const chosenRef = React.useRef<number[]>([]);
+  const [length, setLength] = React.useState(remainingApplicants);
   const [error, setError] = React.useState(false);
   const [recommendations, setRecommendations] = React.useState(receiveRecommendation(page * numPhotos, (page + 1) * numPhotos, control) as Recommendation[]);
 
   React.useEffect( () => {
     setRecommendations(receiveRecommendation(page * numPhotos, (page + 1) * numPhotos, control) as Recommendation[]);
   }, [changes]);
+
+  React.useEffect( () => {
+    setLength(remainingApplicants - chosenRef.current.length);
+    console.log(length);
+  }, [chosenRef.current.length]);
 
   const elements = () => {
     let pagedElements: {element: string, rec: Recommendation}[] = [];
@@ -45,14 +52,11 @@ export default function Gallery({ dimensions, content, onFinish, singleton = fal
 
   const pageTurn = () => {
     if (lastPage) {
-      addChosen(chosenRef.current);
       onFinish();
     }
     if (!singleton || submittable) {
       setError(false);
       setRecommendations(receiveRecommendation((page + 1) * numPhotos, (page + 2) * numPhotos));
-      
-      console.log(chosenRef.current);
       setPage(page + 1);
       setSubmittable(true);
     } else {
@@ -68,22 +72,22 @@ export default function Gallery({ dimensions, content, onFinish, singleton = fal
     React.useEffect(() => {
         setSelected(recommended);
         //TODO fix double first render issue
-        if (recommended && !chosenRef.current.includes(rec.index)) {
-            chosenRef.current.push(rec.index);
+        if (recommended) {
+          addChosen(rec.index);
         }
     }, [element]);
 
     const toggleSelect = () => {
         if (selected) {
           setSelected(false);
-          chosenRef.current = chosenRef.current.filter(i => i !== rec.index);
+          removeChosen(rec.index);
           if (singleton) {
             setSubmittable(false);
           }
         } else {
           if (!singleton || !submittable) {
             setSelected(true);
-            chosenRef.current.push(rec.index);
+            addChosen(rec.index);
             setSubmittable(true);
           }
         }
@@ -161,7 +165,7 @@ export default function Gallery({ dimensions, content, onFinish, singleton = fal
     <Stack alignItems='flex-end' direction='column' spacing={6} sx={{marginTop: 0}}>
       <div>
         
-      Applicants left to choose: {remainingApplicants}
+      Applicants left to choose: {length}
       </div>
        <div>
         <Button color={error ? 'error' : 'secondary'} variant='contained' onClick={pageTurn} sx={{marginTop: 2}}><Typography fontSize='14px'>{lastPage ? "Finish" : "Next"}</Typography></Button>

@@ -3,29 +3,61 @@ import { Button, Container, Card, CardContent, Typography } from "@mui/material"
 import { objectsEqual } from "../util/Functions";
 import Spinner from "../components/Spinner";
 import SystemList from "./SystemList";
+import { Applicant } from "../types";
+import Ranking from "../components/Ranking";
 
-const preferencesOne = {
+const one = {
+  id: 1,
+  fields: {
   education: 20,
   cultureFit: 22,
   experience: 55
-}
+  }
+} as Applicant;
 
-const preferencesTwo = {
+const two = {
+  id: 2,
+  fields: {
   education: 20,
   cultureFit: 21,
   experience: 56
-}
+  }
+} as Applicant;
 
-const preferencesThree = {
+const three = {
   cultureFit: 22,
   experience: 55
 }
 
-const preferencesFour = {
+const four = {
+  id: 4,
+  fields: {
   education: 20,
   cultureFit: 22,
   experience: 55
-}
+  }
+} as Applicant;
+
+const five = {
+  id: 5,
+  fields: {
+  education: 80,
+  cultureFit: 62,
+  experience: 35
+  }
+} as Applicant;
+
+const six = {
+  id: 6,
+  fields: {
+  education: 25,
+  cultureFit: 92,
+  experience: 55
+  }
+} as Applicant;
+
+
+const appList = [one, two, four, five, six] as Applicant[];
 
 export default function Playground() {
   let length = 4000;
@@ -34,20 +66,6 @@ export default function Playground() {
   }
   //expect one = four != two != three
   return (
-    <div>
-      <Container>
-      <Card sx={{padding: 5}}>
-      <CardContent>
-      <Typography>
-      {/* <SystemList setTheme={setTheme} onFinish={next}/> */}
-     {/*  <Spinner displayText="a simple spinner" timePeriod={length} callback={() => {}}/> */}
-      <br />
-      </Typography>
-      </CardContent> 
-      </Card>
-      <br />
-      <br />
-      </Container>
-    </div>
+   <Ranking shortlist={appList} rank={() => {}} scale={true} /> 
   );
 }

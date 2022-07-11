@@ -4,7 +4,7 @@ import CardContent from '@mui/material/CardContent';
 import CardMedia from '@mui/material/CardMedia';
 import Typography from '@mui/material/Typography';
 import { CardActionArea, Slider, Stack} from '@mui/material';
-import { motion } from "framer-motion/dist/framer-motion";
+import { motion} from "framer-motion/dist/framer-motion";
 import { Comparable } from "../types";
 
 
@@ -15,6 +15,7 @@ type Props = {
     instance?: Comparable;
     scale?: Boolean;
     loadingTime?: number;
+    ranking?: Boolean;
   };
 
 const loadingApplicantVariants = {
@@ -31,7 +32,7 @@ const loadingApplicantTransition = {
   ease: "easeInOut",
 }
 
-export default function ComparableCard({animated = false, instance, scale, loadingTime = 4000}: Props) {
+export default function ComparableCard({animated = false, instance, scale, loadingTime = 4000, ranking = false}: Props) {
   const renderScale = (p: string) => {
     return (
       <Stack spacing={2} direction='row' alignItems='center' justifyContent='space-between' key={p}>
@@ -105,9 +106,14 @@ export default function ComparableCard({animated = false, instance, scale, loadi
     );
   };
 
-  return (
-    animated ? animatedCard() :
-    <Card sx={{ maxWidth: 400 }}>
+  const rankingCard = () => {
+    return <motion.div>
+      {displayCard()}
+    </motion.div>
+  }
+
+  const displayCard = () => {
+    return <Card sx={{ maxWidth: 400 }}>
       <CardActionArea>
         <CardMedia
           component="img"
@@ -118,6 +124,10 @@ export default function ComparableCard({animated = false, instance, scale, loadi
           {scale ? scaleCard() : ratingCard()}
       </CardActionArea>
     </Card>
+  }
+
+  return (
+    animated ? animatedCard() :  displayCard()
   );
 }
 

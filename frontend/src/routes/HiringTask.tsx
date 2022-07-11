@@ -5,6 +5,7 @@ import ControlPanel from "../components/ControlPanel";
 import ComparableCard from "../components/ApplicantCard";
 import SystemCard from "../components/SystemCard";
 import Spinner from "../components/Spinner";
+import Ranking from "../components/Ranking";
 import { Manipulation, FieldProperties, Applicant, Recommendation } from "../types";
 import { pickApplicants, dimensions, numApplicants } from "../study-config/Configuration";
 import { objectsEqual, randomBetween } from "../util/Functions";
@@ -29,7 +30,8 @@ return applicantList;
 }
 
 export default function HiringTask({system, finish, setTheme} : TaskProps) {
-  const [finished, setFinished] = React.useState(false);
+  const [shortlisted, setShortlisted] = React.useState(false);
+  const [ranked, setRanked] = React.useState(false);
   const initialPreferences = defaultPreferences() as FieldProperties;
   const [applicants, setApplicants] = React.useState(newApplicants());
   const scale = system.transparency === system.control;
@@ -74,9 +76,13 @@ export default function HiringTask({system, finish, setTheme} : TaskProps) {
   });
 
   const endGallery = () => {
+    setShortlisted(true);
+  }
+
+  const endRanking = () => {
     setTheme(defaultTheme);
-    setFinished(true);
     setApplicants(newApplicants());
+    setRanked(true);
   }
 
   //TODO refactor to include reason at choice level, not afterward. it is too complicated at the mo.
@@ -91,33 +97,33 @@ export default function HiringTask({system, finish, setTheme} : TaskProps) {
     return (((Math.round(Math.random() * 3) * 2) + 1) * 1000);
   }
 
-  function addChosen(ids: number[]) {
-    shortlist.current.concat(ids);
+  function addChosen(id: number) {
+    !shortlist.current.includes(id) && shortlist.current.push(id);
+    console.log(shortlist.current);
   }
   
-  function mappedIds() {
-    return shortlist.current.map(i => {
-      <div>
-        {i}
-      </div>
-    })
+  function removeChosen(id: number) {
+    shortlist.current = shortlist.current.filter(i => i !== id);
+  }
+
+  function cards() {
+    return applicants.filter(a => (shortlist.current.includes(a.id))) as Applicant[];
   }
 
   return (
       <Stack direction='column' justifyContent='center' spacing={5} alignItems='center'>
-        <Stack direction='row' marginTop='16px' spacing={2} alignItems= {finished ? 'center' : 'flex-end'}>
+        <Stack direction='row' marginTop='16px' spacing={2} alignItems= {shortlisted ? 'center' : 'flex-end'}>
         {systemCard}
-        {system.control && !finished && <ControlPanel preferences={preferences} setPreferences={applyChanges} defaultSaved={isDefault}/> }
+        {system.control && !shortlisted && <ControlPanel preferences={preferences} setPreferences={applyChanges} defaultSaved={isDefault}/> }
+        {shortlisted && !ranked && <Ranking shortlist={cards()} rank={endRanking} scale={scale}/>}
         </Stack>
-        {finished ? <Button variant='contained' onClick={() => {finish()}} color='secondary'>Evaluate system</Button> : 
+        
+        {ranked && <Button variant='contained' onClick={() => {finish()}} color='secondary'>Evaluate system</Button>}
+        {!shortlisted &&
         <Gallery key={changes} dimensions={dimensions} content={profiles} onFinish={endGallery} receiveRecommendation={chooseApplicants} transparent={system.transparency} control={system.control} changes={changes}
-        runTimer={runTimer} remainingApplicants={5} addChosen={addChosen}/>
-}
+        runTimer={runTimer} remainingApplicants={5} addChosen={addChosen} removeChosen={removeChosen}/>
+        }
       <Spinner displayImage={<img src={system.image} height='180' width='240'/>} displayText='Loading...' timePeriod={loadingTime} callback={setSpinner} visible={loading}/>
-      {finished && <>
-      <Typography>Chosen applicant ids:</Typography>
-      {mappedIds()}
-      </>}
       </Stack>
   );
 }
