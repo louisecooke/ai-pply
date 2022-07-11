@@ -1,28 +1,37 @@
 import * as React from "react";
-import { Button, Container, Stack } from "@mui/material";
+import { Button, Container, Stack, Typography } from "@mui/material";
 import Gallery from "../components/Gallery";
 import ControlPanel from "../components/ControlPanel";
 import ComparableCard from "../components/ApplicantCard";
 import SystemCard from "../components/SystemCard";
 import Spinner from "../components/Spinner";
 import { Manipulation, FieldProperties, Applicant, Recommendation } from "../types";
-import { pickApplicants, dimensions } from "../study-config/Configuration";
+import { pickApplicants, dimensions, numApplicants } from "../study-config/Configuration";
 import { objectsEqual, randomBetween } from "../util/Functions";
 
 import { defaultTheme } from "../styling/DefaultThemes.js";
 
-const { defaultPreferences } = require("../util/DummyData");
+const { defaultPreferences, randomApplicant } = require("../util/DummyData");
 
 type TaskProps = {
   system: Manipulation;
-  applicants: Applicant[];
   finish: Function;
   setTheme: Function;
 };
 
-export default function HiringTask({system, applicants, finish, setTheme} : TaskProps) {
+
+function newApplicants() {
+let applicantList = [] as Applicant[];
+for (var i = 0; i < numApplicants; i++) {
+  applicantList.push({id: i, fields: randomApplicant()} as Applicant);
+} 
+return applicantList;
+}
+
+export default function HiringTask({system, finish, setTheme} : TaskProps) {
   const [finished, setFinished] = React.useState(false);
   const initialPreferences = defaultPreferences() as FieldProperties;
+  const [applicants, setApplicants] = React.useState(newApplicants());
   const scale = system.transparency === system.control;
   const [loadingTime, setLoadingTime] = React.useState(randomLoadingTime());
   const [preferences, setPreferences] = React.useState(initialPreferences);
@@ -32,6 +41,8 @@ export default function HiringTask({system, applicants, finish, setTheme} : Task
 
   // in 1/100 seconds
   const hoverTime = React.useRef(0);
+
+  const shortlist = React.useRef<number[]>([]);
 
   function runTimer() {
     hoverTime.current += 1;
@@ -65,6 +76,7 @@ export default function HiringTask({system, applicants, finish, setTheme} : Task
   const endGallery = () => {
     setTheme(defaultTheme);
     setFinished(true);
+    setApplicants(newApplicants());
   }
 
   //TODO refactor to include reason at choice level, not afterward. it is too complicated at the mo.
@@ -79,6 +91,18 @@ export default function HiringTask({system, applicants, finish, setTheme} : Task
     return (((Math.round(Math.random() * 3) * 2) + 1) * 1000);
   }
 
+  function addChosen(ids: number[]) {
+    shortlist.current.concat(ids);
+  }
+  
+  function mappedIds() {
+    return shortlist.current.map(i => {
+      <div>
+        {i}
+      </div>
+    })
+  }
+
   return (
       <Stack direction='column' justifyContent='center' spacing={5} alignItems='center'>
         <Stack direction='row' marginTop='16px' spacing={2} alignItems= {finished ? 'center' : 'flex-end'}>
@@ -87,15 +111,15 @@ export default function HiringTask({system, applicants, finish, setTheme} : Task
         </Stack>
         {finished ? <Button variant='contained' onClick={() => {finish()}} color='secondary'>Evaluate system</Button> : 
         <Gallery key={changes} dimensions={dimensions} content={profiles} onFinish={endGallery} receiveRecommendation={chooseApplicants} transparent={system.transparency} control={system.control} changes={changes}
-        runTimer={runTimer}/>
+        runTimer={runTimer} remainingApplicants={5} addChosen={addChosen}/>
 }
       <Spinner displayImage={<img src={system.image} height='180' width='240'/>} displayText='Loading...' timePeriod={loadingTime} callback={setSpinner} visible={loading}/>
+      {finished && <>
+      <Typography>Chosen applicant ids:</Typography>
+      {mappedIds()}
+      </>}
       </Stack>
   );
-
-  
-
-
 }
 
 

@@ -10,11 +10,6 @@ import ScenarioExplanation from "./ScenarioExplanation";
 const { randomApplicant } = require("../util/DummyData");
 const { numApplicants } = require("../study-config/Configuration");
 
-const applicantList: Applicant[] = [];
-for (var i = 0; i < numApplicants; i++) {
-  applicantList.push({id: i, fields: randomApplicant()} as Applicant);
-} 
-
 interface Completion {
   system: Manipulation;
   interacted: boolean;
@@ -79,7 +74,7 @@ export default function SystemList({onFinish, setTheme}: Props) {
   const currentElement = () => {
     switch (visibleElement) {
       case (ELEMENTS.TASK): 
-        return (<HiringTask system={chosenSystem} applicants={applicantList} finish={finishScenario} setTheme={setTheme}/>)
+        return (<HiringTask system={chosenSystem} finish={finishScenario} setTheme={setTheme}/>)
   
       case (ELEMENTS.QUESTIONNAIRE):
         return (
