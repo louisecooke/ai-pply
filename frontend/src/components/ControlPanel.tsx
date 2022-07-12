@@ -46,7 +46,7 @@ export default function ControlPanel({ preferences, setPreferences, defaultSaved
               <br />
               <Typography variant="subtitle2" >
                Indicate above how important each factor is to you. <br />
-               Our AI will work this information into its calculations.</Typography>
+               I'll take this information into account as I rank applications.</Typography>
                <br />
                <Stack spacing={4} direction='row' justifyContent='center'>
                <Button variant='contained' color='secondary' onClick={() => {
