@@ -54,7 +54,7 @@ export const pickApplicants = (applicants: Applicant[], preferences: FieldProper
     for (let i = 0; i < applicants.length; i++) {
         let assessment: number = weighFactors(applicants[i].fields, preferences);
         let reason = '';
-        if (assessment > 9000 || applicants[i].fields[maxKey] > 92) {
+        if (assessment > 9500 || applicants[i].fields[maxKey] > 92) {
             reason = generateReason(maxKey, control, isDefault);
         }
         recommendations.push({index: applicants[i].id, reason: reason});
@@ -63,8 +63,6 @@ export const pickApplicants = (applicants: Applicant[], preferences: FieldProper
     return recommendations;
 }
 
-
-//TODO bring isDefault back in
 function generateReason(maxKey: string, control: boolean, isDefault: boolean) {
     if (control &&  isDefault) return `This decision was made based on our existing user data.`;
     if (control && maxKey) {
