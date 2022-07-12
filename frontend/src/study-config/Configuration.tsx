@@ -38,8 +38,7 @@ const { weighFactors, randomBetween } = require("../util/Functions");
 } */
 
 //TODO are object parameters passed as reference?
-
-export const pickApplicants = (applicants: Applicant[], preferences: FieldProperties, control: boolean) => {
+export const pickApplicants = (applicants: Applicant[], preferences: FieldProperties, control: boolean, isDefault: boolean) => {
     let recommendations: Recommendation[] = [];
     let maxKey = "no factor";
     let maxWeight = 0;
@@ -55,8 +54,8 @@ export const pickApplicants = (applicants: Applicant[], preferences: FieldProper
     for (let i = 0; i < applicants.length; i++) {
         let assessment: number = weighFactors(applicants[i].fields, preferences);
         let reason = '';
-        if (assessment > 180) {
-            reason = generateReason(maxKey, control);
+        if (assessment > 9000 || applicants[i].fields[maxKey] > 92) {
+            reason = generateReason(maxKey, control, isDefault);
         }
         recommendations.push({index: applicants[i].id, reason: reason});
     }
@@ -66,12 +65,12 @@ export const pickApplicants = (applicants: Applicant[], preferences: FieldProper
 
 
 //TODO bring isDefault back in
-function generateReason(maxKey: string, control: boolean) {
-   /*  if (control/* &&  isDefault) return `This decision was made based on our existing user data.`; */
+function generateReason(maxKey: string, control: boolean, isDefault: boolean) {
+    if (control &&  isDefault) return `This decision was made based on our existing user data.`;
     if (control && maxKey) {
       return `This decision was made based on our existing user data, plus your recent input. I see that ${maxKey} is important to you.`
     }
       let degrees = randomBetween(2, 6);
       let percent = randomBetween(81, 95);
-      return `When presented with a comparison between similar applicants (within ${degrees} degrees of latitude), ${percent}% of users made an equivalent decision.`
+      return `When presented with a comparison between similar applicants (within ${degrees} degrees of latitude), ${percent}% of users chose to shortlist this applicant.`
     }

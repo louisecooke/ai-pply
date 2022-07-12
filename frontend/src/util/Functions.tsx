@@ -26,9 +26,9 @@ export const weighFactors = (fields: FieldProperties, preferences: FieldProperti
     let maxKey = Object.keys(preferences).reduce((a, b) => fields[a] > fields[b] ? a : b);
     keys.forEach((i) => {
         if (i === maxKey) {
-            sum += fields[i] * 1.3;
+            sum += fields[i] * preferences[i];
         } else {
-            sum += fields[i] * 0.7;
+            sum += fields[i] * preferences[i];
         }
     });
     return sum;
