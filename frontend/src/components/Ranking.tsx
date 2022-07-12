@@ -18,7 +18,7 @@ export default function Ranking({shortlist, rank, scale}: Props) {
       <Card sx={{padding: 5, margin: 5}}>
       <CardContent>
       
-      <Reorder.Group axis="x" values={cards} onReorder={setCards} as='ul'>
+      <Reorder.Group axis="x" values={cards} onReorder={setCards} as='ol'>
         
       <Stack direction='row' spacing={2}>
       {cards.map((a) => {
