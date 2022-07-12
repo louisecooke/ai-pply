@@ -60,7 +60,7 @@ export default function Spinner({callback, visible, displayImage, displayText, t
           <DialogContent>
             <Stack spacing={2} alignItems='center' justifyContent='center'>
             {displayImage}
-            <Typography>Hold on, while I reconfigure... </Typography>
+            <Typography>Hold on, while I think over your changes... </Typography>
             <Stack direction='row' spacing={1} component={motion.div}
             variants={stackVariants}
             initial="start"

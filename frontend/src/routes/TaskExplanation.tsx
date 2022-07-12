@@ -1,6 +1,9 @@
 import * as React from "react";
-import { Button, Container, Card, CardContent } from "@mui/material";
+import { Button, Container, Card, CardContent, Stack } from "@mui/material";
 import { Route, Routes } from "react-router-dom";
+import ApplicationAnimation from "../animations/ApplicationAnimation";
+
+import desk from "../imgs/school-desk-and-chair.png";
 
 type Props = {
   next?: () => void;
@@ -25,7 +28,8 @@ export default function TaskExplanation({next = () => {}}: Props) {
   
   function opener() {
     return (
-      <Container>
+      <Container sx={{margin: 20}}>
+      <Stack direction='row' spacing={20}>
       <Card sx={{padding: 5}}>
       <CardContent>
       You are the Operations Manager of a rapidly-growing company. After receiving funding for a new department, your human resources team must fill 40 new openings,
@@ -33,6 +37,8 @@ export default function TaskExplanation({next = () => {}}: Props) {
       </CardContent> 
       {nextButton()}
       </Card>
+      <img src={desk} height='200' width='200' alt="a desk"/>
+      </Stack>
       <br />
       <br />
       </Container>
@@ -42,13 +48,14 @@ export default function TaskExplanation({next = () => {}}: Props) {
   function two() {
     return (
       <Container>
-      <Card sx={{padding: 5}}>
+      <Card sx={{padding: 5, margin: 5}}>
       <CardContent>
       You have received 300 applications after posting the first 5 positions and therefore have decided to investigate decision-making aids to assist your team in the hiring process, in anticipation of a high load of applications.
       Four artificial intelligence systems, similarly priced, are available to help with this task.
       </CardContent> 
       {nextButton()}
       </Card>
+      <ApplicationAnimation />
       <br />
       <br />
       </Container>
