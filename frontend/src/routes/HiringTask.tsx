@@ -1,14 +1,15 @@
 import * as React from "react";
 import { Button, Container, Stack, Typography } from "@mui/material";
 import Gallery from "../components/Gallery";
+import SystemRank from "../components/SystemRank"; 
 import ControlPanel from "../components/ControlPanel";
 import ComparableCard from "../components/ApplicantCard";
 import SystemCard from "../components/SystemCard";
 import Spinner from "../components/Spinner";
 import Ranking from "../components/Ranking";
 import { Manipulation, FieldProperties, Applicant, Recommendation } from "../types";
-import { pickApplicants, dimensions, numApplicants } from "../study-config/Configuration";
-import { objectsEqual, randomBetween } from "../util/Functions";
+import { numApplicants } from "../study-config/Configuration";
+import { objectsEqual, randomBetween, customSort, pickApplicants } from "../util/Functions";
 
 import { defaultTheme } from "../styling/DefaultThemes.js";
 
@@ -33,17 +34,16 @@ export default function HiringTask({system, finish, setTheme} : TaskProps) {
   const [shortlisted, setShortlisted] = React.useState(false);
   const [ranked, setRanked] = React.useState(false);
   const initialPreferences = defaultPreferences() as FieldProperties;
-  const [applicants, setApplicants] = React.useState(newApplicants());
+  const [applicants, setApplicants] = React.useState(customSort(newApplicants(), initialPreferences));
   const [loadingTime, setLoadingTime] = React.useState(randomLoadingTime());
   const [preferences, setPreferences] = React.useState(initialPreferences);
   const isDefault = objectsEqual(preferences, initialPreferences);
   const [loading, setLoading] = React.useState(false);
   const [changes, setChanges] = React.useState(0);
-
+  
   // in 1/100 seconds
   const hoverTime = React.useRef(0);
   const shortlist = React.useRef<number[]>([]);
-  const [page, setPage] = React.useState(0);
   
   const [scale, setScale] = React.useState(randomBetween(0, 1) === 1);
 
@@ -71,10 +71,15 @@ export default function HiringTask({system, finish, setTheme} : TaskProps) {
     setChanges(0);
   }, [system]);
 
-  var profiles: JSX.Element[] = [];
-  applicants.map((a) => {
+  React.useEffect( () => {
+    //this function will apply filter based on the preferences given
+    setApplicants(customSort(applicants, preferences));
+  }, [preferences]);
+
+/*   var profiles: JSX.Element[] = [];
+  applicants.map((a) => { 
     profiles.push(<ComparableCard instance={a} key={a.id} scale={scale}/>)
-  });
+  }); */
 
   const endGallery = () => {
     setShortlisted(true);
@@ -111,18 +116,19 @@ export default function HiringTask({system, finish, setTheme} : TaskProps) {
   }
 
   return (
-      <Stack direction='column' justifyContent='center' spacing={5} alignItems='center'>
-        <Stack direction='row' marginTop='16px' spacing={2} alignItems= {shortlisted ? 'center' : 'flex-end'}>
+      <Stack direction='row' justifyContent='center' spacing={20} alignItems='flex-start'>
+         {ranked ? <Button variant='contained' onClick={() => {finish()}} color='secondary'>Evaluate system</Button> :
+        shortlisted ? <Ranking shortlist={cards()} rank={endRanking} scale={scale}/>
+        : <SystemRank applicants={applicants}/>}
+        <Stack direction='column' marginTop='16px' spacing={3} alignItems='flex-start'>
         {systemCard}
         {system.control && !shortlisted && <ControlPanel preferences={preferences} setPreferences={applyChanges} defaultSaved={isDefault}/> }
         </Stack>
         
-        {ranked ? <Button variant='contained' onClick={() => {finish()}} color='secondary'>Evaluate system</Button> :
-        shortlisted ? <Ranking shortlist={cards()} rank={endRanking} scale={scale}/>
-        :
-        <Gallery key={changes} dimensions={dimensions} content={profiles} onFinish={endGallery} receiveRecommendation={chooseApplicants} transparent={system.transparency} control={system.control} changes={changes}
-        runTimer={runTimer} remainingApplicants={5} addChosen={addChosen} removeChosen={removeChosen} page={page} setPage={setPage}/>
-        }
+       
+        {/* <Gallery key={changes} dimensions={dimensions} content={profiles} onFinish={endGallery} receiveRecommendation={chooseApplicants} transparent={system.transparency} control={system.control} changes={changes}
+        runTimer={runTimer} remainingApplicants={5} addChosen={addChosen} removeChosen={removeChosen} page={page} setPage={setPage}/> */}
+        
       <Spinner displayImage={<img src={system.image} height='180' width='240'/>} displayText='Loading...' timePeriod={loadingTime} callback={setSpinner} visible={loading}/>
       </Stack>
   );
