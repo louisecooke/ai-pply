@@ -5,6 +5,7 @@ import Spinner from "../components/Spinner";
 import SystemList from "./SystemList";
 import { Applicant } from "../types";
 import Ranking from "../components/Ranking";
+import TaskExplanation from "./TaskExplanation";
 
 const one = {
   id: 1,
@@ -61,11 +62,13 @@ const appList = [one, two, four, five, six] as Applicant[];
 
 export default function Playground() {
   let length = 4000;
-  const next = () => {
+/*   const next = () => {
 
-  }
+  } */
   //expect one = four != two != three
+  
+   {/* <Ranking shortlist={appList} rank={() => {}} scale={true} />  */}
   return (
-   <Ranking shortlist={appList} rank={() => {}} scale={true} /> 
+   <TaskExplanation />
   );
 }
