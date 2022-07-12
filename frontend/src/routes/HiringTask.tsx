@@ -34,7 +34,6 @@ export default function HiringTask({system, finish, setTheme} : TaskProps) {
   const [ranked, setRanked] = React.useState(false);
   const initialPreferences = defaultPreferences() as FieldProperties;
   const [applicants, setApplicants] = React.useState(newApplicants());
-  const scale = system.transparency === system.control;
   const [loadingTime, setLoadingTime] = React.useState(randomLoadingTime());
   const [preferences, setPreferences] = React.useState(initialPreferences);
   const isDefault = objectsEqual(preferences, initialPreferences);
@@ -43,8 +42,10 @@ export default function HiringTask({system, finish, setTheme} : TaskProps) {
 
   // in 1/100 seconds
   const hoverTime = React.useRef(0);
-
   const shortlist = React.useRef<number[]>([]);
+  const [page, setPage] = React.useState(0);
+  
+  const [scale, setScale] = React.useState(randomBetween(0, 1) === 1);
 
   function runTimer() {
     hoverTime.current += 1;
@@ -85,9 +86,8 @@ export default function HiringTask({system, finish, setTheme} : TaskProps) {
     setRanked(true);
   }
 
-  //TODO refactor to include reason at choice level, not afterward. it is too complicated at the mo.
   const chooseApplicants = (start: number, end: number, control: boolean) => {
-    let choices: Recommendation[] = pickApplicants(applicants.slice(start, end), preferences, control);
+    let choices: Recommendation[] = pickApplicants(applicants.slice(start, end), preferences, control, isDefault);
     return choices;
   }
 
@@ -121,7 +121,7 @@ export default function HiringTask({system, finish, setTheme} : TaskProps) {
         {ranked && <Button variant='contained' onClick={() => {finish()}} color='secondary'>Evaluate system</Button>}
         {!shortlisted &&
         <Gallery key={changes} dimensions={dimensions} content={profiles} onFinish={endGallery} receiveRecommendation={chooseApplicants} transparent={system.transparency} control={system.control} changes={changes}
-        runTimer={runTimer} remainingApplicants={5} addChosen={addChosen} removeChosen={removeChosen}/>
+        runTimer={runTimer} remainingApplicants={5} addChosen={addChosen} removeChosen={removeChosen} page={page} setPage={setPage}/>
         }
       <Spinner displayImage={<img src={system.image} height='180' width='240'/>} displayText='Loading...' timePeriod={loadingTime} callback={setSpinner} visible={loading}/>
       </Stack>

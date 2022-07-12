@@ -19,11 +19,13 @@ type Props = {
   runTimer: Function;
   remainingApplicants: number;
   addChosen: Function;
-  removeChosen: Function
+  removeChosen: Function;
+  page: number;
+  setPage: Function;
 };
 
-export default function Gallery({ dimensions, content, onFinish, singleton = false, receiveRecommendation, transparent, control, changes, runTimer, remainingApplicants, addChosen, removeChosen}: Props) {
-  const [page, setPage] = React.useState(0);
+export default function Gallery({ dimensions, content, onFinish, singleton = false, receiveRecommendation, transparent, control,
+  changes, runTimer, remainingApplicants, addChosen, removeChosen, page, setPage}: Props) {
   const numPhotos = dimensions.columns * dimensions.rows;
   const lastPage = ((page + 1) * numPhotos >= content.length);
   const [submittable, setSubmittable] = React.useState(true);
@@ -38,7 +40,6 @@ export default function Gallery({ dimensions, content, onFinish, singleton = fal
 
   React.useEffect( () => {
     setLength(remainingApplicants - chosenRef.current.length);
-    console.log(length);
   }, [chosenRef.current.length]);
 
   const elements = () => {
