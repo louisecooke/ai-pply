@@ -164,10 +164,6 @@ export default function Gallery({ dimensions, content, onFinish, singleton = fal
 
   return (
     <Stack alignItems='flex-end' direction='column' spacing={6} sx={{marginTop: 0}}>
-      <div>
-        
-      Applicants left to choose: {length}
-      </div>
        <div>
         <Button color={error ? 'error' : 'secondary'} variant='contained' onClick={pageTurn} sx={{marginTop: 2}}><Typography fontSize='14px'>{lastPage ? "Finish" : "Next"}</Typography></Button>
         </div>
