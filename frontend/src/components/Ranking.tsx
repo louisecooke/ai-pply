@@ -15,23 +15,22 @@ export default function Ranking({shortlist, rank, scale}: Props) {
 
   return (
     <Container>
-      <Card sx={{padding: 5, margin: 5}}>
-      <CardContent>
-      
+    
       <Reorder.Group axis="x" values={cards} onReorder={setCards} as='ol'>
         
-      <Stack direction='row' spacing={2}>
-      {cards.map((a) => {
+      <Stack direction='row' spacing={4} justifyContent='center'>
+      {cards.map((a, i) => {
+        if (i < 5) {
         return <Reorder.Item key={a.id} value={a}>
           <ApplicantCard instance={a} scale={scale} ranking={true}></ApplicantCard>
         </Reorder.Item>
-        }
+        } else {
+          return <></>
+        }}
       )}
       </Stack>
     </Reorder.Group>
-      </CardContent> 
-      <Button variant='contained' color='secondary' onClick={rank}>End</Button>
-      </Card>
+      <Button variant='contained' color='secondary' onClick={rank}>FINALIZE</Button>
       <br />
       <br />
     </Container>
