@@ -119,7 +119,7 @@ export default function HiringTask({system, finish, setTheme} : TaskProps) {
       <Stack direction='row' justifyContent='center' spacing={20} alignItems='flex-start'>
          {ranked ? <Button variant='contained' onClick={() => {finish()}} color='secondary'>Evaluate system</Button> :
         shortlisted ? <Ranking shortlist={cards()} rank={endRanking} scale={scale}/>
-        : <SystemRank applicants={applicants}/>}
+        : <SystemRank applicants={applicants} setApplicants={setApplicants}/>}
         <Stack direction='column' marginTop='16px' spacing={3} alignItems='flex-start'>
         {systemCard}
         {system.control && !shortlisted && <ControlPanel preferences={preferences} setPreferences={applyChanges} defaultSaved={isDefault}/> }
