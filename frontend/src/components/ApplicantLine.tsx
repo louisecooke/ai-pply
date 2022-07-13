@@ -4,14 +4,14 @@ import CardContent from '@mui/material/CardContent';
 import CardMedia from '@mui/material/CardMedia';
 import Typography from '@mui/material/Typography';
 import { CardActionArea, Slider, Stack} from '@mui/material';
-import { motion} from "framer-motion/dist/framer-motion";
+import { Reorder, useMotionValue } from "framer-motion/dist/framer-motion";
 import { Comparable } from "../types";
 
 
 const blankProfile = require("../imgs/avatar-g4549a99eb_640.png");
 
 type Props = {
-    instance?: Comparable;
+    instance: Comparable;
     index?: number;
     scale?: boolean;
     transparent?: boolean;
@@ -79,7 +79,12 @@ export default function ApplicantLine({instance, index, scale = false, transpare
     borderColor: (theme) => theme.palette.tertiary.main
   }
 
+  const itemStyle = {
+    y: useMotionValue(0)
+  }
+  
   return (
+    <Reorder.Item key={instance.id} value={instance} style={itemStyle}>
     <Card sx={selected ? selectedStyle : defaultStyle}>
       <Stack direction='row'>
         <CardMedia
@@ -97,6 +102,7 @@ export default function ApplicantLine({instance, index, scale = false, transpare
         </Stack>
       </Stack>
     </Card>
+    </Reorder.Item>
   );
 }
 
