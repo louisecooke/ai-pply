@@ -54,7 +54,3 @@ function photos(num: number) {
     </ImageListItem>);
   });
 }
-
-function Empty() {
-  return <></>;
-}
