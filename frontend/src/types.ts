@@ -15,6 +15,7 @@ export interface FieldProperties {
 }
 
 export interface Applicant extends Comparable {
+  reason?: string;
 }
 
 export interface Recommendation {
