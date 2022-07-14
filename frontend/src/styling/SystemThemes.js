@@ -14,7 +14,7 @@ const threePartTheme = (one, two, three) => {
       secondary: {
         main: two
       },
-      tertiary: {
+      info: {
         main: three
       },
     },

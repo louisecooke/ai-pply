@@ -40,7 +40,7 @@ export const defaultTheme = createTheme({
     secondary: {
       main: '#f55951'
     },
-    tertiary: {
+    info: {
       main: '#fdebd3'
     },
     greyText: {

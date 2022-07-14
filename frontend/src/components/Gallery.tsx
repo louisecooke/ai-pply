@@ -100,7 +100,7 @@ export default function Gallery({ dimensions, content, onFinish, singleton = fal
 
     const defaultStyle = {
       border: 20,
-      borderColor: (theme) => theme.palette.tertiary.main
+      borderColor: (theme) => theme.palette.info.main
     }
 
   React.useEffect(() => {
