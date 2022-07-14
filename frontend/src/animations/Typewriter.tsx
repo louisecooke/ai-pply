@@ -7,20 +7,40 @@ import * as React from 'react';
 type Props = {
   text: string;
   speed?: number;
-  reset: Function;
+  duration: number;
 }
 
 
-export function TypeAnimation({text = '', speed = 500, reset}: Props) {
-  
-  return (
+export function TypeAnimation({text = '', speed = 500, duration}: Props) {
+  const [active, setActive] = React.useState(true);
+  const [time, setTime] = React.useState(duration);
+
+  React.useEffect(() => {
+    setActive(true);
+    setTime(duration);
+  }, [text]);
+
+  React.useEffect(() => {
+    let interval;
+    if (!active || time === 0) {
+      clearInterval(interval);
+      setActive(false);
+    } else if (active) {
+      interval = setInterval(() => {
+        setTime((time) => time - 1);
+      }, 1000);}
+    return () => clearInterval(interval as NodeJS.Timer);
+  }, [active, time]);
+
+  return (active ?
   <Typed strings={['Give me a second...', text]} typeSpeed={speed} backSpeed={100}/>
+  : <></>
   );
 
 }
 
 
-function Typewriter({text = '', speed = 500, reset}: Props) {
+function Typewriter({text = '', speed = 500}: Props) {
   const [displayed, setDisplayed] = React.useState("");
   const [index, setIndex] = React.useState(0);
 

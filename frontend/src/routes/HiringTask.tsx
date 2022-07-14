@@ -108,7 +108,7 @@ export default function HiringTask({system, finish, setTheme} : TaskProps) {
         {ranked ? <Button variant='contained' onClick={() => {finish()}} color='secondary'>Evaluate system</Button> :
         shortlisted ? <> </> : <Button variant='contained' onClick={toShortlist} color='secondary'>choose these applicants</Button>
         }
-        {text !== '' && <TypeAnimation text={text} speed={100} reset={() => {setText('')}} />
+        {text !== '' && <TypeAnimation text={text} speed={10} duration={10} />
   }
         </Stack>
         
