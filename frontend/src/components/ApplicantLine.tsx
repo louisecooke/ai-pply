@@ -5,7 +5,7 @@ import CardMedia from '@mui/material/CardMedia';
 import Typography from '@mui/material/Typography';
 import { CardActionArea, Slider, Stack} from '@mui/material';
 import { Reorder, useMotionValue } from "framer-motion/dist/framer-motion";
-import { Comparable } from "../types";
+import { Applicant, Comparable } from "../types";
 
 
 const blankProfile = require("../imgs/avatar-g4549a99eb_640.png");
@@ -15,23 +15,10 @@ type Props = {
     index?: number;
     scale?: boolean;
     transparent?: boolean;
+    shortlist: Function;
   };
 
-const loadingApplicantVariants = {
-  start: {
-    y: "20%",
-  },
-  end: {
-    y: "0%",
-  },
-}
-
-const loadingApplicantTransition = {
-  duration: 0.5,
-  ease: "easeInOut",
-}
-
-export default function ApplicantLine({instance, index, scale = false, transparent = false}: Props) {
+export default function ApplicantLine({instance, index, scale = false, transparent = false, shortlist}: Props) {
   let selected = typeof(index) !== 'undefined' && index < 5;
   const renderScale = (p: string) => {
     return (
@@ -80,11 +67,16 @@ export default function ApplicantLine({instance, index, scale = false, transpare
   }
 
   const itemStyle = {
-    y: useMotionValue(0)
+    y: useMotionValue(0),
+    touchAction: 'pan-y'
+  }
+
+  function sendToTop(applicant: Applicant) {
+    shortlist(applicant);
   }
   
   return (
-    <Reorder.Item key={instance.id} value={instance} style={itemStyle}>
+    <Reorder.Item key={instance.id} value={instance} style={itemStyle} onTap={() => sendToTop(instance)} as='p'>
     <Card sx={selected ? selectedStyle : defaultStyle}>
       <Stack direction='row'>
         <CardMedia

@@ -14,24 +14,23 @@ type Props = {
 
 export default function SystemRank({applicants, setApplicants}: Props) {
 
+  function shortlist(applicant: Applicant) {
+    let newList = [applicant, ...applicants.filter(a => a.id !== applicant.id)];
+    setTimeout(setApplicants(newList), 1000);
+    //setApplicants();
+  }
+
   const elements = () => {
     return applicants.map((a, i) => {
-    return (<ApplicantLine instance={a} index={i}/> );});
-
+    return (<ApplicantLine instance={a} index={i} key={a.id} shortlist={shortlist}/> );});
   }
 
   return (
     <Reorder.Group axis="y" values={applicants} onReorder={setApplicants} as='div'>
-    <Stack alignItems='flex-end' direction='column' spacing={2} sx={{marginTop: 0}}>
+    <Stack alignItems='flex-end' direction='column' spacing={2} sx={{marginTop: 0, marginBottom: 10}}>
       {elements()}
     </Stack>
-    
     </Reorder.Group>
     );
-
-
-  function next() {
-
-  }
 }
 
