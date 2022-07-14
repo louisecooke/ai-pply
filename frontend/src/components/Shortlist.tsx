@@ -1,5 +1,5 @@
 import * as React from "react";
-import { Button, Card, CardContent, Container, Stack } from "@mui/material";
+import { Button, Container, Stack } from "@mui/material";
 import ApplicantCard from "./ApplicantCard";
 import { Applicant } from "../types";
 import { Reorder } from "framer-motion/dist/framer-motion";
@@ -10,14 +10,12 @@ type Props = {
   scale: boolean;
 }
 
-export default function Ranking({shortlist, rank, scale}: Props) {
+export default function Shortlist({shortlist, rank, scale}: Props) {
   const [cards, setCards] = React.useState(shortlist);
 
   return (
     <Container>
-    
-      <Reorder.Group axis="x" values={cards} onReorder={setCards} as='ol'>
-        
+      <Reorder.Group axis="x" values={cards} onReorder={setCards} as='div'>
       <Stack direction='row' spacing={4} justifyContent='center'>
       {cards.map((a, i) => {
         if (i < 5) {
@@ -30,9 +28,7 @@ export default function Ranking({shortlist, rank, scale}: Props) {
       )}
       </Stack>
     </Reorder.Group>
-      <Button variant='contained' color='secondary' onClick={rank}>FINALIZE</Button>
-      <br />
-      <br />
+    <Button variant='contained' color='secondary' onClick={rank} sx={{margin: 5}}>FINALIZE</Button>
     </Container>
   );
 }
