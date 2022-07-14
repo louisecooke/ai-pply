@@ -11,10 +11,17 @@ export const sumValues = (obj: Object) => {
     return sum;
 };
 
+function setTransparency(a: Applicant) {
+    return (a.id + ' is a great applicant.');
+}
+
 export const customSort = (applicants: Applicant[], preferences: FieldProperties) => {
     applicants.sort((a, b) => {
         return weighFactors(b.fields, preferences) - weighFactors(a.fields, preferences)
     })
+    for (let i = 0; i < 5; i++) {
+        applicants[i] = {...applicants[i], reason: setTransparency(applicants[i])};
+    }
     //returns the list sorted in place
     return applicants;
 }
