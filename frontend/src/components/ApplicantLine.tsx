@@ -1,24 +1,24 @@
 import * as React from 'react';
-import Card from '@mui/material/Card';
-import CardContent from '@mui/material/CardContent';
-import CardMedia from '@mui/material/CardMedia';
-import Typography from '@mui/material/Typography';
-import { CardActionArea, Slider, Stack} from '@mui/material';
+import { CardActionArea, Slider, Stack, Card, CardMedia, Typography, IconButton } from '@mui/material';
 import { Reorder, useMotionValue } from "framer-motion/dist/framer-motion";
-import { Applicant, Comparable } from "../types";
+import { Applicant } from "../types";
+import Transparency from "./Transparency";
+
+import InfoIcon from '@mui/icons-material/Info';
 
 
 const blankProfile = require("../imgs/avatar-g4549a99eb_640.png");
 
 type Props = {
-    instance: Comparable;
+    applicant: Applicant;
     index?: number;
     scale?: boolean;
     transparent?: boolean;
     shortlist: Function;
+    writeExplanation: Function;
   };
 
-export default function ApplicantLine({instance, index, scale = false, transparent = false, shortlist}: Props) {
+export default function ApplicantLine({applicant, index, scale = false, transparent = true, shortlist, writeExplanation}: Props) {
   let selected = typeof(index) !== 'undefined' && index < 5;
   const renderScale = (p: string) => {
     return (
@@ -26,7 +26,7 @@ export default function ApplicantLine({instance, index, scale = false, transpare
         <Typography variant="caption" color="text.secondary">
           {p}
         </Typography>
-        { instance && <Slider aria-label={p} value={instance.fields[p]} components={{Thumb: Empty}} sx={{maxWidth: '100%'}}/>} 
+        { applicant && <Slider aria-label={p} value={applicant.fields[p]} components={{Thumb: Empty}} sx={{maxWidth: '100%'}}/>} 
       </Stack>
     );  
   }
@@ -37,9 +37,9 @@ export default function ApplicantLine({instance, index, scale = false, transpare
         <Typography variant="caption" color="text.secondary">
           {p}
         </Typography>
-        {instance &&
+        {applicant &&
         <Typography>
-          {instance.fields[p]}%
+          {applicant.fields[p]}%
         </Typography>}
 
       </Stack>
@@ -54,17 +54,9 @@ export default function ApplicantLine({instance, index, scale = false, transpare
     }
   }
 
-  const selectedStyle = {
-    border: 10,
-    maxWidth: 800,
-    borderColor: (theme) => theme.palette.secondary.main,
-  }
+  const selectedColor = (theme) => theme.palette.secondary.main;
 
-  const defaultStyle = {
-    border: 10,
-    maxWidth: 800,
-    borderColor: (theme) => theme.palette.tertiary.main
-  }
+  const defaultColor = (theme) => theme.palette.info.main;
 
   const itemStyle = {
     y: useMotionValue(0),
@@ -76,8 +68,11 @@ export default function ApplicantLine({instance, index, scale = false, transpare
   }
   
   return (
-    <Reorder.Item key={instance.id} value={instance} style={itemStyle} onTap={() => sendToTop(instance)} as='p'>
-    <Card sx={selected ? selectedStyle : defaultStyle}>
+    <Stack direction='row'>
+    <Reorder.Item key={applicant.id} value={applicant} style={itemStyle} onTap={() => sendToTop(applicant)} as='p'>
+
+    <Card sx={    {border: 10,
+    maxWidth: 800, borderColor: selected ? selectedColor : defaultColor}}>
       <Stack direction='row'>
         <CardMedia
           component="img"
@@ -88,16 +83,23 @@ export default function ApplicantLine({instance, index, scale = false, transpare
         />
         <Stack direction='row' spacing={5} alignItems='center' sx={{margin: 2, minWidth: 500}}>
           <Typography variant="h5" component="div">
-            {instance && renderNumber(instance.id + 1)}
+            {applicant && renderNumber(applicant.id + 1)}
           </Typography>
-            {instance && Object.keys(instance.fields).map(p => scale ? renderScale(p) : renderPercentage(p))}
+            {applicant && Object.keys(applicant.fields).map(p => scale ? renderScale(p) : renderPercentage(p))}
         </Stack>
       </Stack>
     </Card>
+
     </Reorder.Item>
+    {transparent && applicant.reason && <IconButton color={selected ? 'secondary' : 'info'} aria-label="view explanation" component="span" onClick={() => (writeExplanation(applicant.reason))}>
+    <InfoIcon />
+  </IconButton>}
+    </Stack>
   );
 }
 
 function Empty() {
   return <></>;
 }
+
+{/* <Transparency displayText={applicant.reason}/> */}

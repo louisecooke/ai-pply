@@ -1,15 +1,14 @@
 import * as React from "react";
-import { Button, Container, Stack, Typography } from "@mui/material";
-import Gallery from "../components/Gallery";
+import { Button, Stack } from "@mui/material";
 import SystemRank from "../components/SystemRank"; 
 import ControlPanel from "../components/ControlPanel";
-import ComparableCard from "../components/ApplicantCard";
 import SystemCard from "../components/SystemCard";
 import Spinner from "../components/Spinner";
 import Shortlist from "../components/Shortlist";
-import { Manipulation, FieldProperties, Applicant, Recommendation } from "../types";
+import { Manipulation, FieldProperties, Applicant } from "../types";
 import { numApplicants } from "../study-config/Configuration";
-import { objectsEqual, randomBetween, customSort, pickApplicants } from "../util/Functions";
+import { objectsEqual, randomBetween, customSort } from "../util/Functions";
+import { TypeAnimation } from "../animations/Typewriter";
 
 import { defaultTheme } from "../styling/DefaultThemes.js";
 
@@ -23,11 +22,11 @@ type TaskProps = {
 
 
 function newApplicants() {
-let applicantList = [] as Applicant[];
-for (var i = 0; i < numApplicants; i++) {
-  applicantList.push({id: i, fields: randomApplicant()} as Applicant);
-} 
-return applicantList;
+  let applicantList = [] as Applicant[];
+  for (var i = 0; i < numApplicants; i++) {
+    applicantList.push({id: i, fields: randomApplicant()} as Applicant);
+  } 
+  return applicantList;
 }
 
 export default function HiringTask({system, finish, setTheme} : TaskProps) {
@@ -43,7 +42,6 @@ export default function HiringTask({system, finish, setTheme} : TaskProps) {
   
   // in 1/100 seconds
   const hoverTime = React.useRef(0);
-  const shortlist = React.useRef<number[]>([]);
   
   const [scale, setScale] = React.useState(randomBetween(0, 1) === 1);
 
@@ -87,26 +85,31 @@ export default function HiringTask({system, finish, setTheme} : TaskProps) {
     return (((Math.round(Math.random() * 3) * 2) + 1) * 1000);
   }
 
-  function cards() {
-    return applicants.filter(a => (shortlist.current.includes(a.id))) as Applicant[];
-  }
-
   function toShortlist() {
     setShortlisted(true);
 
+  }
+
+  const [text, setText] = React.useState('');
+  function writeExplanation(text: string) {
+    setText(text);
+    console.log(text);
   }
 
   return (
       <Stack direction='row' justifyContent='center' spacing={20} alignItems='flex-start'>
         {!ranked &&
         (shortlisted ? <Shortlist shortlist={applicants.slice(0,5)} rank={endRanking} scale={scale}/>
-        : <SystemRank applicants={applicants} setApplicants={setApplicants}/>)}
+        : <SystemRank applicants={applicants} setApplicants={setApplicants} writeExplanation={writeExplanation}/>)}
         <Stack direction='column' marginTop='16px' spacing={2} alignItems={ranked ? 'center' : 'flex-start'}>
         {systemCard}
         {system.control && !shortlisted && <ControlPanel preferences={preferences} setPreferences={applyChanges} defaultSaved={isDefault}/> }
         <br />
         {ranked ? <Button variant='contained' onClick={() => {finish()}} color='secondary'>Evaluate system</Button> :
-        shortlisted ? <> </> : <Button variant='contained' onClick={toShortlist} color='secondary'>choose these applicants</Button>}
+        shortlisted ? <> </> : <Button variant='contained' onClick={toShortlist} color='secondary'>choose these applicants</Button>
+        }
+        {text !== '' && <TypeAnimation text={text} speed={100} reset={() => {setText('')}} />
+  }
         </Stack>
         
       <Spinner displayImage={<img src={system.image} height='180' width='240'/>} displayText='Loading...' timePeriod={loadingTime} callback={setSpinner} visible={loading}/>
