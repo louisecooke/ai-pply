@@ -11,16 +11,24 @@ export const sumValues = (obj: Object) => {
     return sum;
 };
 
-function setTransparency(a: Applicant) {
-    return (a.id + ' is a great applicant.');
-}
-
-export const customSort = (applicants: Applicant[], preferences: FieldProperties) => {
+export const customSort = (applicants: Applicant[], preferences: FieldProperties, control: boolean, isDefault: boolean) => {
     applicants.sort((a, b) => {
         return weighFactors(b.fields, preferences) - weighFactors(a.fields, preferences)
     })
+
+    let maxKey = "";
+    let maxWeight = 0;
+
+    //this is redundant
+    Object.keys(preferences).forEach((k) => {
+        if (preferences[k] > maxWeight) {
+            maxWeight = preferences[k];
+            maxKey = k.toLowerCase();
+        }
+    });
+
     for (let i = 0; i < 5; i++) {
-        applicants[i] = {...applicants[i], reason: setTransparency(applicants[i])};
+        applicants[i] = {...applicants[i], reason: generateReason(maxKey, maxWeight, control, isDefault)};
     }
     //returns the list sorted in place
     return applicants;

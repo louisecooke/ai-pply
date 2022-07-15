@@ -91,7 +91,7 @@ export default function ApplicantLine({applicant, index, scale = false, transpar
     </Card>
 
     </Reorder.Item>
-    {transparent && applicant.reason && <IconButton color={selected ? 'secondary' : 'info'} aria-label="view explanation" component="span" onClick={() => (writeExplanation(applicant.reason))}>
+    {transparent && applicant.reason && <IconButton color={selected ? 'secondary' : 'info'} aria-label="view explanation" component="span" onClick={() => (writeExplanation(applicant))}>
     <InfoIcon />
   </IconButton>}
     </Stack>
@@ -101,5 +101,3 @@ export default function ApplicantLine({applicant, index, scale = false, transpar
 function Empty() {
   return <></>;
 }
-
-{/* <Transparency displayText={applicant.reason}/> */}
