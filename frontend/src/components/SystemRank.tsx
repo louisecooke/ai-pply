@@ -6,10 +6,11 @@ import ApplicantLine from "./ApplicantLine";
 type Props = {
   applicants: Applicant[];
   setApplicants: Function;
+  transparent: boolean;
   writeExplanation: Function;
 };
 
-export default function SystemRank({applicants, setApplicants, writeExplanation}: Props) {
+export default function SystemRank({applicants, setApplicants, transparent, writeExplanation}: Props) {
 
   function shortlist(applicant: Applicant) {
     let newList = [applicant, ...applicants.filter(a => a.id !== applicant.id)];
@@ -18,7 +19,7 @@ export default function SystemRank({applicants, setApplicants, writeExplanation}
 
   const elements = () => {
     return applicants.map((a, i) => {
-    return (<ApplicantLine applicant={a} index={i} key={a.id} shortlist={shortlist} writeExplanation={writeExplanation}/> );});
+    return (<ApplicantLine applicant={a} index={i} key={a.id} transparent={transparent} shortlist={shortlist} writeExplanation={writeExplanation}/> );});
   }
 
   return (

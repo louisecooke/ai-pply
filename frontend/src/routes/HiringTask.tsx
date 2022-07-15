@@ -70,11 +70,11 @@ export default function HiringTask({system, finish, setTheme} : TaskProps) {
       <Stack direction='row' justifyContent='center' spacing={20} alignItems='flex-start'>
         {!ranked &&
         (shortlisted ? <Shortlist shortlist={applicants.slice(0,5)} rank={endRanking} scale={scale}/>
-        : <SystemRank applicants={applicants} setApplicants={setApplicants} writeExplanation={writeExplanation}/>)}
+        : <SystemRank applicants={applicants} setApplicants={setApplicants} transparent={system.transparency} writeExplanation={writeExplanation}/>)}
         <Stack direction='column' marginTop='16px' spacing={2} alignItems={ranked ? 'center' : 'flex-start'}>
         <Stack direction='row' spacing={3} sx={shortlisted ? {} : {minWidth: 600}}>
         {systemCard}
-        {text !== '' && <TypeAnimation text={text} frequency={frequency} speed={10} duration={20} callback={() => setText('')}/>}
+        {text !== '' && <TypeAnimation text={text} frequency={frequency} speed={10} duration={10} callback={() => setText('')}/>}
         </Stack>
         {system.control && !shortlisted && <ControlPanel preferences={preferences} setPreferences={applyChanges} defaultSaved={isDefault}/> }
         <br />

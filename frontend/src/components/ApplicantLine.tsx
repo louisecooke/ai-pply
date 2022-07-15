@@ -13,12 +13,12 @@ type Props = {
     applicant: Applicant;
     index?: number;
     scale?: boolean;
-    transparent?: boolean;
+    transparent: boolean;
     shortlist: Function;
     writeExplanation: Function;
   };
 
-export default function ApplicantLine({applicant, index, scale = false, transparent = true, shortlist, writeExplanation}: Props) {
+export default function ApplicantLine({applicant, index, scale = false, transparent, shortlist, writeExplanation}: Props) {
   let selected = typeof(index) !== 'undefined' && index < 5;
   const renderScale = (p: string) => {
     return (
