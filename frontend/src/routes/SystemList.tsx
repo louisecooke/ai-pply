@@ -1,6 +1,6 @@
 import * as React from "react";
 import HiringTask from "./HiringTask";
-import { Applicant, Manipulation, VARIANTS } from "../types";
+import { Applicant, Manipulation, VARIANTS, Completion } from "../types";
 import Questionnaire from "../components/Questionnaire";
 import SystemCard from "../components/SystemCard";
 import { Button, Container, Stack } from "@mui/material";
@@ -10,10 +10,7 @@ import ScenarioExplanation from "./ScenarioExplanation";
 const { randomApplicant } = require("../util/DummyData");
 const { numApplicants } = require("../study-config/Configuration");
 
-interface Completion {
-  system: Manipulation;
-  interacted: boolean;
-}
+
 
 enum ELEMENTS {
     TASK, QUESTIONNAIRE, TRANSITION
@@ -22,16 +19,26 @@ enum ELEMENTS {
 type Props = {
   onFinish: Function;
   setTheme: Function;
+  systemList: Manipulation[];
 }
 
-export default function SystemList({onFinish, setTheme}: Props) {
+export default function SystemList({onFinish, setTheme, systemList}: Props) {
   const [chosenSystem, setChosenSystem] = React.useState({} as Manipulation);
   const [index, setIndex] = React.useState(-1);
   const [completed, setCompleted] = React.useState([] as number[]);
-  const [systems, setSystems] = React.useState([] as Completion[]);
+  const [systems, setSystems] = React.useState(setCompletions(systemList));
   const [started, setStarted] = React.useState(false);
   const [visibleElement, setVisibleElement] = React.useState(ELEMENTS.TASK);
   const [penultimate, setPenultimate] = React.useState(false);
+
+  function setCompletions(systems: Manipulation[]) {
+    return (systems.map( (s: Manipulation) => {
+      return {
+        system: s,
+        interacted: false
+      } as Completion;
+    }));
+  }
 
   const postQuestionnaireText = penultimate ? 'All finished.' : 'You have completed your evaluation. Ready for the next system?';
 
@@ -95,9 +102,10 @@ export default function SystemList({onFinish, setTheme}: Props) {
     } 
   }
 
-  const getSystems = async () => {
+/*   const getSystems = async () => {
     let response = await fetch("api/systems/");
     let data = await response.json();
+    return data;
     setSystems(data.map( (s: Manipulation) => {
       return {
         system: s,
@@ -109,7 +117,7 @@ export default function SystemList({onFinish, setTheme}: Props) {
 
   React.useEffect( () => {
     getSystems();
-  }, []);
+  }, []); */
 
   //in SYSTEMLIST, there are 'finish scenario' and 'finish evaluation' states and functions. the scenario is displayed and 1. passed down. when it is finished, 
   // the evaluation questionnaire is displayed. when the questionnaire is finished, 2. is called with a payload (where should the POST be?), and the state is reset.

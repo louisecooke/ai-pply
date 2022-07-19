@@ -4,9 +4,11 @@ import * as React from "react";
 import SystemList from "./SystemList";
 import Questionnaire from "../components/Questionnaire";
 import "../styles.css";
+import { Manipulation, Completion } from "../types";
 
 import { VARIANTS } from "../types";
 import ConsentForm from "./ConsentForm";
+import TaskExplanation from "./TaskExplanation";
 import Playground from "./Playground";
 import Demographic from './Demographic';
 const resume = require("../imgs/andrea-piacquadio-resume.jpg");
@@ -37,9 +39,20 @@ type Props = {
   setTheme: Function;
 }
 
+
+const getSystems = async (set: Function) => {
+  let response = await fetch("api/systems/");
+  let data = await response.json();
+  set(data as Manipulation[]);
+}
+
 export default function Homepage({setTheme}: Props) {
-  
+  const [systems, setSystems] = React.useState([] as Manipulation[]);
   const [page, setPage] = React.useState(0);
+
+  React.useEffect( () => {
+    getSystems(setSystems);
+  }, []);
 
   const next = () => {
     if (page + 1 < workflow.length) {
@@ -67,10 +80,12 @@ export default function Homepage({setTheme}: Props) {
   };
 
   const workflow = [
-    Opener(),
+    
+    <TaskExplanation next={next} systemList={systems}/>,
+    <Playground />,
     <ConsentForm next={next}/>,
     <Questionnaire variant={VARIANTS.WELLBEING} finish={next}/>,
-    <SystemList setTheme={setTheme} onFinish={next}/>,
+    <SystemList setTheme={setTheme} onFinish={next} systemList={systems}/>,
     <Demographic />
   ]
 

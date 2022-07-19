@@ -5,6 +5,11 @@ export interface Scenario {
   link: string;
 }
 
+export interface Completion {
+  system: Manipulation;
+  interacted: boolean;
+}
+
 export interface Comparable {
   id: number;
   fields: FieldProperties;

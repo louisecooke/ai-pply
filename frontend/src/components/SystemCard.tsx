@@ -17,7 +17,7 @@ type CardProps = {
 
 function SystemCard({ system, chooseScenario }: CardProps) {
   return (
-    <Card sx={{maxHeight: 287, maxWidth: 400}}>
+    <Card sx={{height: 350, width: 235}}>
       <CardMedia
         component="img"
         alt="displayimg"

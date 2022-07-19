@@ -25,5 +25,10 @@ body {
   overflow: auto;
   width: 180px !important;
   height: 160px !important;
+}
 
+circle,
+line, rect {
+  stroke-width: 7px;
+  stroke-linecap: round;
 }
