@@ -1,32 +1,23 @@
 import { motion } from "framer-motion/dist/framer-motion";
 import React from "react";
+import { empty, flicker, random } from "./Lightswitch";
+import Timer from "../components/Timer";
+import { breadcrumbsClasses } from "@mui/material";
 
 const draw = {
-    hidden: { pathLength: 0, opacity: 0, fill: 'transparent' },
-    visible: ([i, flicker]) => {
+    hidden: { pathLength: 0, opacity: 0 },
+    visible: (i) => {
       const delay = 1 + i * 0.5;
       return {
         pathLength: 1,
         opacity: 1,
-        //fill: '#ffffff',
         transition: {
           pathLength: { delay, type: "spring", duration: 1.5, bounce: 0 },
           opacity: { delay, duration: 0.01 },
-          fill: { delay, duration: 1.5}
         },
-        //fill: flicker ? {delay, duration: 1.5, '#ffffff' } : 'transparent'
       };
     },
-    flickered: ([i, flicker]) => {
-      const delay = 1 + i * 0.5;
-      return {
-        pathLength: 1,
-        opacity: 1,
-        transition: {
-        },
-      };
-    }
-  };
+}
 
 const vSpace = 200; //pixels between elements in a column
 const hSpace = 500; //pixels between respective columns
@@ -52,12 +43,30 @@ for (let i = 0; i < 5; i++) {
 const output = [{x: dim.x + hSpace * 3, y: dim.y, delay: 5}];
 const grid = [input, one, two, output];
 
-type Props = {
-  flicker: boolean[][];
-}
+export default function DrawableGrid() {
+  const [lights, setLights] = React.useState(empty);
+  const counter = React.useRef(0);
 
-export const DrawableGrid = ({flicker}: Props) => (
-  <div>
+  function newLights() {
+    counter.current += 1;
+    let stage = counter.current % 5;
+    switch (stage) {
+      case 0:
+        return empty;
+      case 1:
+        return [[true], ...lights.slice(1, )];
+      case 2:
+        console.log(2);
+        return [...lights.slice(0, 1), random(7), ...lights.slice(2,)];
+      case 3:
+        return [...lights.slice(0, 2), random(5), ...lights.slice(3,)];
+      default:
+        return [...lights.slice(0, -1), [true]];
+    }
+  }
+
+
+  return (<div>
     <motion.svg
       width="1200"
       height='1000'
@@ -73,10 +82,10 @@ export const DrawableGrid = ({flicker}: Props) => (
             cx={elem.x}
             cy={elem.y}
             r={rad}
-            stroke='#ffffff' //{(theme) => theme.palette.secondary.info}
+            stroke='#ffffff'
             variants={draw}
-            custom={[elem.delay, flicker[i][j]]}
-            fill='transparent'
+            custom={elem.delay}
+            fill= {lights[i][j] ? '#ffffff' : 'transparent'}
           />
           {(i - 1) >= 0 && grid[(i-1)].map( (val, i) => {
             return (<motion.line
@@ -86,7 +95,8 @@ export const DrawableGrid = ({flicker}: Props) => (
             y1={val.y}
             stroke='#ffffff'
             variants={draw}
-            custom={[elem.delay + 2 + i * .05, true]}
+            custom={elem.delay + 2 + i * .05}
+            fill= '#ffffff'
             key={`line${i}${j}`}
            />)}
           )}
@@ -95,5 +105,6 @@ export const DrawableGrid = ({flicker}: Props) => (
       })
     }
     </motion.svg>
-  </div>
-);
+    <Timer callback={() => setLights(newLights())} duration={.05} repeats={6} />
+  </div>);
+  }

@@ -1,16 +1,9 @@
 import { ImageList, ImageListItem, Container, Stack} from '@mui/material';
 import { motion} from "framer-motion/dist/framer-motion";
-import { DrawableGrid } from './DrawableGrid';
+import DrawableGrid from './DrawableGrid';
 import CardAnimation from './CardAnimation';
 import { Manipulation } from '../types';
 import SystemCard from '../components/SystemCard';
-
-const selection = [
-  [true],
-  [false, true, false, true, false, true, true],
-  [false, false, true, true, false],
-  [true]
-];
 
 type Props = {
   systemList?: Manipulation[];
@@ -21,7 +14,7 @@ export default function Network({systemList}: Props) {
     <Container>
       <Stack direction='row' spacing={2} alignItems='center'>
       <CardAnimation />
-      <DrawableGrid flicker={selection} />
+      <DrawableGrid />
 
       {systemList && systemAnimation(systemList)}
       </Stack>
