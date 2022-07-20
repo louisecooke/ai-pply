@@ -1,6 +1,6 @@
 import { motion } from "framer-motion/dist/framer-motion";
 import React from "react";
-import { lightBoard, flicker } from "./Lightswitch";
+import { flicker } from "./Lightswitch";
 import Timer from "../components/Timer";
 
 const draw = {
@@ -32,16 +32,25 @@ const input = [{x: dim.x, y: dim.y, delay: 0}];
 
 //each number in dims is the number of nodes in that given layer. they are encompassed by input/output layers
 type Props = {
+  iterations: number;
   dims: number[];
   empty: boolean[][];
 }
 
-export default function Network({dims, empty}: Props) {
+export default function Network({iterations, dims, empty}: Props) {
   const [layers, setLayers] = React.useState([] as element[][]);
   const [lights, setLights] = React.useState(empty);
+  const [active, setActive] = React.useState(true);
+  const lightStage = React.useRef(0);
   const counter = React.useRef(0);
   
   const output = [{x: dim.x + hSpace * (dims.length + 1), y: dim.y, delay: dims.length}];
+
+  React.useEffect( () => {
+    if (counter.current === iterations) { 
+      setActive(false);
+    }
+  }, [counter.current]);
 
   //create the grid on first render
   React.useEffect( () => {
@@ -59,14 +68,15 @@ export default function Network({dims, empty}: Props) {
   }, []);
 
   function newLights() {
-    counter.current += 1;
-    let stage = counter.current % (dims.length + 3);
+    lightStage.current += 1;
+    let stage = lightStage.current % (dims.length + 3);
     switch (stage) {
       case 0:
         return empty;
       case 1:
         return [[true], ...lights.slice(1, )];
       case (dims.length + 2):
+        counter.current += 1;
         return [...lights.slice(0, -1), [true]];
       default:
         return [...lights.slice(0, (stage - 1)), flicker(dims[stage-2]), ...lights.slice(stage,)];
@@ -112,6 +122,6 @@ export default function Network({dims, empty}: Props) {
       })
     }
     </motion.svg>
-    <Timer callback={() => setLights(newLights())} duration={.05} repeats={6} delay={5}/>
+    {active && <Timer callback={() => setLights(newLights())} duration={.05} delay={5}/> } 
   </div>);
   }
