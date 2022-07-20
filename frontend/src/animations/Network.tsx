@@ -20,7 +20,7 @@ const draw = {
 
 const vSpace = 200; //pixels between elements in a column
 const hSpace = 500; //pixels between respective columns
-const dim = {x: -1000, y: 900}; //initial coordinates
+const dim = {x: -800, y: 900}; //initial coordinates
 const rad = 50;
 
 type element = {
@@ -85,9 +85,9 @@ export default function Network({iterations, dims, empty}: Props) {
 
   return (<div>
     <motion.svg
-      width="1200"
-      height='1000'
-      viewBox="0 0 100 2000"
+      width="1600"
+      height="1000"
+      viewBox="0 0 100 2400"
       initial="hidden"
       animate="visible"
     >
