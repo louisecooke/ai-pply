@@ -3,7 +3,7 @@ import { Button, Container, Card, CardContent, Stack } from "@mui/material";
 import { Route, Routes } from "react-router-dom";
 import ApplicationAnimation from "../animations/ApplicationAnimation";
 import { Manipulation } from "../types";
-import Network from "../animations/Network";
+import Training from "../animations/Training";
 
 import desk from "../imgs/school-desk-and-chair.png";
 import SystemCard from "../components/SystemCard";
@@ -20,7 +20,7 @@ export default function TaskExplanation({systemList, next = () => {}}: Props) {
     setPage(page + 1);
   }
 
-  const workflow = [<Network systemList={systemList}/>, opener(), two(), three(), four(), five(), six(), seven(), 
+  const workflow = [<Training systemList={systemList}/>, opener(), two(), three(), four(), five(), six(), seven(), 
   ];
 
   return (

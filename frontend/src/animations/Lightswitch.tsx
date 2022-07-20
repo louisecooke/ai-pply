@@ -1,16 +1,20 @@
 import { randomBetween } from "../util/Functions";
 
-export const empty = [
-    [false],
-    [false, false, false, false, false, false, false],
-    [false, false, false, false, false],
-    [false]
-]; 
+export function lightBoard(dims: number[]) {
+    let base: boolean[][] = [];
+    dims.forEach((n, index) => {
+        base.push([]);
+        for (let i = 0; i < n; i++) {
+        base[index].push(false);
+        }
+    });
+    return base;
+}
 
-export function flicker(n: number[], counter: number) {
+/* export function flicker(n: number[], counter: number) {
     let config: boolean[][] = [];
     if (counter % 4 === 0) {
-        return empty;
+        return []; //empty;
     }
     n.forEach((val, index) => {
         config.push([]);
@@ -21,9 +25,9 @@ export function flicker(n: number[], counter: number) {
     }
     );
     return config;
-}
+} */
 
-export function random(n: number) {
+export function flicker(n: number) {
     let bools: boolean[] = [];
     for (let i = 0; i < n; i++) {
         bools.push(randomBetween(0, 1) === 1);

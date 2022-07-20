@@ -1,35 +1,117 @@
-import { ImageList, ImageListItem, Container, Stack} from '@mui/material';
-import { motion} from "framer-motion/dist/framer-motion";
-import DrawableGrid from './DrawableGrid';
-import CardAnimation from './CardAnimation';
-import { Manipulation } from '../types';
-import SystemCard from '../components/SystemCard';
+import { motion } from "framer-motion/dist/framer-motion";
+import React from "react";
+import { lightBoard, flicker } from "./Lightswitch";
+import Timer from "../components/Timer";
 
+const draw = {
+    hidden: { pathLength: 0, opacity: 0 },
+    visible: (i) => {
+      const delay = 1 + i * 0.5;
+      return {
+        pathLength: 1,
+        opacity: 1,
+        transition: {
+          pathLength: { delay, type: "spring", duration: 1.5, bounce: 0 },
+          opacity: { delay, duration: 0.01 },
+        },
+      };
+    },
+}
+
+const vSpace = 200; //pixels between elements in a column
+const hSpace = 500; //pixels between respective columns
+const dim = {x: -1000, y: 900}; //initial coordinates
+const rad = 50;
+
+type element = {
+  x: number;
+  y: number;
+  delay: number;
+}
+const input = [{x: dim.x, y: dim.y, delay: 0}];
+
+//each number in dims is the number of nodes in that given layer. they are encompassed by input/output layers
 type Props = {
-  systemList?: Manipulation[];
+  dims: number[];
+  empty: boolean[][];
 }
 
-export default function Network({systemList}: Props) {
-  return (
-    <Container>
-      <Stack direction='row' spacing={2} alignItems='center'>
-      <CardAnimation />
-      <DrawableGrid />
+export default function Network({dims, empty}: Props) {
+  const [layers, setLayers] = React.useState([] as element[][]);
+  const [lights, setLights] = React.useState(empty);
+  const counter = React.useRef(0);
+  
+  const output = [{x: dim.x + hSpace * (dims.length + 1), y: dim.y, delay: dims.length}];
 
-      {systemList && systemAnimation(systemList)}
-      </Stack>
-    </Container>
-   
-  );
-}
+  //create the grid on first render
+  React.useEffect( () => {
+    let innerLayers: element[][] = [];
+    dims.forEach((len, index) => {
+      let layer: element[] = [];
+      let med = Math.floor(len / 2);
+      for (let i = 0; i < len; i++) {
+        layer.push({x: dim.x + hSpace * (index + 1), y: dim.y + (i - med) * vSpace, delay: index + 0.25 + 0.25 * i});
+      }
+      innerLayers.push(layer);
+    })
+    setLayers([input, ...innerLayers, output]);
+    
+  }, []);
 
-function systemAnimation(systemList: Manipulation[]) {
-  const systemCards = systemList.map(s => <SystemCard system={s} />);
-  return (
-    <>
-    <Stack direction='row' spacing={4}>
-      {systemList.map(s => <SystemCard system={s} />)};
-    </Stack>   
-    </>
-  );
-}
+  function newLights() {
+    counter.current += 1;
+    let stage = counter.current % (dims.length + 3);
+    switch (stage) {
+      case 0:
+        return empty;
+      case 1:
+        return [[true], ...lights.slice(1, )];
+      case (dims.length + 2):
+        return [...lights.slice(0, -1), [true]];
+      default:
+        return [...lights.slice(0, (stage - 1)), flicker(dims[stage-2]), ...lights.slice(stage,)];
+    }
+  }
+
+  return (<div>
+    <motion.svg
+      width="1200"
+      height='1000'
+      viewBox="0 0 100 2000"
+      initial="hidden"
+      animate="visible"
+    >
+    {
+      layers.map( (column, i) => {
+        return column.map( (elem, j) => {
+          return <React.Fragment key={`circle${i}${j}`}>
+          <motion.circle
+            cx={elem.x}
+            cy={elem.y}
+            r={rad}
+            stroke='#ffffff'
+            variants={draw}
+            custom={elem.delay}
+            fill= {lights[i][j] ? '#ffffff' : 'transparent'}
+          />
+          {(i - 1) >= 0 && layers[(i-1)].map( (val, i) => {
+            return (<motion.line
+            x2={elem.x - rad - 5} //border-radius from styles.css
+            y2={elem.y}
+            x1={val.x + rad + 5}
+            y1={val.y}
+            stroke='#ffffff'
+            variants={draw}
+            custom={elem.delay + 2 + i * .05}
+            fill= '#ffffff'
+            key={`line${i}${j}`}
+           />)}
+          )}
+          </React.Fragment>
+        })
+      })
+    }
+    </motion.svg>
+    <Timer callback={() => setLights(newLights())} duration={.05} repeats={6} delay={5}/>
+  </div>);
+  }

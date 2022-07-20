@@ -6,9 +6,10 @@ type Props = {
   repeats?: number;
   duration: number;
   callback: Function;
+  delay: number;
 }
 
-export default function Timer({repeats, duration, callback} : Props) {
+export default function Timer({repeats, duration, callback, delay} : Props) {
   const [time, setTime] = React.useState(0);
   const [active, setActive] = React.useState(false);
   const counter = React.useRef(0);
@@ -16,7 +17,7 @@ export default function Timer({repeats, duration, callback} : Props) {
   //todo use counter to dictate repeats
 
   React.useEffect(() => {
-    setActive(true);
+    setTimeout( () => setActive(true), delay * 1000);
   }, []);
 
   React.useEffect(() => {
