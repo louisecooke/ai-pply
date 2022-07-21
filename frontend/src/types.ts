@@ -37,6 +37,12 @@ export interface Manipulation {
   image?: string;
 }
 
+export interface Net {
+  iterations: number;
+  dims: number[];
+  emptyBoard: boolean[][];
+}
+
 export enum VARIANTS {
   WELLBEING = 'WELL',
   EVALUATION = 'EVAL'
