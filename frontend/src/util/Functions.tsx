@@ -29,30 +29,38 @@ export const customSort = (applicants: Applicant[], preferences: FieldProperties
     for (let i = 0; i < 5; i++) {
         let maxFactor = '';
         let maxVal = 0;
+        let consistent = false;
         Object.entries(applicants[i].fields).forEach(([key, value]) => {
             if (value > 89 && value > maxVal) {
                 maxVal = value;
                 maxFactor = key;
             }
         })
-        applicants[i] = {...applicants[i], reason: generateReason(maxPref, maxFactor, control, isDefault)};
+        if (applicants[i].reason !== '') consistent = true; 
+        applicants[i] = {...applicants[i], reason: generateReason(maxPref, maxFactor, control, isDefault, consistent)};
     }
     return applicants;
 }
 
-
-function generateReason(maxPref: string, maxFactor, control: boolean, isDefault: boolean) {
+/* The variable 'consistent' acts as a safeguard against the following case:
+  A user is working with the control+transparency system
+  Applicant 2 (for example) is chosen and the given explanation falls under option 0. 
+  The user adjusts the control panel, therefore sorting and giving new explanations for all applications.
+  Applicant 2 is chosen again, and given option 0 again. However, the randomized values would be different.
+  Instead, this second/third/nth time will default to the 'past data' explanation, which does not contain a randomized value.
+*/
+function generateReason(maxPref: string, maxFactor, control: boolean, isDefault: boolean, consistent: boolean) {
     let degrees = randomBetween(2, 6);
     let percent = randomBetween(81, 95);
     let option = randomBetween(0, 2);
     if (maxFactor !== '') {
-        return `The ${maxFactor.toLowerCase()} of this applicant is exceptional.` 
+        return `The ${maxFactor.toLowerCase()} of this applicant is exceptional. Similar employees have performed well at your company.`
     }
     if (option === 0) {
-        return `When presented with a comparison between similar applicants (within ${degrees} degrees of latitude), ${percent}% of users chose to shortlist this applicant.`
+        return `When presented with a comparison between similar applicants (within ${degrees} degrees of latitude), many of your hiring managers chose to shortlist this applicant.`
     } 
-    if (option === 1 && control && maxPref && !isDefault) {
-            return `This decision was made based on our existing user data, plus your recent input. I see that ${maxPref} is important to you.`
+    if (!isDefault && ((consistent) || (option === 1 && control && maxPref))) {
+            return `This decision was made based on your past data, plus your recent input. I see that ${maxPref} is important to you.`
         }
     else return `The application of this candidate scores similarly to successful employees in your organization.`
     }
@@ -84,30 +92,3 @@ export const objectsEqual = (one: FieldProperties, two: FieldProperties) => {
 export function randomBetween(low: number, high: number) {
     return Math.round(Math.random() * (high - low)) + low;
   }
-
-  
-/* //TODO are object parameters passed as reference?
-export const pickApplicants = (applicants: Applicant[], preferences: FieldProperties, control: boolean, isDefault: boolean) => {
-    let recommendations: Recommendation[] = [];
-    let maxKey = "no factor";
-    let maxWeight = 0;
-
-    //this is redundant
-    Object.keys(preferences).forEach((k) => {
-        if (preferences[k] > maxWeight) {
-            maxWeight = preferences[k];
-            maxKey = k.toLowerCase();
-        }
-    });
-    
-    for (let i = 0; i < applicants.length; i++) {
-        let assessment: number = weighFactors(applicants[i].fields, preferences);
-        let reason = '';
-        if (assessment > 9500 || applicants[i].fields[maxKey] > 92) {
-            reason = generateReason(maxKey, maxWeight, control, isDefault);
-        }
-        recommendations.push({index: applicants[i].id, reason: reason});
-    }
-
-    return recommendations;
-} */
