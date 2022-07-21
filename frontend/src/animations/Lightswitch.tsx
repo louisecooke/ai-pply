@@ -11,26 +11,13 @@ export function lightBoard(dims: number[]) {
     return base;
 }
 
-/* export function flicker(n: number[], counter: number) {
-    let config: boolean[][] = [];
-    if (counter % 4 === 0) {
-        return []; //empty;
-    }
-    n.forEach((val, index) => {
-        config.push([]);
-        for (let i = 0; i < val; i++) {
-            let on = randomBetween(0, 1) === 1;
-            config[index].push(on);
-        }
-    }
-    );
-    return config;
-} */
-
 export function flicker(n: number) {
     let bools: boolean[] = [];
     for (let i = 0; i < n; i++) {
         bools.push(randomBetween(0, 1) === 1);
     }
+    //ensures every list will have at least one flashing light. Otherwise the graphic doesn't work.
+    let index = randomBetween(0, n-1);
+    bools[index] = true;
     return bools;
 }

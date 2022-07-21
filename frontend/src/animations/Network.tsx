@@ -31,7 +31,7 @@ type element = {
 }
 const input = [{x: dim.x, y: dim.y, delay: 0}];
 
-//each number in dims is the number of nodes in that given layer. they are encompassed by input/output layers
+//each number in dims is the number of nodes in that given layer. they are bookended by input/output layers
 type Props = {
   net: Net;
   callback: Function; 
