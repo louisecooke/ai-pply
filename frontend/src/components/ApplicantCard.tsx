@@ -63,7 +63,7 @@ export default function ComparableCard({animated = false, instance, scale, loadi
     return (
       <CardContent>
         <Typography gutterBottom variant="h5" component="div">
-        Applicant
+        {instance && '#' + instance.id}
       </Typography>
         {instance && Object.keys(instance.fields).map(p => renderScale(p))}
     </CardContent>);
@@ -73,7 +73,7 @@ export default function ComparableCard({animated = false, instance, scale, loadi
     return (
         <CardContent>
           <Typography gutterBottom variant="h5" component="div">
-            Applicant
+          {instance && '#' + instance.id}
           </Typography>
           {scale && 
           <Typography variant="caption" color="text.secondary">

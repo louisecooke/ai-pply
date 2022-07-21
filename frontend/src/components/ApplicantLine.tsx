@@ -83,7 +83,7 @@ export default function ApplicantLine({applicant, index, scale = false, transpar
         />
         <Stack direction='row' spacing={5} alignItems='center' sx={{margin: 2, minWidth: 500}}>
           <Typography variant="h5" component="div">
-            {applicant && renderNumber(applicant.id + 1)}
+            {applicant && renderNumber(applicant.id)}
           </Typography>
             {applicant && Object.keys(applicant.fields).map(p => scale ? renderScale(p) : renderPercentage(p))}
         </Stack>

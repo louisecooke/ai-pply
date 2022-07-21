@@ -19,7 +19,7 @@ export default function Shortlist({shortlist, rank, scale}: Props) {
       <Stack direction='row' spacing={4} justifyContent='center'>
       {cards.map((a, i) => {
         if (i < 5) {
-        return <Reorder.Item key={a.id} value={a} as='p'>
+        return <Reorder.Item key={a.id} value={a} as='div'>
           <ApplicantCard instance={a} scale={scale} ranking={true}></ApplicantCard>
         </Reorder.Item>
         } else {

@@ -24,7 +24,7 @@ type TaskProps = {
 function newApplicants() {
   let applicantList = [] as Applicant[];
   for (var i = 0; i < numApplicants; i++) {
-    applicantList.push({id: i, fields: randomApplicant(), reason: ''} as Applicant);
+    applicantList.push({id: i + 1, fields: randomApplicant(), reason: ''} as Applicant);
   } 
   return applicantList;
 }
