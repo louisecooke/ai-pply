@@ -23,11 +23,9 @@ export default function SystemRank({applicants, setApplicants, transparent, writ
   }
 
   return (
-    <Reorder.Group axis="y" values={applicants} onReorder={setApplicants} as='div'>
     <Stack alignItems='flex-start' direction='column' spacing={2} sx={{marginTop: 0, marginBottom: 10}}>
       {elements()}
     </Stack>
-    </Reorder.Group>
     );
 }
 
