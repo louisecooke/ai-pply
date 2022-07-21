@@ -2,10 +2,10 @@ import * as React from "react";
 import { Button, Card, CardContent, Container } from "@mui/material";
 
 type Props = {
-  next: () => void;
+  onFinish: () => void;
 }
 
-export default function ConsentForm({next}: Props) {
+export default function ConsentForm({onFinish: next}: Props) {
   return (
     <Container>
       <Card sx={{padding: 5}}>

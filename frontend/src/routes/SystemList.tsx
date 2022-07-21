@@ -7,11 +7,6 @@ import { Button, Container, Stack } from "@mui/material";
 import { systemThemes } from "../styling/SystemThemes";
 import ScenarioExplanation from "./ScenarioExplanation";
 
-const { randomApplicant } = require("../util/DummyData");
-const { numApplicants } = require("../study-config/Configuration");
-
-
-
 enum ELEMENTS {
     TASK, QUESTIONNAIRE, TRANSITION
 }
@@ -26,19 +21,24 @@ export default function SystemList({onFinish, setTheme, systemList}: Props) {
   const [chosenSystem, setChosenSystem] = React.useState({} as Manipulation);
   const [index, setIndex] = React.useState(-1);
   const [completed, setCompleted] = React.useState([] as number[]);
-  const [systems, setSystems] = React.useState(setCompletions(systemList));
+  const [systems, setSystems] = React.useState(extendSystems(systemList) as Completion[]);
   const [started, setStarted] = React.useState(false);
   const [visibleElement, setVisibleElement] = React.useState(ELEMENTS.TASK);
   const [penultimate, setPenultimate] = React.useState(false);
 
-  function setCompletions(systems: Manipulation[]) {
-    return (systems.map( (s: Manipulation) => {
-      return {
+  function extendSystems(systems: Manipulation[]) {
+    let manips = systems.map( (s: Manipulation) => {
+      return ({
         system: s,
         interacted: false
-      } as Completion;
-    }));
+      } as Completion);
+    });
+    return manips; 
   }
+
+  React.useEffect( () => {
+    setSystems(extendSystems(systemList));
+  }, []);
 
   const postQuestionnaireText = penultimate ? 'All finished.' : 'You have completed your evaluation. Ready for the next system?';
 
@@ -50,6 +50,7 @@ export default function SystemList({onFinish, setTheme, systemList}: Props) {
       do {
         index = Math.floor(Math.random() * systems.length);
       } while (completed.includes(index));
+      
       setIndex(index);
       setTheme(systemThemes[index]);
       setChosenSystem(systems[index].system);
@@ -88,7 +89,7 @@ export default function SystemList({onFinish, setTheme, systemList}: Props) {
           <Container>
           <Stack alignItems='center'>
           <SystemCard system={chosenSystem}></SystemCard>
-          <Questionnaire variant={VARIANTS.EVALUATION} finish={finishQuestionnaire} />
+          <Questionnaire variant={VARIANTS.EVALUATION} onFinish={finishQuestionnaire} />
           </Stack>
           </Container>)
 

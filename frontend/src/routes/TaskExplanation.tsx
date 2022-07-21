@@ -9,18 +9,18 @@ import desk from "../imgs/school-desk-and-chair.png";
 import SystemCard from "../components/SystemCard";
 
 type Props = {
-  next?: () => void;
+  onFinish: Function;
   systemList: Manipulation[];
 }
 
-export default function TaskExplanation({systemList, next = () => {}}: Props) {
+export default function TaskExplanation({systemList,  onFinish}: Props) {
   const [page, setPage] = React.useState(0);
 
   const nextPage = () => {
     setPage(page + 1);
   }
 
-  const workflow = [<Training systemList={systemList}/>, opener(), two(), three(), four(), five(), six(), seven(), 
+  const workflow = [opener(), two(), three(), four(), five(), six(), seven(), <Training systemList={systemList} onFinish={onFinish}/>, 
   ];
 
   return (

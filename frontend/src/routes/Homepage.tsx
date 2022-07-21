@@ -13,45 +13,22 @@ import Playground from "./Playground";
 import Demographic from './Demographic';
 const resume = require("../imgs/andrea-piacquadio-resume.jpg");
 
-/* const hiringManager: Scenario = {
-  name: "Hiring Manager",
-  description: "Vet applicants for your recent job openings.",
-  image: resume.default,
-  link: "/hiring"
-}; */
-
-/* const scenarioList = [hiringManager]; */
-
-/* const scenarios = () => {
-  return (
-    <Grid container spacing={10} justifyContent="space-evenly">
-        {scenarioList.map((s: Scenario) => (
-          <Grid item key={s.name}>
-            <ScenarioCard scenario={s} />
-          </Grid>
-        ))}
-    </Grid>);
-}
- */
-
-
 type Props = {
   setTheme: Function;
-}
-
-
-const getSystems = async (set: Function) => {
-  let response = await fetch("api/systems/");
-  let data = await response.json();
-  set(data as Manipulation[]);
 }
 
 export default function Homepage({setTheme}: Props) {
   const [systems, setSystems] = React.useState([] as Manipulation[]);
   const [page, setPage] = React.useState(0);
 
+  const getSystems = async () => {
+    let response = await fetch("api/systems/");
+    let data = await response.json();
+    setSystems(data as Manipulation[]);
+  }
+
   React.useEffect( () => {
-    getSystems(setSystems);
+    getSystems();
   }, []);
 
   const next = () => {
@@ -67,7 +44,7 @@ export default function Homepage({setTheme}: Props) {
             <div>
       <Card sx={{padding: 5}}>
       <CardContent>
-      Welcome, project description, etc.
+      Welcome, and we're happy you're here! If you're ready to get started, click the button below. 
       </CardContent> 
       <Button variant='contained' color='secondary' onClick={next}>Start study</Button>
       </Card>
@@ -80,18 +57,17 @@ export default function Homepage({setTheme}: Props) {
   };
 
   const workflow = [
-    
-    <TaskExplanation next={next} systemList={systems}/>,
-    <Playground />,
-    <ConsentForm next={next}/>,
-    <Questionnaire variant={VARIANTS.WELLBEING} finish={next}/>,
+    Opener(),
+    <ConsentForm onFinish={next}/>,
+    <Questionnaire variant={VARIANTS.WELLBEING} onFinish={next}/>,
+    <TaskExplanation onFinish={next} systemList={systems}/>,
     <SystemList setTheme={setTheme} onFinish={next} systemList={systems}/>,
+
     <Demographic />
   ]
 
   return (
     <Container maxWidth={false}>
-
       <Routes>
         <Route path="*" element={workflow[page]} />
         <Route path="hiring" element={<Playground />} />

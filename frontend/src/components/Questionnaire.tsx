@@ -28,10 +28,10 @@ type Question = {
 
 type Props = {
   variant: VARIANTS;
-  finish?: () => void;
+  onFinish?: () => void;
 }
 
-export default function Questionnaire({variant, finish} : Props) {
+export default function Questionnaire({variant, onFinish: finish} : Props) {
   const [questions, setQuestions] = React.useState([] as Question[]);
   const [scales, setScales] = React.useState([] as Scale[]);
   const [error, setError] = React.useState(false);

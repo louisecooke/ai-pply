@@ -9,6 +9,7 @@ import * as React from "react";
 
 type Props = {
   systemList: Manipulation[];
+  onFinish: Function;
 }
 
 const nets: Net[] = [
@@ -34,12 +35,12 @@ const nets: Net[] = [
   } as Net,
 ];
 
-export default function Training({systemList}: Props) {
+export default function Training({systemList, onFinish}: Props) {
   const [index, setIndex] = React.useState(0);
   const [finished, setFinished] = React.useState(false);
   const [networkFinished, setNetworkFinished] = React.useState(false);
 
-  return (finished ? <Stack><div> All done</div></Stack> :
+  return (
       <Stack direction='row' spacing={2} alignItems='center'>
       <CardAnimation key={index}/>
       <Network key={index} net={nets[index]} callback={() => {setNetworkFinished(true)}}/>
@@ -55,6 +56,7 @@ export default function Training({systemList}: Props) {
       setNetworkFinished(false);
     } else {
       setFinished(true);
+      onFinish();
     }
   }
 
