@@ -1,6 +1,3 @@
-import { Applicant, Recommendation, FieldProperties } from "../types";
-
-
 //configurable constants for easy researcher access
 export const applicantFields = ['Education', 'Experience', 'Culture Fit'];
 export const defaultToggles = [50, 60, 30];
@@ -10,30 +7,25 @@ export const dimensions = {
     columns: 5
 }
 
-const { weighFactors, randomBetween } = require("../util/Functions");
-
-/* export const pickApplicant = (applicants: Applicant[], preferences: FieldProperties) => {
-    let chosenId = 0;
-    let max = 0;
-    let maxKey = "no factor";
-    let maxWeight = 0;
-
-    //this is redundant
-    Object.keys(preferences).forEach((k) => {
-        if (preferences[k] > maxWeight) {
-            maxWeight = preferences[k];
-            maxKey = k.toLowerCase();
-        }
-    });
-    
-    for (let i = 0; i < applicants.length; i++) {
-        let assessment: number = weighFactors(applicants[i].fields, preferences);
-        if (assessment > max) {
-            max = assessment;
-            chosenId = applicants[i].id;
-        }
-    }
-
-    return { chosenId, maxKey };
-} */
-
+export const thinkingText = [
+    [
+    'Let me take a look.',
+    'Hmm...',
+    'I can see some patterns here.',
+    ],
+    [
+    'I\'m ready for a deep dive!',
+    '...',
+    'Yeah, that makes sense to me.',
+    ],
+    [
+    'May I ride along?',
+    'Okay, I see what you did there.',
+    'Interesting.',
+    ],
+    [
+    'Time to learn!',
+    'I\'m picking up what you\'re putting down.',
+    'Give me just a minute more...',
+    ]  
+];

@@ -2,6 +2,7 @@ import { motion } from "framer-motion/dist/framer-motion";
 import React from "react";
 import { flicker } from "./Lightswitch";
 import Timer from "../components/Timer";
+import { Net } from "../types";
 
 const draw = {
     hidden: { pathLength: 0, opacity: 0 },
@@ -32,30 +33,30 @@ const input = [{x: dim.x, y: dim.y, delay: 0}];
 
 //each number in dims is the number of nodes in that given layer. they are encompassed by input/output layers
 type Props = {
-  iterations: number;
-  dims: number[];
-  empty: boolean[][];
+  net: Net;
+  callback: Function; 
 }
 
-export default function Network({iterations, dims, empty}: Props) {
+export default function Network({net, callback}: Props) {
   const [layers, setLayers] = React.useState([] as element[][]);
-  const [lights, setLights] = React.useState(empty);
+  const [lights, setLights] = React.useState(net.emptyBoard);
   const [active, setActive] = React.useState(true);
   const lightStage = React.useRef(0);
   const counter = React.useRef(0);
   
-  const output = [{x: dim.x + hSpace * (dims.length + 1), y: dim.y, delay: dims.length}];
+  const output = [{x: dim.x + hSpace * (net.dims.length + 1), y: dim.y, delay: net.dims.length}];
 
   React.useEffect( () => {
-    if (counter.current === iterations) { 
+    if (counter.current === net.iterations) { 
       setActive(false);
+      callback();
     }
   }, [counter.current]);
 
   //create the grid on first render
   React.useEffect( () => {
     let innerLayers: element[][] = [];
-    dims.forEach((len, index) => {
+    net.dims.forEach((len, index) => {
       let layer: element[] = [];
       let med = Math.floor(len / 2);
       for (let i = 0; i < len; i++) {
@@ -69,17 +70,17 @@ export default function Network({iterations, dims, empty}: Props) {
 
   function newLights() {
     lightStage.current += 1;
-    let stage = lightStage.current % (dims.length + 3);
+    let stage = lightStage.current % (net.dims.length + 3);
     switch (stage) {
       case 0:
-        return empty;
+        return net.emptyBoard;
       case 1:
         return [[true], ...lights.slice(1, )];
-      case (dims.length + 2):
+      case (net.dims.length + 2):
         counter.current += 1;
         return [...lights.slice(0, -1), [true]];
       default:
-        return [...lights.slice(0, (stage - 1)), flicker(dims[stage-2]), ...lights.slice(stage,)];
+        return [...lights.slice(0, (stage - 1)), flicker(net.dims[stage-2]), ...lights.slice(stage,)];
     }
   }
 
