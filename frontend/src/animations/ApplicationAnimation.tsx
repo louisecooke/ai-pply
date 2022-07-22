@@ -33,23 +33,22 @@ const loadTrans = {
 export default function ApplicationAnimation() {
   return (
     <Container>
-    <ImageList cols={5} gap={32}
-    component={motion.div} variants={listVariants}
+    <ImageList cols={9} gap={8}
+    component={motion.p} variants={listVariants}
     initial="start"
     animate="end">
-      {photos(15)}
+      {photos(27)}
     </ImageList>
     </Container>
-   
   );
 }
 
 function photos(num: number) {
   return Array(num).fill('').map((_, i) => { return (
-    <ImageListItem key={`applicantCard-${i}`} sx={{height: 160, width: 160}}>
+    <ImageListItem key={`applicantCard-${i}`} sx={{height: 100, width: 100}}>
 
     <motion.img src={blankProfile} variants={loadVar}
-          transition={loadTrans}  height='160' width='160' alt='an application' />
+          transition={loadTrans} height='100' width='100' alt='an application' />
 
     </ImageListItem>);
   });
