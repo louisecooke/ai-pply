@@ -11,6 +11,7 @@ import { objectsEqual, randomBetween, customSort, newApplicants } from "../util/
 import { TypeAnimation } from "../animations/Typewriter";
 
 import { defaultTheme } from "../styling/DefaultThemes.js"
+import ReasonDialog from "../components/ReasonDialog";
 
 const { defaultPreferences } = require("../util/DummyData");
 
@@ -50,6 +51,9 @@ export default function HiringTask({system, finish, setTheme} : TaskProps) {
   }, [system]);
 
   React.useEffect( () => {
+  }, [text]);
+
+  React.useEffect( () => {
     setApplicants(customSort(applicants, preferences, system.control, isDefault));
     updateMetric(applicants.slice(0, shortlistLength));
   }, [preferences]);
@@ -61,17 +65,14 @@ export default function HiringTask({system, finish, setTheme} : TaskProps) {
         : <SystemRank applicants={applicants} setApplicants={setApplicants} transparent={system.transparency} writeExplanation={writeExplanation}
         />)}
         <Stack direction='column' paddingTop={2} spacing={1} alignItems={ranked ? 'center' : 'flex-start'}>
-        <Stack direction='row' spacing={3}>
         {systemCard}
-        {text !== '' && <TypeAnimation text={text} frequency={frequency} speed={10} duration={10} callback={() => setText('')}/>}
-        </Stack>
         {system.control && !shortlisted && <ControlPanel preferences={preferences} setPreferences={applyChanges} defaultSaved={isDefault}/> }
         <br />
         {ranked ? <Button variant='contained' onClick={() => {finish()}} color='secondary'>Evaluate system</Button> :
         shortlisted ? <> </> : <Button variant='contained' onClick={toShortlist} color='secondary'>choose these applicants</Button>
         }
         </Stack>
-        
+      <ReasonDialog displayImage={<img src={system.image} height='180' />} text={text} frequency={frequency} callback={() => setText('')} />
       <Spinner displayImage={<img src={system.image} height='180' width='240'/>} displayText='Loading...' timePeriod={loadingTime} callback={setSpinner} visible={loading}/>
       </Stack>
   );
