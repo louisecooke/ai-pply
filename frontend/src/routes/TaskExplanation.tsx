@@ -1,12 +1,16 @@
 import * as React from "react";
-import { Button, Container, Card, CardContent, Stack } from "@mui/material";
+import { Button, Container, Card, CardContent, Stack, IconButton } from "@mui/material";
 import { Route, Routes } from "react-router-dom";
 import ApplicationAnimation from "../animations/ApplicationAnimation";
 import { Manipulation } from "../types";
 import Training from "../animations/Training";
+import InfoIcon from '@mui/icons-material/Info';
 
 import desk from "../imgs/school-desk-and-chair.png";
 import SystemCard from "../components/SystemCard";
+import ControlPanel from "../components/ControlPanel";
+import Shortlist from "../components/Shortlist";
+import { newApplicants } from "../util/Functions";
 
 type Props = {
   onFinish: Function;
@@ -28,13 +32,12 @@ export default function TaskExplanation({systemList,  onFinish}: Props) {
     <Route path="*" element={workflow[page]} />
     </Routes>
   );
-
   
   function opener() {
     return (
       <Container sx={{margin: 20}}>
       <Stack direction='row' spacing={20}>
-      <Card sx={{padding: 5}}>
+      <Card sx={{padding: 3}}>
       <CardContent>
       You are the Operations Manager of a rapidly-growing company. After receiving funding for a new department, your human resources team must fill 40 new openings,
       mostly for junior-level employees.
@@ -52,7 +55,8 @@ export default function TaskExplanation({systemList,  onFinish}: Props) {
   function two() {
     return (
       <Container>
-      <Card sx={{padding: 5, margin: 5}}>
+      <Stack justifyContent='center'>
+      <Card sx={{padding: 3, margin: 5}}>
       <CardContent>
       You have received a high load of applications and therefore have decided to investigate decision-making aids to assist your team in the hiring process.
       Four artificial intelligence systems, similarly priced, are available to help with this task.
@@ -62,6 +66,7 @@ export default function TaskExplanation({systemList,  onFinish}: Props) {
       <ApplicationAnimation />
       <br />
       <br />
+      </Stack>
       </Container>
     );
   }
@@ -90,9 +95,14 @@ export default function TaskExplanation({systemList,  onFinish}: Props) {
       <Container>
       <Card sx={{padding: 5}}>
       <CardContent>
-      
-      Each AI system will provide recommendations for new hirees based on their observations. These recommendations will come in a ranking of applicants,
+      <p>
+      Each AI system will provide recommendations for new hirees based on their observations. These recommendations will come in a list of ranked applicants,
       with some summary information given on a few key factors your team has identified - education, experience, and culture fit. 
+      </p>
+      <p>
+      From this list, you can compile a shortlist of five applicants. The shortlist is displayed at the top with coloured borders. By clicking on an applicant,
+      you add it to the shortlist.
+      </p>
 
       </CardContent> 
       {nextButton()}
@@ -106,7 +116,7 @@ export default function TaskExplanation({systemList,  onFinish}: Props) {
   function five() {
     return (
       <Container>
-      <Card sx={{padding: 5}}>
+      <Card sx={{padding: 5, margin: 10}}>
       <CardContent>
       
       Some systems provide extra functionality. If an AI can give you more information about a decision, it will share this with you when you press an info button.
@@ -115,6 +125,13 @@ export default function TaskExplanation({systemList,  onFinish}: Props) {
       </CardContent> 
       {nextButton()}
       </Card>
+      <Stack direction='row' justifyContent='center' spacing={20}>
+        <IconButton color={'secondary'} aria-label="view explanation" component="span" >
+        <InfoIcon /></IconButton>
+
+        <ControlPanel preferences={{'Education': 50, 'Experience': 22, 'Culture Fit': 81}} setPreferences={()=>{}} defaultSaved={true} demo={true} />
+      </Stack>
+
       <br />
       <br />
       </Container>
@@ -124,15 +141,17 @@ export default function TaskExplanation({systemList,  onFinish}: Props) {
   function six() {
     return (
       <Container>
-      <Card sx={{padding: 5}}>
+      <Card sx={{padding: 5, margin: 10}}>
       <CardContent>
       
-      After you have sorted through applicants, you will rank them at the end. Your system will also provide a default ranking.
-      Once your shortlist has been finalized and ranked, you can evaluate the AI system to help with your decision between systems later.
+      After you have chosen your shortlist of five, you can drag-and-drop them to set them in order of preference.
+      Once you have reached your hiring decision, you will then be prompted to evaluate the AI system.
 
       </CardContent> 
       {nextButton()}
       </Card>
+
+      <Shortlist shortlist={newApplicants(5)} rank={()=>{}} scale={true} />
       <br />
       <br />
       </Container>
@@ -141,7 +160,7 @@ export default function TaskExplanation({systemList,  onFinish}: Props) {
 
   function seven() {
     return (
-      <Container>
+      <Container sx={{padding: 5}}>
       <Card sx={{padding: 5}}>
       <CardContent>
 

@@ -1,5 +1,5 @@
 import * as React from "react";
-import { Button, Stack } from "@mui/material";
+import { Button, Stack, Typography } from "@mui/material";
 import ApplicantCard from "./ApplicantCard";
 import { Applicant } from "../types";
 import { Reorder } from "framer-motion/dist/framer-motion";
@@ -18,13 +18,23 @@ export default function Shortlist({shortlist, rank, scale}: Props) {
       <Reorder.Group axis="x" values={cards} onReorder={setCards} as='div'>
       <Stack direction='row' spacing={2} justifyContent='center'>
       {cards.map((a, i) => {
-        if (i < 5) {
-        return <Reorder.Item key={a.id} value={a} as='div'>
+        return <Stack spacing={2}>
+
+        <Reorder.Item key={a.id} value={a} as='div'>
           <ApplicantCard instance={a} scale={scale} ranking={true}></ApplicantCard>
         </Reorder.Item>
-        } else {
-          return <></>
-        }}
+        {(i == 0) &&
+        <Typography color='secondary' variant='h6'>
+          Preferred
+        </Typography>}
+        {(i == 4) &&
+        <Typography color='secondary' variant='h6'>
+          Least preferred
+        </Typography>}
+
+
+        </Stack>
+        }
       )}
       </Stack>
     </Reorder.Group>
