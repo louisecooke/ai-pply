@@ -1,6 +1,6 @@
 import "./styles.css";
-import Homepage from "./routes/Homepage";
-import Playground from "./routes/Playground";
+import Homepage from "./study-elements/Homepage";
+import Playground from "./study-elements/Playground";
 
 import * as React from "react";
 import { Link, Routes, Route } from "react-router-dom";
