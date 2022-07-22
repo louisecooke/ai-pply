@@ -6,9 +6,10 @@ type PanelProps = {
     preferences: FieldProperties;
     setPreferences: Function;
     defaultSaved: boolean;
+    demo?: boolean;
 }
 
-export default function ControlPanel({ preferences, setPreferences, defaultSaved }: PanelProps) {
+export default function ControlPanel({ preferences, setPreferences, defaultSaved, demo = false }: PanelProps) {
     const [localState, setLocalState] = React.useState(preferences);
     const [applied, setApplied] = React.useState(true);
     const [isDefault, setDefault] = React.useState(defaultSaved);
@@ -44,17 +45,19 @@ export default function ControlPanel({ preferences, setPreferences, defaultSaved
             
               {Object.keys(localState).map((p) => renderDetail(p))}
               <br />
+              {!demo &&
               <Typography variant="subtitle2" >
                Indicate above how important each factor is to you. <br />
-               I'll take this information into account as I rank applications.</Typography>
+               I'll take this information into account as I rank applications.</Typography>}
                <br />
                <Stack spacing={4} direction='row' justifyContent='center'>
+                 {!demo &&
                <Button variant='contained' color='secondary' onClick={() => {
                  setDefault(true);
                  setApplied(false);
                  setPreferences(); 
                 }} disabled={isDefault}>
-                <Typography fontSize='12px'>REVERT TO DEFAULT</Typography></Button>
+                <Typography fontSize='12px'>REVERT TO DEFAULT</Typography></Button>}
 
               <Button variant='contained' color='secondary' onClick={() => {
                   setPreferences(localState);
