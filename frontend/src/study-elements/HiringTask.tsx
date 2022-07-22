@@ -57,11 +57,11 @@ export default function HiringTask({system, finish, setTheme} : TaskProps) {
   return (
       <Stack direction='row' justifyContent='center' spacing={8} alignItems='flex-start'>
         {!ranked &&
-        (shortlisted ? <Shortlist shortlist={applicants.slice(0,5)} rank={endRanking} scale={scale}/>
+        (shortlisted ? <Shortlist shortlist={applicants.slice(0, shortlistLength)} rank={endRanking} scale={scale}/>
         : <SystemRank applicants={applicants} setApplicants={setApplicants} transparent={system.transparency} writeExplanation={writeExplanation}
         />)}
-        <Stack direction='column' marginTop='16px' spacing={2} alignItems={ranked ? 'center' : 'flex-start'}>
-        <Stack direction='row' spacing={3} /* sx={shortlisted ? {} : {width: '80%'}} */>
+        <Stack direction='column' paddingTop={2} spacing={1} alignItems={ranked ? 'center' : 'flex-start'}>
+        <Stack direction='row' spacing={3}>
         {systemCard}
         {text !== '' && <TypeAnimation text={text} frequency={frequency} speed={10} duration={10} callback={() => setText('')}/>}
         </Stack>

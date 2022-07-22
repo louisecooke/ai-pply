@@ -16,11 +16,11 @@ type CardProps = {
 
 function SystemCard({ system }: CardProps) {
   return (
-    <Card sx={{height: '10%', width: '80%'}}>
+    <Card sx={{height: '40%', width: '100%', maxHeight: '300px', maxWidth: '300px'}}>
       <CardMedia
         component="img"
         alt="displayimg"
-        /* height="10%" */
+        height='160px'
         image={system.image ? system.image : defaultImg}
       />
       <CardContent>
