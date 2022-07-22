@@ -114,7 +114,7 @@ export default function ApplicantCard({animated = false, applicant, scale, loadi
 
   const displayCard = () => {
     return <Card sx={{ border: 10, borderColor: selected || ranking ? selectedColor : defaultColor,
-    }}>
+    maxWidth: '250px'}}>
       <CardActionArea>
         <CardMedia
           component="img"

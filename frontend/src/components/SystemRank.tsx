@@ -1,4 +1,4 @@
-import { Stack, ImageList, ImageListItem } from "@mui/material";
+import { Stack, ImageList, ImageListItem, Container } from "@mui/material";
 import { Applicant } from "../types";
 import { Reorder } from "framer-motion/dist/framer-motion";
 import ApplicantLine from "./ApplicantLine";
@@ -32,3 +32,4 @@ export default function SystemRank({applicants, setApplicants, transparent, writ
   )
 }
 
+//TODO check for issues with elements not being ImageListItems
