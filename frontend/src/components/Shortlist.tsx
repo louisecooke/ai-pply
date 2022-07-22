@@ -21,7 +21,7 @@ export default function Shortlist({shortlist, rank, scale}: Props) {
         return <Stack spacing={2}>
 
         <Reorder.Item key={a.id} value={a} as='div'>
-          <ApplicantCard instance={a} scale={scale} ranking={true}></ApplicantCard>
+          <ApplicantCard applicant={a} scale={scale} ranking={true}></ApplicantCard>
         </Reorder.Item>
         {(i == 0) &&
         <Typography color='secondary' variant='h6'>

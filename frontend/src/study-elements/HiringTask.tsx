@@ -6,7 +6,7 @@ import SystemCard from "../components/SystemCard";
 import Spinner from "../components/Spinner";
 import Shortlist from "../components/Shortlist";
 import { Manipulation, FieldProperties, Applicant } from "../types";
-import { numApplicants } from "../study-config/Configuration";
+import { numApplicants, shortlistLength } from "../study-config/Configuration";
 import { objectsEqual, randomBetween, customSort, newApplicants } from "../util/Functions";
 import { TypeAnimation } from "../animations/Typewriter";
 
@@ -51,16 +51,17 @@ export default function HiringTask({system, finish, setTheme} : TaskProps) {
 
   React.useEffect( () => {
     setApplicants(customSort(applicants, preferences, system.control, isDefault));
-    updateMetric(applicants.slice(0, 5));
+    updateMetric(applicants.slice(0, shortlistLength));
   }, [preferences]);
 
   return (
       <Stack direction='row' justifyContent='center' spacing={8} alignItems='flex-start'>
         {!ranked &&
         (shortlisted ? <Shortlist shortlist={applicants.slice(0,5)} rank={endRanking} scale={scale}/>
-        : <SystemRank applicants={applicants} setApplicants={setApplicants} transparent={system.transparency} writeExplanation={writeExplanation}/>)}
+        : <SystemRank applicants={applicants} setApplicants={setApplicants} transparent={system.transparency} writeExplanation={writeExplanation}
+        />)}
         <Stack direction='column' marginTop='16px' spacing={2} alignItems={ranked ? 'center' : 'flex-start'}>
-        <Stack direction='row' spacing={3} sx={shortlisted ? {} : {minWidth: 600}}>
+        <Stack direction='row' spacing={3} /* sx={shortlisted ? {} : {width: '80%'}} */>
         {systemCard}
         {text !== '' && <TypeAnimation text={text} frequency={frequency} speed={10} duration={10} callback={() => setText('')}/>}
         </Stack>

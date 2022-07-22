@@ -38,6 +38,8 @@ export default function SystemList({onFinish, setTheme, systemList}: Props) {
 
   React.useEffect( () => {
     setSystems(extendSystems(systemList));
+    nextSystem();
+    setStarted(true);
   }, []);
 
   const postQuestionnaireText = penultimate ? 'All finished.' : 'You have completed your evaluation. Ready for the next system?';
@@ -58,11 +60,6 @@ export default function SystemList({onFinish, setTheme, systemList}: Props) {
     if (completed.length + 1 === systems.length) {
       setPenultimate(true);
     } 
-  }
-
-  const start = () => {
-    nextSystem();
-    setStarted(true);
   }
 
   const finishScenario = () => {
@@ -106,7 +103,7 @@ export default function SystemList({onFinish, setTheme, systemList}: Props) {
     <>
     <br/>
     <br/>
-    {/* !started ? <ScenarioExplanation next={start} /> : */
+    {
     chosenSystem.id && 
     currentElement()} 
     </>);

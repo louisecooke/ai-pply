@@ -1,21 +1,24 @@
 import * as React from 'react';
-import Card from '@mui/material/Card';
-import CardContent from '@mui/material/CardContent';
-import CardMedia from '@mui/material/CardMedia';
-import Typography from '@mui/material/Typography';
-import { CardActionArea, Slider, Stack} from '@mui/material';
-import { motion} from "framer-motion/dist/framer-motion";
-import { Comparable } from "../types";
+import { Card, CardContent, CardMedia, Typography, CardActionArea, Slider, Stack, IconButton } from '@mui/material';
+import { motion, useMotionValue } from "framer-motion/dist/framer-motion";
+import { Applicant } from "../types";
+
+import InfoIcon from '@mui/icons-material/Info';
+import { shortlistLength } from '../study-config/Configuration';
 
 
 const blankProfile = require("../imgs/avatar-g4549a99eb_640.png");
 
 type Props = {
-    animated?: Boolean;
-    instance?: Comparable;
-    scale?: Boolean;
+    animated?: boolean;
+    applicant?: Applicant;
+    index?: number;
+    scale?: boolean;
     loadingTime?: number;
-    ranking?: Boolean;
+    ranking?: boolean;
+    shortlist?: Function;
+    transparent?: boolean;
+    writeExplanation?: Function;
   };
 
 const loadingApplicantVariants = {
@@ -32,14 +35,17 @@ const loadingApplicantTransition = {
   ease: "easeInOut",
 }
 
-export default function ComparableCard({animated = false, instance, scale, loadingTime = 4000, ranking = false}: Props) {
+export default function ApplicantCard({animated = false, applicant, scale, loadingTime = 4000, ranking = false, index,
+  shortlist = () => {}, transparent = false, writeExplanation = () => {}}: Props) {
+  let selected = typeof(index) !== 'undefined' && index < shortlistLength;
+
   const renderScale = (p: string) => {
     return (
       <Stack spacing={2} direction='row' alignItems='center' justifyContent='space-between' key={p}>
         <Typography variant="caption" color="text.secondary">
           {p}
         </Typography>
-        { instance && <Slider aria-label={p} value={instance.fields[p]} components={{Thumb: Empty}} sx={{maxWidth: '50%'}}/>} 
+        { applicant && <Slider aria-label={p} value={applicant.fields[p]} components={{Thumb: Empty}} sx={{maxWidth: '50%'}}/>} 
       </Stack>
     );  
   }
@@ -50,9 +56,9 @@ export default function ComparableCard({animated = false, instance, scale, loadi
         <Typography variant="caption" color="text.secondary">
           {p}
         </Typography>
-        {instance &&
+        {applicant &&
         <Typography>
-          {instance.fields[p]}%
+          {applicant.fields[p]}%
         </Typography>}
 
       </Stack>
@@ -63,9 +69,9 @@ export default function ComparableCard({animated = false, instance, scale, loadi
     return (
       <CardContent>
         <Typography gutterBottom variant="h5" component="div">
-        {instance && '#' + instance.id}
+        {applicant && '#' + applicant.id}
       </Typography>
-        {instance && Object.keys(instance.fields).map(p => renderScale(p))}
+        {applicant && Object.keys(applicant.fields).map(p => renderScale(p))}
     </CardContent>);
   }
 
@@ -73,13 +79,13 @@ export default function ComparableCard({animated = false, instance, scale, loadi
     return (
         <CardContent>
           <Typography gutterBottom variant="h5" component="div">
-          {instance && '#' + instance.id}
+          {applicant && '#' + applicant.id}
           </Typography>
           {scale && 
           <Typography variant="caption" color="text.secondary">
             Ratings:
         </Typography> }
-            {instance && Object.keys(instance.fields).map(p => renderPercentage(p))}
+            {applicant && Object.keys(applicant.fields).map(p => renderPercentage(p))}
         </CardContent>
     );
   }
@@ -107,7 +113,8 @@ export default function ComparableCard({animated = false, instance, scale, loadi
   };
 
   const displayCard = () => {
-    return <Card sx={{ maxWidth: 400 } && ranking && {height: '300px', width: '200px'}}>
+    return <Card sx={{ border: 10, borderColor: selected ? selectedColor : defaultColor,
+    }}>
       <CardActionArea>
         <CardMedia
           component="img"
@@ -119,12 +126,39 @@ export default function ComparableCard({animated = false, instance, scale, loadi
       </CardActionArea>
     </Card>
   }
+  
+  const itemStyle = {
+    y: useMotionValue(0),
+    touchAction: 'pan-y'
+  }
+
+  
+  const selectedColor = (theme) => theme.palette.secondary.main;
+  const defaultColor = (theme) => theme.palette.info.main;
 
   return (
-    animated ? animatedCard() :  displayCard()
+    animated ? animatedCard() : ranking ?  
+    displayCard() : Selectable(displayCard())
   );
+
+
+  function Selectable(element: any) {
+    return (
+      (applicant) ?
+      <Stack>
+      <motion.div key={`orderitem-${applicant.id}`} value={applicant} style={itemStyle} onTap={() => shortlist(applicant)}>
+        {element}
+      </motion.div>
+       {transparent && applicant.reason && <IconButton color={selected ? 'secondary' : 'info'} aria-label="view explanation" component="span" onClick={() => (writeExplanation(applicant))}>
+       <InfoIcon />
+     </IconButton>}
+       </Stack>
+      : <></>
+    )
+  }
 }
 
 function Empty() {
   return <></>;
 }
+

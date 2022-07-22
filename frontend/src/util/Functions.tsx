@@ -1,3 +1,4 @@
+import { shortlistLength } from "../study-config/Configuration";
 import { FieldProperties, Applicant } from "../types";
 const { randomApplicant } = require("./DummyData");
 
@@ -35,7 +36,7 @@ export const customSort = (applicants: Applicant[], preferences: FieldProperties
         }
     });
 
-    for (let i = 0; i < 5; i++) {
+    for (let i = 0; i < shortlistLength; i++) {
         let maxFactor = '';
         let maxVal = 0;
         let consistent = false;

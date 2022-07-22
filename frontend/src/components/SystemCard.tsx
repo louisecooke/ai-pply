@@ -12,16 +12,15 @@ const defaultImg = require("../imgs/andrea-piacquadio-resume.jpg");
 
 type CardProps = {
   system: Manipulation;
-  chooseScenario?: Function;
 };
 
-function SystemCard({ system, chooseScenario }: CardProps) {
+function SystemCard({ system }: CardProps) {
   return (
-    <Card sx={{height: 350, width: 235}}>
+    <Card sx={{height: '10%', width: '80%'}}>
       <CardMedia
         component="img"
         alt="displayimg"
-        height="178"
+        /* height="10%" */
         image={system.image ? system.image : defaultImg}
       />
       <CardContent>
