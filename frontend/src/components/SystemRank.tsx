@@ -16,7 +16,6 @@ export default function SystemRank({applicants, setApplicants, transparent, writ
 
   function shortlist(applicant: Applicant) {
     let newList = [applicant, ...applicants.filter(a => a.id !== applicant.id)];
-    console.log('shortlisted');
     setTimeout(setApplicants(newList), 1000);
   }
 

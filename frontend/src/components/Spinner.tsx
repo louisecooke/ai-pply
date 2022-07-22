@@ -1,11 +1,7 @@
 import * as React from "react";
 import { Container, Typography, Dialog, DialogTitle, DialogContent, Stack } from "@mui/material";
-import CircularProgress from '@mui/material/CircularProgress';
 import ApplicantCard from "./ApplicantCard";
 import { motion } from "framer-motion/dist/framer-motion";
-
-
-const { toMinutes } = require("../util/Functions");
 
 type Props = {
   callback: () => void;
