@@ -3,6 +3,7 @@ import { Button, Stack, Typography } from "@mui/material";
 import ApplicantCard from "./ApplicantCard";
 import { Applicant } from "../types";
 import { Reorder } from "framer-motion/dist/framer-motion";
+import { shortlistLength } from "../study-config/Configuration";
 
 type Props = {
   shortlist: Applicant[];
@@ -16,7 +17,7 @@ export default function Shortlist({shortlist, rank, scale}: Props) {
   return (
     <div>
       <Reorder.Group axis="x" values={cards} onReorder={setCards} as='div'>
-      <Stack direction='row' spacing={2} justifyContent='center'>
+      <Stack direction='row' marginTop={2} spacing={2} justifyContent='center'>
       {cards.map((a, i) => {
         return <Stack spacing={2}>
 
@@ -27,7 +28,7 @@ export default function Shortlist({shortlist, rank, scale}: Props) {
         <Typography color='secondary' variant='h6'>
           Preferred
         </Typography>}
-        {(i == 4) &&
+        {(i == shortlistLength - 1 ) &&
         <Typography color='secondary' variant='h6'>
           Least preferred
         </Typography>}
