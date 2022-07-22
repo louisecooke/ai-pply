@@ -3,9 +3,10 @@ import { Button, Container, Card, CardContent, Typography } from "@mui/material"
 import { objectsEqual } from "../util/Functions";
 import Spinner from "../components/Spinner";
 import SystemList from "./SystemList";
-import { Applicant } from "../types";
-import Ranking from "../components/Ranking";
+import { Applicant, Completion, Manipulation } from "../types";
+import Shortlist from "../components/Shortlist";
 import TaskExplanation from "./TaskExplanation";
+import Training from "../animations/Training";
 
 const one = {
   id: 1,
@@ -13,7 +14,8 @@ const one = {
   education: 20,
   cultureFit: 22,
   experience: 55
-  }
+  },
+  reason: ''
 } as Applicant;
 
 const two = {
@@ -22,7 +24,8 @@ const two = {
   education: 20,
   cultureFit: 21,
   experience: 56
-  }
+  },
+  reason: ''
 } as Applicant;
 
 const three = {
@@ -36,7 +39,8 @@ const four = {
   education: 20,
   cultureFit: 22,
   experience: 55
-  }
+  },
+  reason: ''
 } as Applicant;
 
 const five = {
@@ -45,7 +49,8 @@ const five = {
   education: 80,
   cultureFit: 62,
   experience: 35
-  }
+  },
+  reason: ''
 } as Applicant;
 
 const six = {
@@ -54,21 +59,29 @@ const six = {
   education: 25,
   cultureFit: 92,
   experience: 55
-  }
+  },
+  reason: ''
 } as Applicant;
 
 
 const appList = [one, two, four, five, six] as Applicant[];
 
-export default function Playground() {
-  let length = 4000;
-/*   const next = () => {
 
-  } */
-  //expect one = four != two != three
+
+export default function Playground() {
+  const [systems, setSystems] = React.useState([] as Manipulation[]);
+
+  const getSystems = async () => {
+    let response = await fetch("api/systems/");
+    let data = await response.json();
+    setSystems(data as Manipulation[]);
+  }
+
+  React.useEffect( () => {
+    getSystems();
+  }, []);
   
-   {/* <Ranking shortlist={appList} rank={() => {}} scale={true} />  */}
   return (
-   <TaskExplanation />
+   <Training systemList={systems} onFinish={() => {}}/>
   );
 }

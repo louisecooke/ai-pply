@@ -106,7 +106,7 @@ export default function SystemList({onFinish, setTheme, systemList}: Props) {
     <>
     <br/>
     <br/>
-    {!started ? <ScenarioExplanation next={start} /> :
+    {/* !started ? <ScenarioExplanation next={start} /> : */
     chosenSystem.id && 
     currentElement()} 
     </>);

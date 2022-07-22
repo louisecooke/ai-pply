@@ -56,12 +56,20 @@ export default function Homepage({setTheme}: Props) {
     );
   };
 
+  /*
+  Correct order:
+  Opener, Consent form, Questionnaire, Task explanation, System list, Demographic
+  I mess around with it in debug/dev mode
+  TODO Add authentication step to Opener
+  */
   const workflow = [
+    
     Opener(),
+    
+    <SystemList setTheme={setTheme} onFinish={next} systemList={systems}/>,
+    <TaskExplanation onFinish={next} systemList={systems}/>,
     <ConsentForm onFinish={next}/>,
     <Questionnaire variant={VARIANTS.WELLBEING} onFinish={next}/>,
-    <TaskExplanation onFinish={next} systemList={systems}/>,
-    <SystemList setTheme={setTheme} onFinish={next} systemList={systems}/>,
 
     <Demographic />
   ]
