@@ -32,16 +32,16 @@ export const defaultTheme = createTheme({
   ...outerTheme,
   palette: {
     background: {
-      default: '#edd2cb'
+      default: '#dee0e6'
     },
     primary: {
-      main: '#edd2cb'
+      main: '#dee0e6'
     },
     secondary: {
-      main: '#f55951'
+      main: '#134e6f'
     },
     info: {
-      main: '#fdebd3'
+      main: '#ff6150'
     },
     greyText: {
       main: 'rgba(0, 0, 0, 0.6)'
@@ -49,7 +49,8 @@ export const defaultTheme = createTheme({
   },
   typography: {
     overline: {
-      color: '#f55951'
+      color: '#134e6f'
     },
   }
 });
+
