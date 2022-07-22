@@ -51,10 +51,6 @@ export default function HiringTask({system, finish, setTheme} : TaskProps) {
   const hoverTime = React.useRef(0);
   const [scale, setScale] = React.useState(randomBetween(0, 1) === 1);
 
-  function runTimer() {
-    hoverTime.current += 1;
-  }
-
   const systemCard = <SystemCard system={system} />; 
 
   React.useEffect( () => {
@@ -67,7 +63,7 @@ export default function HiringTask({system, finish, setTheme} : TaskProps) {
   }, [preferences]);
 
   return (
-      <Stack direction='row' justifyContent='center' spacing={20} alignItems='flex-start'>
+      <Stack direction='row' justifyContent='center' spacing={8} alignItems='flex-start'>
         {!ranked &&
         (shortlisted ? <Shortlist shortlist={applicants.slice(0,5)} rank={endRanking} scale={scale}/>
         : <SystemRank applicants={applicants} setApplicants={setApplicants} transparent={system.transparency} writeExplanation={writeExplanation}/>)}
@@ -137,16 +133,7 @@ export default function HiringTask({system, finish, setTheme} : TaskProps) {
     setLoading(false);
     setLoadingTime(randomLoadingTime());
   }
-/* 
-  const emptyMetric = () => {
-    let i = 0;
-    let metric = {} as Counter;
-    while (i < 5) {
-      metric = {...metric, [applicants[i].id]: 0};
-      i++;
-    }
-    return metric;
-  } */
+
 }
 
 

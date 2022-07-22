@@ -102,30 +102,6 @@ export default function SystemList({onFinish, setTheme, systemList}: Props) {
         )
     } 
   }
-
-/*   const getSystems = async () => {
-    let response = await fetch("api/systems/");
-    let data = await response.json();
-    return data;
-    setSystems(data.map( (s: Manipulation) => {
-      return {
-        system: s,
-        interacted: false
-      } as Completion;
-    }
-    ));
-  }
-
-  React.useEffect( () => {
-    getSystems();
-  }, []); */
-
-  //in SYSTEMLIST, there are 'finish scenario' and 'finish evaluation' states and functions. the scenario is displayed and 1. passed down. when it is finished, 
-  // the evaluation questionnaire is displayed. when the questionnaire is finished, 2. is called with a payload (where should the POST be?), and the state is reset.
-  // this should mark the scenario as 'complete' in the list of completions, and the function to randomize and display the next scenario is called. when all are complete,
-  // 
-  // TODO: this works well as an SPA to prevent users from jumping around. however, what happens when they need to reload the page? should all data be POSTED at the end,
-  // or would it be better to route and 'save your place' in a sense?
   return (
     <>
     <br/>
