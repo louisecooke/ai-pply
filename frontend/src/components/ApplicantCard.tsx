@@ -107,7 +107,7 @@ export default function ComparableCard({animated = false, instance, scale, loadi
   };
 
   const displayCard = () => {
-    return <Card sx={{ maxWidth: 400 } && ranking && {height: '300px', width: '220px'}}>
+    return <Card sx={{ maxWidth: 400 } && ranking && {height: '300px', width: '200px'}}>
       <CardActionArea>
         <CardMedia
           component="img"
