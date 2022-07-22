@@ -48,7 +48,6 @@ export default function LearningSystem({system, processed, responses, callback}:
   }
 
   function setEnd() {
-    console.log(processed);
     setTimeout(() => callback(), 4000);
   }
 
