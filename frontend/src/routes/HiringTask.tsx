@@ -7,12 +7,12 @@ import Spinner from "../components/Spinner";
 import Shortlist from "../components/Shortlist";
 import { Manipulation, FieldProperties, Applicant } from "../types";
 import { numApplicants } from "../study-config/Configuration";
-import { objectsEqual, randomBetween, customSort } from "../util/Functions";
+import { objectsEqual, randomBetween, customSort, newApplicants } from "../util/Functions";
 import { TypeAnimation } from "../animations/Typewriter";
 
 import { defaultTheme } from "../styling/DefaultThemes.js"
 
-const { defaultPreferences, randomApplicant } = require("../util/DummyData");
+const { defaultPreferences } = require("../util/DummyData");
 
 type TaskProps = {
   system: Manipulation;
@@ -20,14 +20,6 @@ type TaskProps = {
   setTheme: Function;
 };
 
-
-function newApplicants() {
-  let applicantList = [] as Applicant[];
-  for (var i = 0; i < numApplicants; i++) {
-    applicantList.push({id: i + 1, fields: randomApplicant(), reason: ''} as Applicant);
-  } 
-  return applicantList;
-}
 
 type Counter = {
   [key: number]: number;
@@ -37,7 +29,7 @@ export default function HiringTask({system, finish, setTheme} : TaskProps) {
   const initialPreferences = defaultPreferences() as FieldProperties;
   const [shortlisted, setShortlisted] = React.useState(false);
   const [ranked, setRanked] = React.useState(false);
-  const [applicants, setApplicants] = React.useState(customSort(newApplicants(), initialPreferences, system.control, true));
+  const [applicants, setApplicants] = React.useState(customSort(newApplicants(numApplicants), initialPreferences, system.control, true));
   const [loadingTime, setLoadingTime] = React.useState(randomLoadingTime());
   const [preferences, setPreferences] = React.useState(initialPreferences);
   const isDefault = objectsEqual(preferences, initialPreferences);
@@ -106,7 +98,7 @@ export default function HiringTask({system, finish, setTheme} : TaskProps) {
 
   function endRanking () {
     setTheme(defaultTheme);
-    setApplicants(newApplicants());
+    setApplicants(newApplicants(numApplicants));
     setRanked(true);
   }
   

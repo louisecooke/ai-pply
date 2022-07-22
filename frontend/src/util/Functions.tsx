@@ -1,4 +1,5 @@
 import { FieldProperties, Applicant } from "../types";
+const { randomApplicant } = require("./DummyData");
 
 export const toMinutes = (totalSeconds: number) => {
     let minutes = Math.floor(totalSeconds / 60);
@@ -10,6 +11,14 @@ export const sumValues = (obj: Object) => {
     let sum = Object.values(obj).reduce((a: number, b: number) => a + b) as number;
     return sum;
 };
+
+export const newApplicants = (num: number) => {
+    let applicantList = [] as Applicant[];
+    for (var i = 0; i < num; i++) {
+      applicantList.push({id: i + 1, fields: randomApplicant(), reason: ''} as Applicant);
+    } 
+    return applicantList;
+}
 
 export const customSort = (applicants: Applicant[], preferences: FieldProperties, control: boolean, isDefault: boolean) => {
     applicants.sort((a, b) => {
