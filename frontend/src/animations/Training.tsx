@@ -42,10 +42,10 @@ export default function Training({systemList, onFinish}: Props) {
 
   return (
       <Stack direction='row' spacing={2} alignItems='center'>
-      <CardAnimation key={index}/>
-      <Network key={index} net={nets[index]} callback={() => {setNetworkFinished(true)}}/>
+      <CardAnimation key={`cardAnimation-${index}`}/>
+      <Network key={`network-${index}`} net={nets[index]} callback={() => {setNetworkFinished(true)}}/>
 
-      {systemList && <LearningSystem key={`learning${index}`} system={systemList[index]} processed={networkFinished} callback={nextSystem} responses={thinkingText[index]}/>}
+      {systemList && <LearningSystem key={`learning-${index}`} system={systemList[index]} processed={networkFinished} callback={nextSystem} responses={thinkingText[index]}/>}
       </Stack>
    
   );

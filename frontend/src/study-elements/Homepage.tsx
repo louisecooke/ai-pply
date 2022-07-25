@@ -75,14 +75,7 @@ export default function Homepage({setTheme}: Props) {
   ]
 
   return (
-    <Container maxWidth={false}>
-      <Routes>
-        <Route path="*" element={workflow[page]} />
-        <Route path="hiring" element={<Playground />} />
-      </Routes>
-      <br />
-      <br />
-      
-    </Container>
+    workflow[page]
+    
   );
 }
