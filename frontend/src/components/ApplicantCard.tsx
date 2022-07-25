@@ -35,7 +35,7 @@ const loadingApplicantTransition = {
   ease: "easeInOut",
 }
 
-export default function ApplicantCard({animated = false, applicant, scale, loadingTime = 4000, ranking = false, index,
+export default function ApplicantCard({animated = false, applicant, scale = false, loadingTime = 4000, ranking = false, index,
   shortlist = () => {}, transparent = false, writeExplanation = () => {}}: Props) {
   let selected = typeof(index) !== 'undefined' && index < shortlistLength;
 
@@ -113,7 +113,7 @@ export default function ApplicantCard({animated = false, applicant, scale, loadi
   };
 
   const displayCard = () => {
-    return <Card sx={{ border: 10, borderColor: selected || ranking ? selectedColor : defaultColor,
+    return <Card sx={{ border: 10, borderColor: selected || ranking ? selectedColor : defaultColor, minWidth: '220px',
     maxWidth: '250px'}}>
       <CardActionArea>
         <CardMedia

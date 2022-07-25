@@ -9,9 +9,10 @@ type Props = {
   shortlist: Applicant[];
   rank: () => void;
   scale: boolean;
+  demo?: boolean;
 }
 
-export default function Shortlist({shortlist, rank, scale}: Props) {
+export default function Shortlist({shortlist, rank, scale, demo = false}: Props) {
   const [cards, setCards] = React.useState(shortlist);
 
   return (
@@ -39,7 +40,8 @@ export default function Shortlist({shortlist, rank, scale}: Props) {
       )}
       </Stack>
     </Reorder.Group>
-    <Button variant='contained' color='secondary' onClick={rank} sx={{margin: 5}}>FINALIZE</Button>
+    {!demo &&
+    <Button variant='contained' color='secondary' onClick={rank} sx={{margin: 5}}>FINALIZE</Button>}
     </div>
   );
 }

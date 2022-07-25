@@ -23,7 +23,7 @@ function SystemCard({ system }: CardProps) {
         height='160px'
         image={system.image ? system.image : defaultImg}
       />
-      <CardContent>
+      <CardContent sx={{minHeight: '200px'}}>
         <Typography sx={{ fontSize: 14 }} color="text.secondary" gutterBottom>
           {system.title}
         </Typography>
