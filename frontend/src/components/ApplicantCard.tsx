@@ -113,8 +113,9 @@ export default function ApplicantCard({animated = false, applicant, scale = fals
   };
 
   const displayCard = () => {
-    return <Card sx={{ border: 10, borderColor: selected || ranking ? selectedColor : defaultColor, minWidth: '220px',
-    maxWidth: '250px'}}>
+    return (
+      <Card sx={{ border: 10, borderColor: selected || ranking ? selectedColor : defaultColor, minWidth: '220px',
+      maxWidth: '250px'}}>
       <CardActionArea>
         <CardMedia
           component="img"
@@ -124,12 +125,13 @@ export default function ApplicantCard({animated = false, applicant, scale = fals
         />
           {scale ? scaleCard() : ratingCard()}
       </CardActionArea>
-    </Card>
+     </Card>);
+
   }
   
   const itemStyle = {
     y: useMotionValue(0),
-    touchAction: 'pan-y'
+    touchAction: 'pan-y',
   }
 
   
@@ -141,18 +143,19 @@ export default function ApplicantCard({animated = false, applicant, scale = fals
     displayCard() : Selectable(displayCard())
   );
 
-
   function Selectable(element: any) {
     return (
       (applicant) ?
-      <Stack>
-      <motion.div key={`orderitem-${applicant.id}`} value={applicant} style={itemStyle} onTap={() => shortlist(applicant)}>
+      <Stack justifyContent='center' alignItems='center' margin='0' padding='0'>
+        <motion.div key={`orderitem-${applicant.id}`} value={applicant} style={itemStyle} onTap={() => shortlist(applicant)}>
         {element}
-      </motion.div>
-       {transparent && applicant.reason && <IconButton color={selected ? 'secondary' : 'info'} aria-label="view explanation" component="span" onClick={() => {writeExplanation(applicant)}}>
+        </motion.div>
+       {transparent && applicant.reason &&
+       <IconButton color={selected ? 'secondary' : 'info'} aria-label="view explanation" component="span" onClick={() => {writeExplanation(applicant)}}>
        <InfoIcon />
-     </IconButton>}
-       </Stack>
+      </IconButton>}
+       
+      </Stack>
       : <></>
     )
   }
