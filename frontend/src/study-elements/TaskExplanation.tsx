@@ -1,5 +1,5 @@
 import * as React from "react";
-import { Button, Container, Card, CardContent, Stack, IconButton, Typography } from "@mui/material";
+import { Button, Container, Card, CardContent, Dialog, DialogContent, DialogActions, Stack, IconButton, Typography } from "@mui/material";
 import ApplicationAnimation from "../animations/ApplicationAnimation";
 import { Manipulation } from "../types";
 import Training from "../animations/Training";
@@ -57,6 +57,8 @@ export default function TaskExplanation({systemList,  onFinish}: Props) {
   }
 
   function two() {
+    const [dialog, setDialog] = React.useState(false);
+
     return (
       <Container>
       <Stack justifyContent='center'>
@@ -72,14 +74,32 @@ export default function TaskExplanation({systemList,  onFinish}: Props) {
       </Card>
       <Stack direction='row' alignItems='center' justifyContent='flex-end' margin={2} marginRight={5}>
         <Typography>Why should I use an AI system?</Typography>
-      <IconButton color={'secondary'} aria-label="view explanation" component="div">
+      <IconButton color={'secondary'} aria-label="benefits of AI" component="div" onClick={() => {setDialog(!dialog)}}>
         <HelpIcon /></IconButton>
         </Stack>
       <ApplicationAnimation />
       <br />
       <br />
       </Stack>
+      <Dialog open={dialog} fullWidth maxWidth='md' hideBackdrop>
+          <DialogContent>
+            <Typography>
+            <ol>
+            <li><b>AI systems save time. </b>
+             They are quick and easy to train, provided you have the data to do so, and you don't need to waste time on detailed configurations. </li>
+            <br/><li><b>AI systems adapt to changing circumstances. </b>
+             Are your decisions influenced by new factors over time? Your system will change with you, and analyze why your values are changing.</li>
+            <br/><li><b>AI systems can better consider unconventional scenarios. </b>
+             Some of your current employees don't quite fit the written criteria, but are nevertheless successful and great to work with. A manual system would write them off, but an AI trained on your hiring data will note these trends and give similar applicants their due consideration. 
+		</li></ol>
+            </Typography>
+          <DialogActions>
+          <Button variant='contained' color='secondary' size='small' onClick={() => setDialog(false)}>Got it</Button>
+          </DialogActions>
+          </DialogContent>
+        </Dialog>
       </Container>
+
     );
   }
 
