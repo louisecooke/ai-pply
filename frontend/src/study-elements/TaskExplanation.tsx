@@ -15,7 +15,7 @@ import { shortlistLength } from "../study-config/Configuration";
 import ApplicantCard from "../components/ApplicantCard";
 
 type Props = {
-  onFinish: Function;
+  onFinish: () => void;
   systemList: Manipulation[];
 }
 
@@ -28,7 +28,7 @@ export default function TaskExplanation({systemList,  onFinish}: Props) {
     setPage(page + 1);
   }
 
-  const workflow = [opener(), two(), three(), four(), five(), six(), seven(), <Training systemList={systemList} onFinish={onFinish}/>, 
+  const workflow = [opener(), two(), three(), four(), five(), six(), seven(), {/* <Training systemList={systemList} onFinish={onFinish}/> */}, 
   ];
 
   return (
@@ -194,7 +194,7 @@ export default function TaskExplanation({systemList,  onFinish}: Props) {
       {nextButton()}
       </Card>
 
-      <Shortlist shortlist={demoApplicants} rank={()=>{}} scale={true} demo={true}/>
+      <Shortlist shortlist={demoApplicants} rank={()=>{}} scale={false} demo={true}/>
       <br />
       <br />
       </Container>
@@ -222,11 +222,13 @@ export default function TaskExplanation({systemList,  onFinish}: Props) {
       <br />
       </Container>
     );
+
+    function trainingButton() {
+      return <Button variant='contained' color='secondary' onClick={onFinish}>LET'S GET TO WORK</Button>;
+    }
   }
 
-  function trainingButton() {
-    return <Button variant='contained' color='secondary' onClick={nextPage}>TRAIN THE SYSTEMS</Button>;
-  }
+
 
   function nextButton() {
     return <Button variant='contained' color='secondary' onClick={nextPage}>Next</Button>;

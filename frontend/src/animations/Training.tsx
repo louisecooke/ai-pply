@@ -8,7 +8,8 @@ import { lightBoard } from './Lightswitch';
 import * as React from "react";
 
 type Props = {
-  systemList: Manipulation[];
+  index: number;
+  system: Manipulation;
   onFinish: Function;
 }
 
@@ -35,8 +36,7 @@ const nets: Net[] = [
   } as Net,
 ];
 
-export default function Training({systemList, onFinish}: Props) {
-  const [index, setIndex] = React.useState(0);
+export default function Training({index, system, onFinish}: Props) {
   const [finished, setFinished] = React.useState(false);
   const [networkFinished, setNetworkFinished] = React.useState(false);
 
@@ -45,20 +45,10 @@ export default function Training({systemList, onFinish}: Props) {
       <CardAnimation key={`cardAnimation-${index}`}/>
       <Network key={`network-${index}`} net={nets[index]} callback={() => {setNetworkFinished(true)}}/>
 
-      {systemList && <LearningSystem key={`learning-${index}`} system={systemList[index]} processed={networkFinished} callback={nextSystem} responses={thinkingText[index]}/>}
+      <LearningSystem key={`learning-${index}`} system={system} processed={networkFinished} callback={onFinish} responses={thinkingText[index]}/>
       </Stack>
    
   );
-
-  function nextSystem() {
-    if (index + 1 < systemList.length) {
-      setIndex(index + 1);
-      setNetworkFinished(false);
-    } else {
-      setFinished(true);
-      onFinish();
-    }
-  }
 
 }
 

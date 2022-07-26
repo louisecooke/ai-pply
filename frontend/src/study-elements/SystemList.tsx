@@ -5,10 +5,10 @@ import Questionnaire from "../components/Questionnaire";
 import SystemCard from "../components/SystemCard";
 import { Button, Container, Stack } from "@mui/material";
 import { systemThemes } from "../styling/SystemThemes";
-import ScenarioExplanation from "./ScenarioExplanation";
+import Training from "../animations/Training";
 
 enum ELEMENTS {
-    TASK, QUESTIONNAIRE, TRANSITION
+    TRAINING, TASK, QUESTIONNAIRE, TRANSITION
 }
 
 type Props = {
@@ -23,7 +23,7 @@ export default function SystemList({onFinish, setTheme, systemList}: Props) {
   const [completed, setCompleted] = React.useState([] as number[]);
   const [systems, setSystems] = React.useState(extendSystems(systemList) as Completion[]);
   const [started, setStarted] = React.useState(false);
-  const [visibleElement, setVisibleElement] = React.useState(ELEMENTS.TASK);
+  const [visibleElement, setVisibleElement] = React.useState(ELEMENTS.TRAINING);
   const [penultimate, setPenultimate] = React.useState(false);
 
   function extendSystems(systems: Manipulation[]) {
@@ -73,11 +73,13 @@ export default function SystemList({onFinish, setTheme, systemList}: Props) {
 
   const evaluateNext = () => {
     nextSystem();
-    setVisibleElement(ELEMENTS.TASK);
+    setVisibleElement(ELEMENTS.TRAINING);
   }
 
   const currentElement = () => {
     switch (visibleElement) {
+      case (ELEMENTS.TRAINING):
+        return (<Training index={index} system={chosenSystem} onFinish={() => setVisibleElement(ELEMENTS.TASK)} />)
       case (ELEMENTS.TASK): 
         return (<HiringTask system={chosenSystem} finish={finishScenario} setTheme={setTheme}/>)
   

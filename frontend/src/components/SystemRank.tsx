@@ -6,11 +6,12 @@ import { shortlistLength } from "../study-config/Configuration";
 type Props = {
   applicants: Applicant[];
   setApplicants: Function;
+  scale: boolean;
   transparent: boolean;
   writeExplanation: Function;
 };
 
-export default function SystemRank({applicants, setApplicants, transparent, writeExplanation}: Props) {
+export default function SystemRank({applicants, setApplicants, scale, transparent, writeExplanation}: Props) {
 
   function shortlist(applicant: Applicant) {
     let newList = [applicant, ...applicants.filter(a => a.id !== applicant.id)];
@@ -19,7 +20,7 @@ export default function SystemRank({applicants, setApplicants, transparent, writ
 
   const elements = () => {
     return applicants.map((a, i) => {
-    return <ImageListItem key={`imagelist-${a.id}`} ><ApplicantCard applicant={a} index={i} key={a.id} transparent={transparent} shortlist={shortlist} scale={true} ranking={false}
+    return <ImageListItem key={`imagelist-${a.id}`} ><ApplicantCard applicant={a} index={i} key={a.id} transparent={transparent} shortlist={shortlist} scale={scale} ranking={false}
       writeExplanation={writeExplanation} /></ImageListItem>;});
   };
 
