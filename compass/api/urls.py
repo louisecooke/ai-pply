@@ -2,11 +2,12 @@ from django.urls import path, re_path
 from django.views import generic
 from .views.list_view import apiOverview
 from .views.questionnaire_views import QuestionList, OptionList, AnswerList, ScaleList
-from .views.system_views import participantList, systemList
+from .views.system_views import participantList, systemList, Participant
 
 urlpatterns = [
     path('', apiOverview, name='api-overview'),
-    re_path(r'participants\/?$', participantList, name='participants'),
+    #path('participants/', participants, name='participants'),
+     path('participants/', Participant.as_view(), name='participants'),
     path('systems/', systemList, name='systems'),
     
     path('questions/', QuestionList.as_view(), name='questions'),
