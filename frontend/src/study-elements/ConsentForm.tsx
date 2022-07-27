@@ -51,7 +51,7 @@ export default function ConsentForm({onFinish: next}: Props) {
       </CardContent>
       <Stack direction='row' spacing={2} justifyContent='center'>
       <Button variant='contained' color='secondary' onClick={() => setDenied(true)}>NEIN</Button>
-      <Button variant='contained' color='secondary' onClick={() => {setDenied(false); next()}}>JA</Button>
+      <Button variant='contained' color='secondary' onClick={() => {acceptTerms()}}>JA</Button>
       </Stack>
       {denied && <Typography>
         <p>
@@ -64,4 +64,27 @@ export default function ConsentForm({onFinish: next}: Props) {
 
     </Container>
   );
+
+  function acceptTerms() {
+    setDenied(false);
+    postId();
+    next();
+  }
 }
+
+
+
+function postId() {
+  fetch("api/participants/", {
+        method: 'POST',
+        headers: {
+          'Content-Type': 'application/json',
+        },
+          }).then((response) => response.json())
+      .then((data) =>
+        {
+          console.log(data);
+        }).catch((error) => {
+          console.log(error);
+        });
+      }

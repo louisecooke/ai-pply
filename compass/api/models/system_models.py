@@ -13,12 +13,11 @@ class System(models.Model):
 
 
 class Participant(models.Model):
-    name = models.CharField(max_length=80)
-    email = models.CharField(max_length=80)
+    id = models.CharField(max_length=160, primary_key=True)
     completions = models.ManyToManyField(System, through='Completion', blank=True)
 
     def __str__(self):
-        return self.name
+        return self.id
 
 
 class Characteristic(models.Model):
