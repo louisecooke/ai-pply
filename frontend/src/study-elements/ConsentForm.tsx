@@ -2,10 +2,10 @@ import * as React from "react";
 import { Button, Card, CardContent, Container, Stack, Typography } from "@mui/material";
 
 type Props = {
-  onFinish: () => void;
+  next: () => void;
 }
 
-export default function ConsentForm({onFinish: next}: Props) {
+export default function ConsentForm({next} : Props) {
   const [denied, setDenied] = React.useState(false);
 
   return (
@@ -67,7 +67,7 @@ export default function ConsentForm({onFinish: next}: Props) {
 
   function acceptTerms() {
     setDenied(false);
-    postId();
+    //postId();
     next();
   }
 }

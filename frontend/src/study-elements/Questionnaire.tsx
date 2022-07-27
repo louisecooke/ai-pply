@@ -3,6 +3,7 @@ import { Button, Divider, Card,
   Typography, Stack, FormControl, FormLabel,
    RadioGroup, Radio, Container, CardContent } from "@mui/material";
 import { VARIANTS } from '../types';
+import { useNavigate } from "react-router-dom";
 
 type Option = {
   id: number;
@@ -28,15 +29,17 @@ type Question = {
 
 type Props = {
   variant: VARIANTS;
-  onFinish?: () => void;
+  next: () => void;
 }
 
-export default function Questionnaire({variant, onFinish: finish} : Props) {
+export default function Questionnaire({variant, next} : Props) {
   const [questions, setQuestions] = React.useState([] as Question[]);
   const [scales, setScales] = React.useState([] as Scale[]);
   const [error, setError] = React.useState(false);
   const [success, setSuccess] = React.useState(false);
 
+  
+  let navigate = useNavigate();
   
   const errorMessage = 'Please enter a value for all fields.'
   
@@ -118,7 +121,7 @@ export default function Questionnaire({variant, onFinish: finish} : Props) {
         }).catch((error) => {
           console.log(error);
         }); */
-      finish && finish();
+      next();
 
     }
   }

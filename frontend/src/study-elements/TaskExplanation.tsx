@@ -15,20 +15,20 @@ import { shortlistLength } from "../study-config/Configuration";
 import ApplicantCard from "../components/ApplicantCard";
 
 type Props = {
-  onFinish: () => void;
   systemList: Manipulation[];
+  next: () => void;
 }
 
 const demoApplicants = newApplicants(shortlistLength);
 
-export default function TaskExplanation({systemList,  onFinish}: Props) {
+export default function TaskExplanation({systemList, next: onFinish}: Props) {
   const [page, setPage] = React.useState(0);
 
   const nextPage = () => {
     setPage(page + 1);
   }
 
-  const workflow = [opener(), two(), three(), four(), five(), six(), seven(), {/* <Training systemList={systemList} onFinish={onFinish}/> */}, 
+  const workflow = [opener(), two(), three(), four(), five(), six(), seven(), 
   ];
 
   return (

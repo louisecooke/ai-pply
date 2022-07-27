@@ -1,7 +1,7 @@
 import * as React from "react";
 import HiringTask from "./HiringTask";
 import { Applicant, Manipulation, VARIANTS, Completion } from "../types";
-import Questionnaire from "../components/Questionnaire";
+import Questionnaire from "./Questionnaire";
 import SystemCard from "../components/SystemCard";
 import { Button, Container, Stack } from "@mui/material";
 import { systemThemes } from "../styling/SystemThemes";
@@ -12,12 +12,12 @@ enum ELEMENTS {
 }
 
 type Props = {
-  onFinish: Function;
+  next: () => void;
   setTheme: Function;
   systemList: Manipulation[];
 }
 
-export default function SystemList({onFinish, setTheme, systemList}: Props) {
+export default function SystemList({next, setTheme, systemList}: Props) {
   const [chosenSystem, setChosenSystem] = React.useState({} as Manipulation);
   const [index, setIndex] = React.useState(-1);
   const [completed, setCompleted] = React.useState([] as number[]);
@@ -47,7 +47,7 @@ export default function SystemList({onFinish, setTheme, systemList}: Props) {
   const nextSystem = () => {
     let index;
     if (penultimate) {
-      onFinish();
+      next();
     } else {
       do {
         index = Math.floor(Math.random() * systems.length);
@@ -88,7 +88,7 @@ export default function SystemList({onFinish, setTheme, systemList}: Props) {
           <Container>
           <Stack alignItems='center'>
           <SystemCard system={chosenSystem}></SystemCard>
-          <Questionnaire variant={VARIANTS.EVALUATION} onFinish={finishQuestionnaire} />
+          <Questionnaire variant={VARIANTS.EVALUATION} next={finishQuestionnaire} />
           </Stack>
           </Container>)
 
