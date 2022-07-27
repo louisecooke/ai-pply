@@ -14,6 +14,7 @@
     "framer-motion": "^6.4.1",
     "react": "^18.1.0",
     "react-dom": "^18.1.0",
+    "react-hcaptcha": "^0.1.1",
     "react-router-dom": "^6.3.0",
     "react-typed": "^1.2.0",
     "typescript": "^4.7.2",

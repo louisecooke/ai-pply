@@ -5,6 +5,7 @@ import SystemList from "./SystemList";
 import Questionnaire from "./Questionnaire";
 import "../styles.css";
 import { Manipulation, Completion } from "../types";
+import HCaptcha from 'react-hcaptcha';
 
 import { VARIANTS } from "../types";
 import ConsentForm from "./ConsentForm";
@@ -40,6 +41,8 @@ export default function Homepage({setTheme}: Props) {
       Welcome, and we're happy you're here! If you're ready to get started, click the button below. 
       </CardContent> 
       <Link to="/consent" style={{textDecoration: 'none'}}>
+      <HCaptcha sitekey="8e926a8e-af87-49d4-9468-efb44e5152cc" onVerify={onVerifyCaptcha}/>
+      <br/>
       <Button variant='contained' color='secondary'>Start study</Button></Link>
       </Card>
       <br />
@@ -48,6 +51,8 @@ export default function Homepage({setTheme}: Props) {
       </Stack>
       </Container>
     );
+
+    function onVerifyCaptcha(token) {console.log("Verified: " + token)}
   };
 
   function nextStep(nextUrl: string) {
