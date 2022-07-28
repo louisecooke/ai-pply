@@ -32,11 +32,14 @@ export default function SystemList({next, setTheme}: Props) {
 
   React.useEffect( () => {
       setSystems(systemContext);   
-      if (systems.length > 0) {
-        nextSystem();
-        setStarted(true);
-      }
   }, [systemContext.length]);
+
+  React.useEffect( () => {
+    if (systems.length > 0) {
+      nextSystem();
+      setStarted(true);
+    }
+  }, [systems.length]);
 
   const postQuestionnaireText = penultimate ? 'All finished.' : 'You have completed your evaluation. Ready for the next system?';
 
