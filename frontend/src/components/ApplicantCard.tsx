@@ -147,7 +147,7 @@ export default function ApplicantCard({animated = false, applicant, scale = fals
     return (
       (applicant) ?
       <Stack justifyContent='center' alignItems='center' margin='0' padding='0'>
-        <motion.div key={`orderitem-${applicant.id}`} value={applicant} style={itemStyle} onTap={() => shortlist(applicant)}>
+        <motion.div key={`orderitem-${applicant.id}`} value={applicant} style={itemStyle} onTap={() => shortlist(applicant, index)}>
         {element}
         </motion.div>
        {transparent && applicant.reason &&

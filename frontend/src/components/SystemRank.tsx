@@ -13,8 +13,13 @@ type Props = {
 
 export default function SystemRank({applicants, setApplicants, scale, transparent, writeExplanation}: Props) {
 
-  function shortlist(applicant: Applicant) {
-    let newList = [applicant, ...applicants.filter(a => a.id !== applicant.id)];
+  function shortlist(applicant: Applicant, index: number) {
+    let newList: Applicant[] = [];
+    if (index < shortlistLength) {
+      newList = [...applicants.slice(0, index), ...applicants.slice(index + 1, shortlistLength + 1), applicant, ...applicants.slice(shortlistLength + 1)]
+    } else {
+      newList = [applicant, ...applicants.slice(0, index), ...applicants.slice(index + 1)];
+    }
     setTimeout(setApplicants(newList), 1000);
   }
 
