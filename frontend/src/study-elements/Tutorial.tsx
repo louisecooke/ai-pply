@@ -2,7 +2,6 @@ import * as React from "react";
 import { Button, Container, Card, CardContent, Dialog, DialogContent, DialogActions, Stack, IconButton, Typography } from "@mui/material";
 import ApplicationAnimation from "../animations/ApplicationAnimation";
 import { Manipulation } from "../types";
-import Training from "../animations/Training";
 import InfoIcon from '@mui/icons-material/Info';
 import HelpIcon from '@mui/icons-material/Help';
 
@@ -13,16 +12,17 @@ import Shortlist from "../components/Shortlist";
 import { newApplicants } from "../util/Functions";
 import { shortlistLength } from "../study-config/Configuration";
 import ApplicantCard from "../components/ApplicantCard";
+import { SystemContext } from "../App";
 
 type Props = {
-  systemList: Manipulation[];
   next: () => void;
 }
 
 const demoApplicants = newApplicants(shortlistLength);
 
-export default function TaskExplanation({systemList, next: onFinish}: Props) {
+export default function Tutorial({next: onFinish}: Props) {
   const [page, setPage] = React.useState(0);
+  const systemList = React.useContext(SystemContext);
 
   const nextPage = () => {
     setPage(page + 1);
@@ -215,7 +215,7 @@ export default function TaskExplanation({systemList, next: onFinish}: Props) {
       <br />
       <Stack spacing={4} direction='row' justifyContent='center'>
       {systemList.map( s => {
-        return <SystemCard system={s} />
+        return <SystemCard system={s.system} />
       })}
       </Stack>
       <br />
