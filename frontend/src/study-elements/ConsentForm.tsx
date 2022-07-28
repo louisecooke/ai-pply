@@ -30,13 +30,13 @@ export default function ConsentForm({next} : Props) {
         </Typography>
         <Typography variant='h5'>Datenschutz</Typography>
         <Typography variant='body1' align='left'>
-        <p>
+        
           <ol>
             <li>Ich erkläre mich damit einverstanden, dass im Rahmen dieser Studie Daten in anonymisierter Form erhoben werden.</li>
             <li>Die Einwilligung zur Erhebung und Verarbeitung der Daten ist unwiderruflich, da aufgrund der anonymisierten Form der Umfrage keine teilnehmerbezogene Löschung durchgeführt werden kann.</li>
             <li>Ich erkläre mich damit einverstanden, dass meine Daten nach Beendigung oder Abbruch der Studie gelöscht werden, nachdem sie mindestens zehn Jahre aufbewahrt wurden. </li>
           </ol>
-        </p>
+        
         <p>
           Die Erklärung zum Datenschutz und die Einwilligung in die Teilnahme zur Studie können Sie hier herunterladen. 
         </p>

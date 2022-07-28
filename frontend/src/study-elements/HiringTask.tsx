@@ -44,7 +44,7 @@ export default function HiringTask({system, finish, setTheme} : TaskProps) {
   const hoverTime = React.useRef(0);
   const [scale, setScale] = React.useState(randomBetween(0, 1) === 1);
 
-  const systemCard = <SystemCard system={system} />; 
+  const systemCard = system && <SystemCard system={system} />; 
 
   React.useEffect( () => {
     setChanges(0);
@@ -59,6 +59,7 @@ export default function HiringTask({system, finish, setTheme} : TaskProps) {
   }, [preferences]);
 
   return (
+    system ?
       <Stack direction='row' justifyContent='center' spacing={8} alignItems='flex-start' margin={5}>
         {!ranked &&
         (shortlisted ? <Shortlist shortlist={applicants.slice(0, shortlistLength)} rank={endRanking} scale={scale}/>
@@ -74,7 +75,7 @@ export default function HiringTask({system, finish, setTheme} : TaskProps) {
           <ReasonDialog displayImage={<img src={system.image} height='180' />} text={text} frequency={frequency} callback={() => setText('')} />
       <Spinner displayImage={<img src={system.image} height='180' width='240'/>} displayText='Loading...' timePeriod={loadingTime} callback={setSpinner} visible={loading}/>
         </Stack>
-      </Stack>
+      </Stack> : <></>
   );
 
   function logInquiry(id: number) {

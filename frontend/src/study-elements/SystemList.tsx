@@ -5,6 +5,7 @@ import Questionnaire from "./Questionnaire";
 import SystemCard from "../components/SystemCard";
 import { Button, Container, Stack } from "@mui/material";
 import { systemThemes } from "../styling/SystemThemes";
+import { SystemContext } from "../App";
 import Training from "../animations/Training";
 
 enum ELEMENTS {
@@ -14,33 +15,28 @@ enum ELEMENTS {
 type Props = {
   next: () => void;
   setTheme: Function;
-  systemList: Manipulation[];
 }
 
-export default function SystemList({next, setTheme, systemList}: Props) {
+export default function SystemList({next, setTheme}: Props) {
   const [chosenSystem, setChosenSystem] = React.useState({} as Manipulation);
   const [index, setIndex] = React.useState(-1);
   const [completed, setCompleted] = React.useState([] as number[]);
-  const [systems, setSystems] = React.useState(extendSystems(systemList) as Completion[]);
+  const [systems, setSystems] = React.useState(React.useContext(SystemContext));
   const [started, setStarted] = React.useState(false);
-  const [visibleElement, setVisibleElement] = React.useState(ELEMENTS.TRAINING);
+
+  //switch back to TRAINING when finished debugging
+  const [visibleElement, setVisibleElement] = React.useState(ELEMENTS.TASK);
   const [penultimate, setPenultimate] = React.useState(false);
 
-  function extendSystems(systems: Manipulation[]) {
-    let manips = systems.map( (s: Manipulation) => {
-      return ({
-        system: s,
-        interacted: false
-      } as Completion);
-    });
-    return manips; 
-  }
+  const systemContext = React.useContext(SystemContext);
 
   React.useEffect( () => {
-    setSystems(extendSystems(systemList));
-    nextSystem();
-    setStarted(true);
-  }, []);
+      setSystems(systemContext);   
+      if (systems.length > 0) {
+        nextSystem();
+        setStarted(true);
+      }
+  }, [systemContext.length]);
 
   const postQuestionnaireText = penultimate ? 'All finished.' : 'You have completed your evaluation. Ready for the next system?';
 
@@ -78,8 +74,8 @@ export default function SystemList({next, setTheme, systemList}: Props) {
 
   const currentElement = () => {
     switch (visibleElement) {
-      case (ELEMENTS.TRAINING):
-        return (<Training index={index} system={chosenSystem} onFinish={() => setVisibleElement(ELEMENTS.TASK)} />)
+     /*  case (ELEMENTS.TRAINING):
+        return (<Training index={index} system={chosenSystem} onFinish={() => setVisibleElement(ELEMENTS.TASK)} />) */
       case (ELEMENTS.TASK): 
         return (<HiringTask system={chosenSystem} finish={finishScenario} setTheme={setTheme}/>)
   
