@@ -21,7 +21,7 @@ export const newApplicants = (num: number) => {
     return applicantList;
 }
 
-export const customSort = (applicants: Applicant[], preferences: FieldProperties, control: boolean, isDefault: boolean) => {
+export const customSort = (applicants: Applicant[], preferences: FieldProperties, control: boolean, transparency: boolean, isDefault: boolean) => {
     applicants.sort((a, b) => {
         return weighFactors(b.fields, preferences) - weighFactors(a.fields, preferences)
     })
@@ -39,40 +39,43 @@ export const customSort = (applicants: Applicant[], preferences: FieldProperties
     for (let i = 0; i < shortlistLength; i++) {
         let maxFactor = '';
         let maxVal = 0;
-        let consistent = false;
         Object.entries(applicants[i].fields).forEach(([key, value]) => {
-            if (value > 89 && value > maxVal) {
+            if (value > 88 && value > maxVal) {
                 maxVal = value;
                 maxFactor = key;
             }
         })
-        if (applicants[i].reason !== '') consistent = true; 
-        applicants[i] = {...applicants[i], reason: generateReason(maxPref, maxFactor, control, isDefault, consistent)};
+        applicants[i] = {...applicants[i], reason: transparency ? generateReason(maxPref, maxFactor, control, isDefault, applicants[i].reason) : ''};
     }
     return applicants;
 }
 
-/* The variable 'consistent' acts as a safeguard against the following case:
-  A user is working with the control+transparency system
-  Applicant 2 (for example) is chosen and the given explanation falls under option 0. 
-  The user adjusts the control panel, therefore sorting and giving new explanations for all applications.
-  Applicant 2 is chosen again, and given option 0 again. However, the randomized values would be different.
-  Instead, this second/third/nth time will default to the 'past data' explanation, which does not contain a randomized value.
-*/
-function generateReason(maxPref: string, maxFactor, control: boolean, isDefault: boolean, consistent: boolean) {
+function generateReason(maxPref: string, maxFactor, control: boolean, isDefault: boolean, prevReason: string) {
     let degrees = randomBetween(2, 6);
-    let percent = randomBetween(81, 95);
-    let option = randomBetween(0, 2);
+    let option = randomBetween(0, 3);
+
     if (maxFactor !== '') {
-        return `The ${maxFactor.toLowerCase()} of this applicant is exceptional. Similar employees have performed well at your company.`
+        return control ? `The ${maxFactor.toLowerCase()} of this applicant is exceptional. Similar employees have performed well at your company.`
+        : `This applicant scores high on ${maxFactor.toLowerCase()}, which is an indicator of success in your organization in many cases.`
     }
     if (option === 0) {
-        return `When presented with a comparison between similar applicants (within ${degrees} degrees of latitude), many of your hiring managers chose to shortlist this applicant.`
+        return control ? `When your managers have made comparable decisions (with an applicant ${100 - 2 * degrees}% similar), this kind of applicant was often shortlisted.`
+        : `When presented with a comparison between similar applicants (within ${degrees} degrees of latitude), many of your hiring managers chose to shortlist such an applicant.`
     } 
-    if (!isDefault && ((consistent) || (option === 1 && control && maxPref))) {
-            return `This decision was made based on your past data, plus your recent input. I see that ${maxPref} is important to you.`
+    if (!isDefault && ((prevReason !== '') || (option === 1 && control && maxPref))) {
+        let second = `I see that ${maxPref} is important to you.`;
+        if (prevReason !== '') {
+            second = prevReason.slice(0, -1) + `, and ` + second
         }
-    else return `The application of this candidate scores similarly to successful employees in your organization.`
+        return `This decision was made based on your past data and recent input. ` + second;
+    }
+    if (option === 2) {
+        return control ? `This applicant is very similar to a high-achieving member of your team.` :
+            `One of the most effective members of your team had a comparable application.`
+    }
+    else return control ? `This applicant matches the general profile of effective employees in your organization.` :
+    `This applicant has an overall profile similar to successful employees in your organization.`
+
     }
     
 

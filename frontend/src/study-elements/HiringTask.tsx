@@ -30,7 +30,7 @@ export default function HiringTask({system, finish, setTheme} : TaskProps) {
   const initialPreferences = defaultPreferences() as FieldProperties;
   const [shortlisted, setShortlisted] = React.useState(false);
   const [ranked, setRanked] = React.useState(false);
-  const [applicants, setApplicants] = React.useState(customSort(newApplicants(numApplicants), initialPreferences, system.control, true));
+  const [applicants, setApplicants] = React.useState(customSort(newApplicants(numApplicants), initialPreferences, system.control, system.transparency, true));
   const [loadingTime, setLoadingTime] = React.useState(randomLoadingTime());
   const [preferences, setPreferences] = React.useState(initialPreferences);
   const isDefault = objectsEqual(preferences, initialPreferences);
@@ -54,7 +54,7 @@ export default function HiringTask({system, finish, setTheme} : TaskProps) {
   }, [text]);
 
   React.useEffect( () => {
-    setApplicants(customSort(applicants, preferences, system.control, isDefault));
+    setApplicants(customSort(applicants, preferences, system.control, system.transparency, isDefault));
     updateMetric(applicants.slice(0, shortlistLength));
   }, [preferences]);
 
