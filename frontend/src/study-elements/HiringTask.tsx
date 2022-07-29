@@ -43,10 +43,8 @@ export default function HiringTask({system, finish, setTheme} : TaskProps) {
 
   const totalTime = React.useRef(0);
   const panelChanges = React.useRef(-1);
-  
   const transparencyChanges = sumValues(transparencyMetrics.current);
   const reorderChanges = React.useRef(0);
-
 
   const [scale, setScale] = React.useState(randomBetween(0, 1) === 1);
   const [loaded, setLoaded] = React.useState(false);
@@ -56,6 +54,9 @@ export default function HiringTask({system, finish, setTheme} : TaskProps) {
   React.useEffect(() => {
     setLoaded(true);
   }, []);
+
+  React.useEffect( () => {
+  }, [text]);
 
   React.useEffect( () => {
     panelChanges.current = 0;
@@ -70,9 +71,9 @@ export default function HiringTask({system, finish, setTheme} : TaskProps) {
   }, applicants);
 
   React.useEffect( () => {
-    if (loaded) {
     setApplicants(customSort(applicants, preferences, system.control, system.transparency, isDefault));
     updateMetric(applicants.slice(0, shortlistLength));
+    if (loaded) {
     panelChanges.current += 1;
     }
   }, [preferences]);
