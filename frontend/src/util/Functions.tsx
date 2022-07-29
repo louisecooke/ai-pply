@@ -2,6 +2,7 @@ import { shortlistLength } from "../study-config/Configuration";
 import { FieldProperties, Applicant } from "../types";
 const { randomApplicant } = require("./DummyData");
 
+
 export const toMinutes = (totalSeconds: number) => {
     let minutes = Math.floor(totalSeconds / 60);
     let seconds = totalSeconds % 60;
@@ -9,15 +10,19 @@ export const toMinutes = (totalSeconds: number) => {
 }
 
 export const sumValues = (obj: Object) => {
+    if (Object.values(obj).length > 1) {
     let sum = Object.values(obj).reduce((a: number, b: number) => a + b) as number;
     return sum;
+    } else {
+        return 0;
+    }
 };
 
 export const newApplicants = (num: number) => {
     let applicantList = [] as Applicant[];
     for (var i = 0; i < num; i++) {
       applicantList.push({id: i + 1, fields: randomApplicant(), reason: ''} as Applicant);
-    } 
+    }
     return applicantList;
 }
 

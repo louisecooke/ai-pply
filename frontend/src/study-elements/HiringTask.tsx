@@ -7,13 +7,15 @@ import Spinner from "../components/Spinner";
 import Shortlist from "../components/Shortlist";
 import { Manipulation, FieldProperties, Applicant } from "../types";
 import { numApplicants, shortlistLength } from "../study-config/Configuration";
-import { objectsEqual, randomBetween, customSort, newApplicants } from "../util/Functions";
-import { TypeAnimation } from "../animations/Typewriter";
+import { objectsEqual, randomBetween, customSort, sumValues } from "../util/Functions";
+import Timer from "../components/Timer";
 
 import { defaultTheme } from "../styling/DefaultThemes.js"
 import ReasonDialog from "../components/ReasonDialog";
+import { AirlineSeatLegroomExtraRounded, ChangeCircleSharp } from "@mui/icons-material";
 
 const { defaultPreferences } = require("../util/DummyData");
+const studyApplicants = require("../study-config/Applicants.json");
 
 type TaskProps = {
   system: Manipulation;
@@ -30,32 +32,49 @@ export default function HiringTask({system, finish, setTheme} : TaskProps) {
   const initialPreferences = defaultPreferences(system.id) as FieldProperties;
   const [shortlisted, setShortlisted] = React.useState(false);
   const [ranked, setRanked] = React.useState(false);
-  const [applicants, setApplicants] = React.useState(customSort(newApplicants(numApplicants), initialPreferences, system.control, system.transparency, true));
+  const [applicants, setApplicants] = React.useState(customSort(studyApplicants.slice(0, numApplicants), initialPreferences, system.control, system.transparency, true));
   const [loadingTime, setLoadingTime] = React.useState(randomLoadingTime());
   const [preferences, setPreferences] = React.useState(initialPreferences);
   const isDefault = objectsEqual(preferences, initialPreferences);
   const [loading, setLoading] = React.useState(false);
-  const [changes, setChanges] = React.useState(0);
   const [text, setText] = React.useState('');
   const [frequency, setFrequency] = React.useState(0);
   const transparencyMetrics = React.useRef({} as Counter);
+
+  const totalTime = React.useRef(0);
+  const panelChanges = React.useRef(-1);
   
-  // in 1/100 seconds
-  const hoverTime = React.useRef(0);
+  const transparencyChanges = sumValues(transparencyMetrics.current);
+  const reorderChanges = React.useRef(0);
+
+
   const [scale, setScale] = React.useState(randomBetween(0, 1) === 1);
+  const [loaded, setLoaded] = React.useState(false);
 
   const systemCard = system && <SystemCard system={system} />; 
 
+  React.useEffect(() => {
+    setLoaded(true);
+  }, []);
+
   React.useEffect( () => {
-    setChanges(0);
+    panelChanges.current = 0;
+    totalTime.current = 0;
+    transparencyMetrics.current = {};
   }, [system]);
 
   React.useEffect( () => {
-  }, [text]);
+    if (loaded) {
+    reorderChanges.current += 1;
+    }
+  }, applicants);
 
   React.useEffect( () => {
+    if (loaded) {
     setApplicants(customSort(applicants, preferences, system.control, system.transparency, isDefault));
     updateMetric(applicants.slice(0, shortlistLength));
+    panelChanges.current += 1;
+    }
   }, [preferences]);
 
   return (
@@ -73,7 +92,22 @@ export default function HiringTask({system, finish, setTheme} : TaskProps) {
         shortlisted ? <> </> : <Button variant='contained' onClick={toShortlist} color='secondary'>choose these applicants</Button>
         }
           <ReasonDialog displayImage={<img src={system.image} height='180' />} text={text} frequency={frequency} callback={() => setText('')} />
-      <Spinner displayImage={<img src={system.image} height='180' width='240'/>} displayText='Loading...' timePeriod={loadingTime} callback={setSpinner} visible={loading}/>
+          <Spinner displayImage={<img src={system.image} height='180' width='240'/>} displayText='Loading...' timePeriod={loadingTime} callback={setSpinner} visible={loading}/>
+          <Timer callback={ () => totalTime.current += 1} duration={1} delay={0}/>
+            <>
+            <div>
+            Panel changes: {panelChanges.current}
+            </div>
+            <div>
+            Transparency changes: {transparencyChanges}
+            </div>
+            <div>
+            Timer: {totalTime.current}
+            </div>
+            <div>
+              Reorders: {reorderChanges.current}
+            </div>
+            </>
         </Stack>
       </Stack> : <></>
   );
@@ -101,8 +135,8 @@ export default function HiringTask({system, finish, setTheme} : TaskProps) {
 
   function endRanking () {
     setTheme(defaultTheme);
-    setApplicants(newApplicants(numApplicants));
     setRanked(true);
+    //TODO post completion, sum the changes per id, refresh stats
   }
   
   //returns an odd number between _ and 7, multiplied by 1000. this lines up with the animation design
@@ -120,7 +154,6 @@ export default function HiringTask({system, finish, setTheme} : TaskProps) {
     setLoading(true);
     setTimeout(() => {
       setPreferences(preferences);
-      setChanges(changes + 1);
     }, loadingTime);
   }
 
