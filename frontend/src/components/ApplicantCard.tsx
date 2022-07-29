@@ -5,8 +5,6 @@ import { Applicant } from "../types";
 
 import InfoIcon from '@mui/icons-material/Info';
 import { shortlistLength } from '../study-config/Configuration';
-
-
 const blankProfile = require("../imgs/avatar-g4549a99eb_640.png");
 
 type Props = {
@@ -65,32 +63,6 @@ export default function ApplicantCard({animated = false, applicant, scale = fals
     );  
   }
 
-  const scaleCard = () => {
-    return (
-      <CardContent>
-        <Typography gutterBottom variant="h5" component="div">
-        {applicant && '#' + applicant.id}
-      </Typography>
-        {applicant && Object.keys(applicant.fields).map(p => renderScale(p))}
-    </CardContent>);
-  }
-
-  const ratingCard = () => {
-    return (
-        <CardContent>
-          <Typography gutterBottom variant="h5" component="div">
-          {applicant && '#' + applicant.id}
-          </Typography>
-          {scale && 
-          <Typography variant="caption" color="text.secondary">
-            Ratings:
-        </Typography> }
-            {applicant && Object.keys(applicant.fields).map(p => renderPercentage(p))}
-        </CardContent>
-    );
-  }
-
-
   const animatedCard = () => {
     return (
       <Card component={motion.div}
@@ -123,7 +95,14 @@ export default function ApplicantCard({animated = false, applicant, scale = fals
           image={blankProfile.default}
           alt="applicant photo"
         />
-          {scale ? scaleCard() : ratingCard()}
+          <CardContent>
+          <Typography gutterBottom variant="h5" component="div">
+          {applicant && '#' + applicant.id}
+          </Typography>
+          {applicant && (scale ? Object.keys(applicant.fields).map(p => renderScale(p)) :
+            Object.keys(applicant.fields).map(p => renderPercentage(p)))
+            }
+        </CardContent>
       </CardActionArea>
      </Card>);
 
@@ -150,7 +129,7 @@ export default function ApplicantCard({animated = false, applicant, scale = fals
         <motion.div key={`orderitem-${applicant.id}`} value={applicant} style={itemStyle} onTap={() => shortlist(applicant, index)}>
         {element}
         </motion.div>
-       {transparent && applicant.reason &&
+       {transparent && applicant.reason && (!!index || index === 0 && index < shortlistLength) && 
        <IconButton color={selected ? 'secondary' : 'info'} aria-label="view explanation" component="span" onClick={() => {writeExplanation(applicant)}}>
        <InfoIcon />
       </IconButton>}
