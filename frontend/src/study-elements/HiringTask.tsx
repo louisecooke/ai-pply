@@ -27,7 +27,7 @@ type Counter = {
 }
 
 export default function HiringTask({system, finish, setTheme} : TaskProps) {
-  const initialPreferences = defaultPreferences() as FieldProperties;
+  const initialPreferences = defaultPreferences(system.id) as FieldProperties;
   const [shortlisted, setShortlisted] = React.useState(false);
   const [ranked, setRanked] = React.useState(false);
   const [applicants, setApplicants] = React.useState(customSort(newApplicants(numApplicants), initialPreferences, system.control, system.transparency, true));

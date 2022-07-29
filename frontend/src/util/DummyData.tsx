@@ -24,8 +24,8 @@ export const randomApplicant = () => {
     return setPreferences(toggles);
 }
 
-export const defaultPreferences = () => {
-    return setPreferences(defaultToggles);
+export const defaultPreferences = (id: number) => {
+    return setPreferences(defaultToggles[(id - 1)]);
 }
 
 const setPreferences = (values: number[]) => {

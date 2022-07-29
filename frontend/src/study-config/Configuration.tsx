@@ -1,6 +1,6 @@
 //configurable constants for easy researcher access
 export const applicantFields = ['Education', 'Experience', 'Culture Fit'];
-export const defaultToggles = [50, 60, 30];
+export const defaultToggles = [[50, 60, 40], [40, 60, 50], [55, 65, 45], [50, 50, 60]];
 export const numApplicants = 20;
 export const shortlistLength = 4;
 export const dimensions = {
