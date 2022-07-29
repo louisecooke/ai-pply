@@ -33,9 +33,11 @@ const loadingApplicantTransition = {
   ease: "easeInOut",
 }
 
-export default function ApplicantCard({animated = false, applicant, scale = false, loadingTime = 4000, ranking = false, index,
+function ApplicantCard({animated = false, applicant, scale = false, loadingTime = 4000, ranking = false, index,
   shortlist = () => {}, transparent = false, writeExplanation = () => {}}: Props) {
+    
   let selected = typeof(index) !== 'undefined' && index < shortlistLength;
+  const [aiSelected] = React.useState(selected);
 
   const renderScale = (p: string) => {
     return (
@@ -129,7 +131,7 @@ export default function ApplicantCard({animated = false, applicant, scale = fals
         <motion.div key={`orderitem-${applicant.id}`} value={applicant} style={itemStyle} onTap={() => shortlist(applicant, index)}>
         {element}
         </motion.div>
-       {transparent && applicant.reason && (index !== undefined && index < shortlistLength) && 
+       {transparent && applicant.reason && aiSelected && 
        <IconButton color={selected ? 'secondary' : 'info'} aria-label="view explanation" component="span" onClick={() => {writeExplanation(applicant)}}>
        <InfoIcon />
       </IconButton>}
@@ -144,3 +146,4 @@ function Empty() {
   return <></>;
 }
 
+export default React.memo(ApplicantCard);
