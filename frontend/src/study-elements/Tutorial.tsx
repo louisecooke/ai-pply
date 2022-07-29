@@ -1,7 +1,6 @@
 import * as React from "react";
 import { Button, Container, Card, CardContent, Dialog, DialogContent, DialogActions, Stack, IconButton, Typography } from "@mui/material";
 import ApplicationAnimation from "../animations/ApplicationAnimation";
-import { Manipulation } from "../types";
 import InfoIcon from '@mui/icons-material/Info';
 import HelpIcon from '@mui/icons-material/Help';
 
@@ -28,7 +27,7 @@ export default function Tutorial({next: onFinish}: Props) {
     setPage(page + 1);
   }
 
-  const workflow = [opener(), two(), three(), four(), five(), six(), seven(), 
+  const workflow = [One(), Two(), Three(), Four(), Five(), Six(), Seven(), 
   ];
 
   return (
@@ -37,7 +36,7 @@ export default function Tutorial({next: onFinish}: Props) {
     </>
   );
   
-  function opener() {
+  function One() {
     return (
       <Container sx={{margin: 20}}>
       <Stack direction='row' spacing={20} justifyContent='center'>
@@ -56,7 +55,7 @@ export default function Tutorial({next: onFinish}: Props) {
     );
   }
 
-  function two() {
+  function Two() {
     const [dialog, setDialog] = React.useState(false);
 
     return (
@@ -103,7 +102,7 @@ export default function Tutorial({next: onFinish}: Props) {
     );
   }
 
-  function three() {
+  function Three() {
     return (
       <Container>
       <Card sx={{padding: 5}}>
@@ -122,7 +121,7 @@ export default function Tutorial({next: onFinish}: Props) {
     );
   }
 
-  function four() {
+  function Four() {
     const [selected, setSelected] = React.useState(false);
     return (
       <Container>
@@ -156,7 +155,7 @@ export default function Tutorial({next: onFinish}: Props) {
     );
   }
 
-  function five() {
+  function Five() {
     return (
       <Container>
       <Card sx={{padding: 5, margin: 10}}>
@@ -181,7 +180,7 @@ export default function Tutorial({next: onFinish}: Props) {
     );
   }
 
-  function six() {
+  function Six() {
     return (
       <Container>
       <Card sx={{padding: 5, margin: 10}}>
@@ -201,7 +200,7 @@ export default function Tutorial({next: onFinish}: Props) {
     );
   }
 
-  function seven() {
+  function Seven() {
     return (
       <Container sx={{padding: 5}}>
       <Card sx={{padding: 5}}>
@@ -222,13 +221,11 @@ export default function Tutorial({next: onFinish}: Props) {
       <br />
       </Container>
     );
-
-    function trainingButton() {
-      return <Button variant='contained' color='secondary' onClick={onFinish}>LET'S GET TO WORK</Button>;
-    }
   }
 
-
+  function trainingButton() {
+    return <Button variant='contained' color='secondary' onClick={onFinish}>LET'S GET TO WORK</Button>;
+  }
 
   function nextButton() {
     return <Button variant='contained' color='secondary' onClick={nextPage}>Next</Button>;
