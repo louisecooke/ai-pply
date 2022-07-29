@@ -129,7 +129,7 @@ export default function ApplicantCard({animated = false, applicant, scale = fals
         <motion.div key={`orderitem-${applicant.id}`} value={applicant} style={itemStyle} onTap={() => shortlist(applicant, index)}>
         {element}
         </motion.div>
-       {transparent && applicant.reason && (!!index || index === 0 && index < shortlistLength) && 
+       {transparent && applicant.reason && (index !== undefined && index < shortlistLength) && 
        <IconButton color={selected ? 'secondary' : 'info'} aria-label="view explanation" component="span" onClick={() => {writeExplanation(applicant)}}>
        <InfoIcon />
       </IconButton>}
