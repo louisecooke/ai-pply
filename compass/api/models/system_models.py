@@ -14,8 +14,8 @@ class System(models.Model):
 
 class Participant(models.Model):
     id = models.CharField(max_length=160, primary_key=True)
-    creationTime = models.DateField()
-    completions = models.ManyToManyField(System, through='Completion', blank=True)
+    timestamp = models.DateTimeField()
+    interactions = models.ManyToManyField(System, through='Interaction', blank=True)
 
     def __str__(self):
         return self.id
@@ -28,8 +28,14 @@ class Characteristic(models.Model):
         return self.title
 
 
-class Completion(models.Model):
-    participant = models.ForeignKey(Participant, on_delete=models.PROTECT, verbose_name="related participant")
+class Interaction(models.Model):
+    participant = models.ForeignKey(Participant, on_delete=models.CASCADE, verbose_name="related participant")
     system = models.ForeignKey(System, on_delete=models.PROTECT, verbose_name="related system")
-    completedOn = models.DateField()
-    time = models.IntegerField(null=True)
+    timestamp = models.DateTimeField()
+    total_time = models.IntegerField(null=True)
+    a_changes = models.IntegerField(null=True)
+    c_changes = models.IntegerField(null=True)
+    t_clicks = models.IntegerField(null=True)
+
+    class Meta:
+        unique_together = ('participant', 'system',)

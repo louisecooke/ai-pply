@@ -1,8 +1,21 @@
-export interface Scenario {
-  name: string;
-  description: string;
-  image: string;
-  link: string;
+export interface User {
+  id: string;
+  creationTime: Date;
+  completions: number[];
+}
+
+/* export type UserContext {
+  user: User;
+  updateUser: (id: number, )
+}
+ */
+
+export interface Interaction {
+  system: number;
+  total_time: number;
+  a_changes: number;
+  c_changes: number;
+  t_clicks: number;
 }
 
 export interface Completion {

@@ -2,12 +2,13 @@ from django.urls import path, re_path
 from django.views import generic
 from .views.list_view import apiOverview
 from .views.questionnaire_views import QuestionList, OptionList, AnswerList, ScaleList
-from .views.system_views import participantList, systemList, Participant
+from .views.system_views import participantList, systemList, Participant, Interaction
 
 urlpatterns = [
     path('', apiOverview, name='api-overview'),
     #path('participants/', participants, name='participants'),
-     path('participants/', Participant.as_view(), name='participants'),
+    path('participants/', Participant.as_view(), name='participants'),
+    path('interactions/', Interaction.as_view(), name='interactions'),
     path('systems/', systemList, name='systems'),
     
     path('questions/', QuestionList.as_view(), name='questions'),

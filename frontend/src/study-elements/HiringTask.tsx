@@ -5,14 +5,14 @@ import ControlPanel from "../components/ControlPanel";
 import SystemCard from "../components/SystemCard";
 import Spinner from "../components/Spinner";
 import Shortlist from "../components/Shortlist";
-import { Manipulation, FieldProperties, Applicant } from "../types";
+import { Manipulation, FieldProperties, Applicant, Interaction } from "../types";
 import { numApplicants, shortlistLength } from "../study-config/Configuration";
 import { objectsEqual, randomBetween, customSort, sumValues } from "../util/Functions";
 import Timer from "../components/Timer";
+import { postInteraction } from "../actions/actions";
 
 import { defaultTheme } from "../styling/DefaultThemes.js"
 import ReasonDialog from "../components/ReasonDialog";
-import { AirlineSeatLegroomExtraRounded, ChangeCircleSharp } from "@mui/icons-material";
 
 const { defaultPreferences } = require("../util/DummyData");
 const studyApplicants = require("../study-config/Applicants.json");
@@ -22,7 +22,6 @@ type TaskProps = {
   finish: Function;
   setTheme: Function;
 };
-
 
 type Counter = {
   [key: number]: number;
@@ -50,6 +49,16 @@ export default function HiringTask({system, finish, setTheme} : TaskProps) {
   const [loaded, setLoaded] = React.useState(false);
 
   const systemCard = system && <SystemCard system={system} />; 
+
+  function logData() {
+    console.log(postInteraction({
+      system: system.id,
+      total_time: totalTime.current,
+      a_changes: reorderChanges.current,
+      c_changes: panelChanges.current,
+      t_clicks: transparencyChanges
+    } as Interaction));
+  }
 
   React.useEffect(() => {
     setLoaded(true);
@@ -137,6 +146,7 @@ export default function HiringTask({system, finish, setTheme} : TaskProps) {
   function endRanking () {
     setTheme(defaultTheme);
     setRanked(true);
+    logData();
     //TODO post completion, sum the changes per id, refresh stats
   }
   

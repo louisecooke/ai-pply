@@ -1,11 +1,11 @@
 from rest_framework import serializers
-from ..models.system_models import Participant, System
+from ..models.system_models import Participant, System, Interaction
 import hashlib
 import datetime
 
 class ParticipantSerializer(serializers.ModelSerializer):
     id = serializers.CharField(read_only=True)
-    creationTime = serializers.DateTimeField(read_only=True)
+    timestamp = serializers.DateTimeField(read_only=True)
 
     class Meta:
         model = Participant
@@ -14,13 +14,28 @@ class ParticipantSerializer(serializers.ModelSerializer):
     def create(self, validated_data):
         request_data = (self.context['request'])
         validated_data['id'] = get_hashed_ip(request_data)
-        validated_data['creationTime'] = datetime.datetime.now()
+        validated_data['timestamp'] = datetime.datetime.now()
         return Participant.objects.create(**validated_data)
 
 class SystemSerializer(serializers.ModelSerializer):
     class Meta:
         model = System
         fields = '__all__'
+
+class InteractionSerializer(serializers.ModelSerializer):
+    participant = serializers.CharField(read_only=True)
+    timestamp = serializers.DateTimeField(read_only=True)
+
+    class Meta:
+        model = Interaction
+        fields = '__all__'
+
+    def create(self, validated_data):
+        request_data = (self.context['request'])
+        validated_data['participant'] = Participant.objects.get(id=get_hashed_ip(request_data))
+        validated_data['timestamp'] = datetime.datetime.now()
+        return Interaction.objects.create(**validated_data)
+
 
 
 def get_hashed_ip(request_data):
