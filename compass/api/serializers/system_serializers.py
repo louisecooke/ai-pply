@@ -1,15 +1,20 @@
 from rest_framework import serializers
 from ..models.system_models import Participant, System
 import hashlib
+import datetime
 
 class ParticipantSerializer(serializers.ModelSerializer):
+    id = serializers.CharField(read_only=True)
+    creationTime = serializers.DateTimeField(read_only=True)
+
     class Meta:
         model = Participant
-        fields = []
+        fields = '__all__'
 
     def create(self, validated_data):
         request_data = (self.context['request'])
         validated_data['id'] = get_hashed_ip(request_data)
+        validated_data['creationTime'] = datetime.datetime.now()
         return Participant.objects.create(**validated_data)
 
 class SystemSerializer(serializers.ModelSerializer):

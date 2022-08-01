@@ -9,7 +9,7 @@ from ..serializers.system_serializers import ParticipantSerializer, SystemSerial
 class Participant(generics.CreateAPIView):
     serializer_class = ParticipantSerializer
     queryset = Participant.objects.all()
-     
+
 
 @api_view(['GET'])
 def participantList(request):

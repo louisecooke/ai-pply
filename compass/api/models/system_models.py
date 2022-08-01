@@ -14,6 +14,7 @@ class System(models.Model):
 
 class Participant(models.Model):
     id = models.CharField(max_length=160, primary_key=True)
+    creationTime = models.DateField()
     completions = models.ManyToManyField(System, through='Completion', blank=True)
 
     def __str__(self):
