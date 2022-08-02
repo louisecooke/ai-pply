@@ -1,5 +1,5 @@
 import { Button, Container, Stack, Card, CardContent } from "@mui/material";
-import { Route, Routes, Link, useNavigate } from "react-router-dom";
+import { Link } from "react-router-dom";
 import "../styles.css";
 import HCaptcha from 'react-hcaptcha';
 const resume = require("../imgs/andrea-piacquadio-resume.jpg");

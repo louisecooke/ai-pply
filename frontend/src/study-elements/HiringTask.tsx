@@ -45,7 +45,7 @@ export default function HiringTask({system, finish, setTheme} : TaskProps) {
   const transparencyChanges = sumValues(transparencyMetrics.current);
   const reorderChanges = React.useRef(0);
 
-  const [scale, setScale] = React.useState(randomBetween(0, 1) === 1);
+  const [scale] = React.useState(randomBetween(0, 1) === 1);
   const [loaded, setLoaded] = React.useState(false);
 
   const systemCard = system && <SystemCard system={system} />; 
