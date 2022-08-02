@@ -8,9 +8,7 @@ import Shortlist from "../components/Shortlist";
 import { Manipulation, FieldProperties, Applicant, Interaction } from "../types";
 import { numApplicants, shortlistLength } from "../study-config/Configuration";
 import { objectsEqual, randomBetween, customSort, sumValues } from "../util/Functions";
-import Timer from "../components/Timer";
 import { postInteraction } from "../actions/actions";
-
 import { defaultTheme } from "../styling/DefaultThemes.js"
 import ReasonDialog from "../components/ReasonDialog";
 
@@ -50,14 +48,15 @@ export default function HiringTask({system, finish, setTheme} : TaskProps) {
 
   const systemCard = system && <SystemCard system={system} />; 
 
-  function logData() {
-    console.log(postInteraction({
+  function logData(shortlist: Applicant[]) {
+    postInteraction({
       system: system.id,
       total_time: totalTime.current,
       a_changes: reorderChanges.current,
       c_changes: panelChanges.current,
-      t_clicks: transparencyChanges
-    } as Interaction));
+      t_clicks: transparencyChanges,
+      ranking: shortlist.map((i => i.id))
+    } as Interaction);
   }
 
   React.useEffect(() => {
@@ -143,12 +142,13 @@ export default function HiringTask({system, finish, setTheme} : TaskProps) {
     });
   }
 
-  function endRanking(reorders: number, time: number) {
+  function endRanking(shortlist: Applicant[], reorders: number, time: number) {
+
     reorderChanges.current += reorders;
     totalTime.current += time;
     setTheme(defaultTheme);
     setRanked(true);
-    logData();
+    logData(shortlist);
   }
   
   //returns an odd number between _ and 7, multiplied by 1000. this lines up with the animation design

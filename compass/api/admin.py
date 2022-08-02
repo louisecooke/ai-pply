@@ -30,7 +30,7 @@ class ScaleAdmin(ImportExportModelAdmin):
     display = ("title")
 
 class InteractionAdmin(ImportExportModelAdmin):
-    list_display = ("participant_id", "system_id", "timestamp", "total_time", "a_changes", "c_changes", "t_clicks")
+    list_display = ("participant_id", "system_id", "timestamp", "ranking", "total_time", "a_changes", "c_changes", "t_clicks")
 
 admin.site.register(Question, QuestionAdmin)
 admin.site.register(Option, OptionAdmin)

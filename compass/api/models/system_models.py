@@ -1,5 +1,6 @@
 from django.db import models
 from PIL import Image
+from django.contrib.postgres.fields import ArrayField
 
 class System(models.Model):
     title = models.CharField(max_length=80)
@@ -36,6 +37,7 @@ class Interaction(models.Model):
     a_changes = models.IntegerField(null=True)
     c_changes = models.IntegerField(null=True)
     t_clicks = models.IntegerField(null=True)
+    ranking = ArrayField(models.IntegerField(blank=False))
 
     class Meta:
         unique_together = ('participant', 'system',)

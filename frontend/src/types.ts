@@ -16,6 +16,7 @@ export interface Interaction {
   a_changes: number;
   c_changes: number;
   t_clicks: number;
+  ranking: number[];
 }
 
 export interface Completion {

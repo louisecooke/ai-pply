@@ -7,19 +7,28 @@ import { shortlistLength } from "../study-config/Configuration";
 
 type Props = {
   shortlist: Applicant[];
-  rank: (number) => void;
+  rank: (list: Applicant[], reorders: number, time: number) => void;
   scale: boolean;
   demo?: boolean;
 }
 
 export default function Shortlist({shortlist, rank, scale, demo = false}: Props) {
   const [cards, setCards] = React.useState(shortlist);
+
   //to compensate for first render
   const reorderChanges = React.useRef(-1);
+  const totalTime = React.useRef(0);
 
   React.useEffect( () => {
     reorderChanges.current += 1;
   }, [cards]);
+
+  React.useEffect(() => {
+    const interval = setInterval(() => {
+      totalTime.current += 1;
+    }, 1000);
+    return () => clearInterval(interval);
+  }, []);
 
   return (
     <div>
@@ -47,7 +56,7 @@ export default function Shortlist({shortlist, rank, scale, demo = false}: Props)
       </Stack>
     </Reorder.Group>
     {!demo &&
-    <Button variant='contained' color='secondary' onClick={() => rank(reorderChanges.current)} sx={{margin: 5}}>FINALIZE</Button>}
+    <Button variant='contained' color='secondary' onClick={() => rank(cards, reorderChanges.current, totalTime.current)} sx={{margin: 5}}>FINALIZE</Button>}
     </div>
   );
 }
