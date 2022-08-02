@@ -101,8 +101,8 @@ export default function HiringTask({system, finish, setTheme} : TaskProps) {
         {ranked ? <Button variant='contained' onClick={() => {finish()}} color='secondary'>Evaluate system</Button> :
         shortlisted ? <> </> : <Button variant='contained' onClick={toShortlist} color='secondary'>choose these applicants</Button>
         }
-          <ReasonDialog displayImage={<img src={system.image} height='180' />} text={text} frequency={frequency} callback={() => setText('')} />
-          <Spinner displayImage={<img src={system.image} height='180' width='240'/>} displayText='Loading...' timePeriod={loadingTime} callback={setSpinner} visible={loading}/>
+          <ReasonDialog displayImage={<img src={system.image} height='180' alt='picture of the system'/>} text={text} frequency={frequency} callback={() => setText('')} />
+          <Spinner displayImage={<img src={system.image} height='180' width='240' alt='picture of the system'/>} displayText='Loading...' timePeriod={loadingTime} callback={setSpinner} visible={loading}/>
           <Timer callback={ () => totalTime.current += 1} duration={1} delay={0}/>
             <>
             <div>
