@@ -40,7 +40,8 @@ class Interaction(models.Model):
     a_changes = models.IntegerField(null=True)
     c_changes = models.IntegerField(null=True)
     t_clicks = models.IntegerField(null=True)
-    ranking = ArrayField(models.IntegerField(blank=False))
+    system_ranking = ArrayField(models.IntegerField(blank=False))
+    user_ranking = ArrayField(models.IntegerField(blank=False))
 
     class Meta:
         unique_together = ('participant', 'system',)

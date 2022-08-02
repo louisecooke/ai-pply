@@ -38,6 +38,7 @@ export default function HiringTask({system, finish, setTheme} : TaskProps) {
   const [frequency, setFrequency] = React.useState(0);
   const transparencyMetrics = React.useRef({} as Counter);
 
+  const systemChoices = React.useRef(applicants.slice(0, shortlistLength));
   const totalTime = React.useRef(0);
   const panelChanges = React.useRef(-1);
   const transparencyChanges = sumValues(transparencyMetrics.current);
@@ -55,7 +56,8 @@ export default function HiringTask({system, finish, setTheme} : TaskProps) {
       a_changes: reorderChanges.current,
       c_changes: panelChanges.current,
       t_clicks: transparencyChanges,
-      ranking: shortlist.map((i => i.id))
+      system_ranking: systemChoices.current.map(i => i.id),
+      user_ranking: shortlist.map(i => i.id)
     } as Interaction);
   }
 

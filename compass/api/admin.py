@@ -32,7 +32,7 @@ class SystemAdmin(ImportExportModelAdmin):
     list_display = ("id", "title", "transparency", "control", "image", "description")
 
 class InteractionAdmin(ImportExportModelAdmin, ReadOnly):
-    list_display = ("participant_id", "system_id", "timestamp", "ranking", "total_time", "a_changes", "c_changes", "t_clicks")
+    list_display = ("participant_id", "system_id", "timestamp", "system_ranking", "user_ranking", "total_time", "a_changes", "c_changes", "t_clicks")
 
 admin.site.register(Question, QuestionAdmin)
 admin.site.register(Option, OptionAdmin)
