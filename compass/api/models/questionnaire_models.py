@@ -45,10 +45,13 @@ class Question(models.Model):
     def __str__(self):
         return self.text
 
+    class Meta:
+        ordering = ("variant", "scale")
+
 
 #system is NULL when the answer is for a wellbeing question
 class Answer(models.Model):
-    participant = models.ForeignKey(Participant, on_delete=models.PROTECT, verbose_name="participant")
+    participant = models.ForeignKey(Participant, on_delete=models.CASCADE, verbose_name="participant")
     system = models.ForeignKey(System, on_delete=models.PROTECT, blank=True, null=True, verbose_name="evaluated system")
     question = models.ForeignKey(Question, on_delete=models.PROTECT, verbose_name="question")
     option = models.ForeignKey(Option, on_delete=models.PROTECT, verbose_name="chosen option")
