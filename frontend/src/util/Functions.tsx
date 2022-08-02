@@ -9,8 +9,15 @@ export const toMinutes = (totalSeconds: number) => {
     return (minutes + ":" + (seconds < 10 ? '0': '') + seconds);
 }
 
+/*
+This function obscures the applicant IDs to prevent users from choosing the same applicants each round, 
+simply after recognizing the applicants are the same and they want to be consistent with their decision-making.
+If the desired behaviour is to simply display the applicant ID, you can comment the return statement 
+and uncomment the second.
+*/
 export const displayId = (appId: number, sysId: number) => {
     return ((appId + sysId) % (numApplicants) + 1);
+    //return appId;
 }
 
 export const sumValues = (obj: Object) => {
