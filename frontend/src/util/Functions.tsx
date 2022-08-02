@@ -1,4 +1,4 @@
-import { shortlistLength } from "../study-config/Configuration";
+import { shortlistLength, numApplicants } from "../study-config/Configuration";
 import { FieldProperties, Applicant } from "../types";
 const { randomApplicant } = require("./DummyData");
 
@@ -7,6 +7,10 @@ export const toMinutes = (totalSeconds: number) => {
     let minutes = Math.floor(totalSeconds / 60);
     let seconds = totalSeconds % 60;
     return (minutes + ":" + (seconds < 10 ? '0': '') + seconds);
+}
+
+export const displayId = (appId: number, sysId: number) => {
+    return ((appId + sysId) % (numApplicants) + 1);
 }
 
 export const sumValues = (obj: Object) => {

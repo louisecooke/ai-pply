@@ -91,8 +91,8 @@ export default function HiringTask({system, finish, setTheme} : TaskProps) {
     system ?
       <Stack direction='row' justifyContent='center' spacing={8} alignItems='flex-start' margin={5}>
         {!ranked &&
-        (shortlisted ? <Shortlist shortlist={applicants.slice(0, shortlistLength)} rank={endRanking} scale={scale}/>
-        : <SystemRank applicants={applicants} scale={scale} setApplicants={setApplicants} transparent={system.transparency} writeExplanation={writeExplanation}
+        (shortlisted ? <Shortlist shortlist={applicants.slice(0, shortlistLength)} rank={endRanking} scale={scale} systemId={system.id}/>
+        : <SystemRank applicants={applicants} scale={scale} setApplicants={setApplicants} transparent={system.transparency} writeExplanation={writeExplanation} systemId={system.id}
         />)}
         <Stack direction='column' paddingTop={2} spacing={1} alignItems={ranked ? 'center' : 'flex-start'}>
         {systemCard}

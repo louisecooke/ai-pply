@@ -10,6 +10,7 @@ const blankProfile = require("../imgs/avatar-g4549a99eb_640.png");
 type Props = {
     animated?: boolean;
     applicant?: Applicant;
+    displayId?: number;
     index?: number;
     scale?: boolean;
     loadingTime?: number;
@@ -33,7 +34,7 @@ const loadingApplicantTransition = {
   ease: "easeInOut",
 }
 
-function ApplicantCard({animated = false, applicant, scale = false, loadingTime = 4000, ranking = false, index,
+function ApplicantCard({animated = false, applicant, displayId, scale = false, loadingTime = 4000, ranking = false, index,
   shortlist = () => {}, transparent = false, writeExplanation = () => {}}: Props) {
     
   let selected = typeof(index) !== 'undefined' && index < shortlistLength;
@@ -99,7 +100,7 @@ function ApplicantCard({animated = false, applicant, scale = false, loadingTime 
         />
           <CardContent>
           <Typography gutterBottom variant="h5" component="div">
-          {applicant && '#' + applicant.id}
+          {displayId && ('#' + displayId)}
           </Typography>
           {applicant && (scale ? Object.keys(applicant.fields).map(p => renderScale(p)) :
             Object.keys(applicant.fields).map(p => renderPercentage(p)))

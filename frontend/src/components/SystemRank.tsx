@@ -2,6 +2,7 @@ import { ImageList, ImageListItem } from "@mui/material";
 import { Applicant } from "../types";
 import ApplicantCard from "./ApplicantCard";
 import { shortlistLength } from "../study-config/Configuration";
+import { displayId } from "../util/Functions";
 
 type Props = {
   applicants: Applicant[];
@@ -9,9 +10,10 @@ type Props = {
   scale: boolean;
   transparent: boolean;
   writeExplanation: Function;
+  systemId?: number;
 };
 
-export default function SystemRank({applicants, setApplicants, scale, transparent, writeExplanation}: Props) {
+export default function SystemRank({applicants, setApplicants, scale, transparent, writeExplanation, systemId = 0}: Props) {
   function shortlist(applicant: Applicant, index: number) {
     let newList: Applicant[] = [];
     if (index < shortlistLength) {
@@ -24,8 +26,9 @@ export default function SystemRank({applicants, setApplicants, scale, transparen
 
   const elements = () => {
     return applicants.map((a, i) => {
-    return <ImageListItem key={`imagelist-${a.id}`} ><ApplicantCard applicant={a} index={i} key={a.id} transparent={transparent} shortlist={shortlist} scale={scale} ranking={false}
-      writeExplanation={writeExplanation} /></ImageListItem>;});
+    return <ImageListItem key={`imagelist-${a.id}`} >
+      <ApplicantCard applicant={a} index={i} key={a.id} transparent={transparent} shortlist={shortlist} scale={scale} ranking={false}
+      writeExplanation={writeExplanation} displayId={displayId(a.id, systemId)}/></ImageListItem>;});
   };
 
   return (

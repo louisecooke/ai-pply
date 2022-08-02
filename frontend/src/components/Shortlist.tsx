@@ -4,15 +4,17 @@ import ApplicantCard from "./ApplicantCard";
 import { Applicant } from "../types";
 import { Reorder } from "framer-motion/dist/framer-motion";
 import { shortlistLength } from "../study-config/Configuration";
+import { displayId } from "../util/Functions";
 
 type Props = {
   shortlist: Applicant[];
   rank: (list: Applicant[], reorders: number, time: number) => void;
   scale: boolean;
+  systemId?: number;
   demo?: boolean;
 }
 
-export default function Shortlist({shortlist, rank, scale, demo = false}: Props) {
+export default function Shortlist({shortlist, rank, scale, systemId = 0, demo = false}: Props) {
   const [cards, setCards] = React.useState(shortlist);
 
   //to compensate for first render
@@ -38,7 +40,7 @@ export default function Shortlist({shortlist, rank, scale, demo = false}: Props)
         return <Stack spacing={2} key={`shortliststack-${a.id}`}>
 
         <Reorder.Item key={a.id} value={a} as='div'>
-          <ApplicantCard applicant={a} scale={scale} ranking={true}></ApplicantCard>
+          <ApplicantCard applicant={a} scale={scale} displayId={displayId(a.id, systemId)} ranking={true}></ApplicantCard>
         </Reorder.Item>
         {(i === 0) &&
         <Typography color='secondary' variant='h6'>
