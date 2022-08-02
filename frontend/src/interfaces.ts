@@ -57,8 +57,3 @@ export interface Net {
   dims: number[];
   emptyBoard: boolean[][];
 }
-
-export enum VARIANTS {
-  WELLBEING = 'WELL',
-  EVALUATION = 'EVAL'
-}
