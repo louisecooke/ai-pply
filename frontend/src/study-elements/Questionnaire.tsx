@@ -38,9 +38,6 @@ export default function Questionnaire({variant, next} : Props) {
   const [error, setError] = React.useState(false);
   const [success, setSuccess] = React.useState(false);
 
-  
-  let navigate = useNavigate();
-  
   const errorMessage = 'Please enter a value for all fields.'
   
   const getData = () => {
@@ -85,7 +82,7 @@ export default function Questionnaire({variant, next} : Props) {
   
   const selectQuestion = (qid: number, oid: string) => {
     setQuestions(questions.map(el =>
-      el.id == qid ? {...el, chosenOption: parseInt(oid)} : el));
+      el.id === qid ? {...el, chosenOption: parseInt(oid)} : el));
   }
 
   const dataToPost = () => {

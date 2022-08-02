@@ -1,6 +1,6 @@
 import * as React from "react";
 import HiringTask from "./HiringTask";
-import { Applicant, Manipulation, VARIANTS, Completion } from "../types";
+import { Manipulation, VARIANTS } from "../types";
 import Questionnaire from "./Questionnaire";
 import SystemCard from "../components/SystemCard";
 import { Button, Container, Stack } from "@mui/material";
@@ -22,7 +22,6 @@ export default function SystemList({next, setTheme}: Props) {
   const [index, setIndex] = React.useState(-1);
   const [completed, setCompleted] = React.useState([] as number[]);
   const [systems, setSystems] = React.useState(React.useContext(SystemContext));
-  const [started, setStarted] = React.useState(false);
 
   //switch back to TRAINING when finished debugging
   const [visibleElement, setVisibleElement] = React.useState(ELEMENTS.TASK);
@@ -37,7 +36,6 @@ export default function SystemList({next, setTheme}: Props) {
   React.useEffect( () => {
     if (systems.length > 0) {
       nextSystem();
-      setStarted(true);
     }
   }, [systems.length]);
 
