@@ -143,11 +143,11 @@ export default function HiringTask({system, finish, setTheme} : TaskProps) {
     });
   }
 
-  function endRanking () {
+  function endRanking(reorders: number) {
+    reorderChanges.current += reorders;
     setTheme(defaultTheme);
     setRanked(true);
     logData();
-    //TODO post completion, sum the changes per id, refresh stats
   }
   
   //returns an odd number between _ and 7, multiplied by 1000. this lines up with the animation design

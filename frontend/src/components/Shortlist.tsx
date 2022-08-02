@@ -7,13 +7,19 @@ import { shortlistLength } from "../study-config/Configuration";
 
 type Props = {
   shortlist: Applicant[];
-  rank: () => void;
+  rank: (number) => void;
   scale: boolean;
   demo?: boolean;
 }
 
 export default function Shortlist({shortlist, rank, scale, demo = false}: Props) {
   const [cards, setCards] = React.useState(shortlist);
+  //to compensate for first render
+  const reorderChanges = React.useRef(-1);
+
+  React.useEffect( () => {
+    reorderChanges.current += 1;
+  }, [cards]);
 
   return (
     <div>
@@ -25,11 +31,11 @@ export default function Shortlist({shortlist, rank, scale, demo = false}: Props)
         <Reorder.Item key={a.id} value={a} as='div'>
           <ApplicantCard applicant={a} scale={scale} ranking={true}></ApplicantCard>
         </Reorder.Item>
-        {(i == 0) &&
+        {(i === 0) &&
         <Typography color='secondary' variant='h6'>
           Preferred
         </Typography>}
-        {(i == shortlistLength - 1 ) &&
+        {(i === shortlistLength - 1 ) &&
         <Typography color='secondary' variant='h6'>
           Least preferred
         </Typography>}
@@ -41,7 +47,7 @@ export default function Shortlist({shortlist, rank, scale, demo = false}: Props)
       </Stack>
     </Reorder.Group>
     {!demo &&
-    <Button variant='contained' color='secondary' onClick={rank} sx={{margin: 5}}>FINALIZE</Button>}
+    <Button variant='contained' color='secondary' onClick={() => rank(reorderChanges.current)} sx={{margin: 5}}>FINALIZE</Button>}
     </div>
   );
 }
