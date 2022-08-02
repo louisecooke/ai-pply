@@ -20,7 +20,7 @@ export default function Shortlist({shortlist, rank, scale, demo = false}: Props)
       <Reorder.Group axis="x" values={cards} onReorder={setCards} as='div'>
       <Stack direction='row' marginTop={2} spacing={2} justifyContent='center'>
       {cards.map((a, i) => {
-        return <Stack spacing={2}>
+        return <Stack spacing={2} key={`shortliststack-${a.id}`}>
 
         <Reorder.Item key={a.id} value={a} as='div'>
           <ApplicantCard applicant={a} scale={scale} ranking={true}></ApplicantCard>
