@@ -14,7 +14,7 @@ export default function ConsentForm({next} : Props) {
       <CardContent>
         <Typography variant='h5'>Einverständnis zur Teilnahme an der Online Studie im Rahme des Getrost Vergessen Projekts</Typography>
         
-        <Typography variant='body1' align='left'>
+        <Typography variant='body1' align='left' component={'span'}>
         <p>
           Ich bin über das Forschungsvorhaben ausreichend informiert. Art, Umfang und Bedeutung der Studie, das Studienziel, die Studienlänge
           und weitere studienbedingte Erfordernisse, sowie mögliche Nebenwirkungen der Studienbehandlung wurden genau und verständlich dargelegt. 
@@ -29,7 +29,7 @@ export default function ConsentForm({next} : Props) {
         </p>
         </Typography>
         <Typography variant='h5'>Datenschutz</Typography>
-        <Typography variant='body1' align='left'>
+        <Typography variant='body1' align='left' component={'span'}>
         
           <ol>
             <li>Ich erkläre mich damit einverstanden, dass im Rahmen dieser Studie Daten in anonymisierter Form erhoben werden.</li>
@@ -54,9 +54,7 @@ export default function ConsentForm({next} : Props) {
       <Button variant='contained' color='secondary' onClick={() => {acceptTerms()}}>JA</Button>
       </Stack>
       {denied && <Typography>
-        <p>
         We require your consent to continue with the study.
-        </p>
         </Typography>}
       </Card>
       <br />
@@ -67,12 +65,10 @@ export default function ConsentForm({next} : Props) {
 
   function acceptTerms() {
     setDenied(false);
-    //postId();
+    postId();
     next();
   }
 }
-
-
 
 function postId() {
   fetch("api/participants/", {
@@ -87,4 +83,4 @@ function postId() {
         }).catch((error) => {
           console.log(error);
         });
-      }
+}
