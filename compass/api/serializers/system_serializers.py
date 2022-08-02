@@ -1,5 +1,6 @@
 from rest_framework import serializers
 from ..models.system_models import Participant, System, Interaction
+from django.utils import timezone
 import hashlib
 import datetime
 
@@ -14,7 +15,7 @@ class ParticipantSerializer(serializers.ModelSerializer):
     def create(self, validated_data):
         request_data = (self.context['request'])
         validated_data['id'] = get_hashed_ip(request_data)
-        validated_data['timestamp'] = datetime.datetime.now()
+        validated_data['timestamp'] = datetime.datetime.now(tz=timezone.utc)
         return Participant.objects.create(**validated_data)
 
 class SystemSerializer(serializers.ModelSerializer):
@@ -33,7 +34,7 @@ class InteractionSerializer(serializers.ModelSerializer):
     def create(self, validated_data):
         request_data = (self.context['request'])
         validated_data['participant'] = Participant.objects.get(id=get_hashed_ip(request_data))
-        validated_data['timestamp'] = datetime.datetime.now()
+        validated_data['timestamp'] = datetime.datetime.now(tz=timezone.utc)
         return Interaction.objects.create(**validated_data)
 
 
