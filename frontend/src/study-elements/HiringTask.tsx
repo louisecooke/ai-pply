@@ -62,10 +62,11 @@ export default function HiringTask({system, finish, setTheme} : TaskProps) {
 
   React.useEffect(() => {
     setLoaded(true);
+    const interval = setInterval(() => {
+      totalTime.current += 1;
+    }, 1000);
+    return () => clearInterval(interval);
   }, []);
-
-  React.useEffect( () => {
-  }, [text]);
 
   React.useEffect( () => {
     panelChanges.current = 0;
@@ -103,7 +104,6 @@ export default function HiringTask({system, finish, setTheme} : TaskProps) {
         }
           <ReasonDialog displayImage={<img src={system.image} height='180' alt='the system'/>} text={text} frequency={frequency} callback={() => setText('')} />
           <Spinner displayImage={<img src={system.image} height='180' width='240' alt='the system'/>} displayText='Loading...' timePeriod={loadingTime} callback={setSpinner} visible={loading}/>
-          <Timer callback={ () => totalTime.current += 1} duration={1} delay={0}/>
             <>
             <div>
             Panel changes: {panelChanges.current}
@@ -143,8 +143,9 @@ export default function HiringTask({system, finish, setTheme} : TaskProps) {
     });
   }
 
-  function endRanking(reorders: number) {
+  function endRanking(reorders: number, time: number) {
     reorderChanges.current += reorders;
+    totalTime.current += time;
     setTheme(defaultTheme);
     setRanked(true);
     logData();

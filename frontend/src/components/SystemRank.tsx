@@ -12,7 +12,6 @@ type Props = {
 };
 
 export default function SystemRank({applicants, setApplicants, scale, transparent, writeExplanation}: Props) {
-
   function shortlist(applicant: Applicant, index: number) {
     let newList: Applicant[] = [];
     if (index < shortlistLength) {
