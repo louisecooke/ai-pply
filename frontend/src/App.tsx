@@ -2,7 +2,7 @@ import "./styles.css";
 import Homepage from "./study-elements/Homepage";
 import ConsentForm from "./study-elements/ConsentForm";
 import SystemList from "./study-elements/SystemList";
-import Questionnaire from "./study-elements/Questionnaire";
+import ScaleQuestionnaire from "./study-elements/Questionnaire";
 import Demographic from "./study-elements/Demographic";
 import Tutorial from "./study-elements/Tutorial";
 
@@ -10,13 +10,18 @@ import Tutorial from "./study-elements/Tutorial";
 import * as React from "react";
 import { Link, Routes, Route, useNavigate } from "react-router-dom";
 import { Stack, Typography } from "@mui/material";
-import { Manipulation, VARIANTS, Completion } from "./types";
+import { Manipulation, Completion, User } from "./data-types/interfaces";
+import { SCALE_VARS } from "./data-types/enums";
 
 import { ThemeProvider } from "@mui/material/styles";
 import { defaultTheme } from "./styling/DefaultThemes.js";
 import { CssBaseline } from "@mui/material";
 
 export const SystemContext = React.createContext([] as Completion[]);
+/* export const UserContext = React.createContext({
+  user: User = {},
+  setUser: Function,
+}); */
 
 export default function App() {
   const [theme, setTheme] = React.useState(defaultTheme);
@@ -49,7 +54,8 @@ export default function App() {
 
   return (
     <ThemeProvider theme={theme}>
-    <CssBaseline />
+    <CssBaseline />{/* 
+    <UserContext.Provider value={{} as User}> */}
     <SystemContext.Provider value={systems}>
     <div className="fill-window App">
       <Stack direction="row" justifyContent="flex-end" marginTop='14px' marginRight='20px' spacing='10px'>
@@ -64,13 +70,14 @@ export default function App() {
       <Routes>
         <Route path="/" element={<Homepage next={() => nextStep("../wellbeing")}/>} />,
         <Route path="/consent" element={<ConsentForm next={() => nextStep("../wellbeing")} />} />,
-        <Route path="/wellbeing" element={<Questionnaire variant={VARIANTS.WELLBEING} next={() => nextStep("../tutorial")} />} />,
+        <Route path="/wellbeing" element={<ScaleQuestionnaire variant={SCALE_VARS.WELLBEING} next={() => nextStep("../tutorial")} />} />,
         <Route path="/tutorial" element={<Tutorial next={() => nextStep("../hiring")}/>} />,
         <Route path="/hiring" element={<SystemList setTheme={setTheme} next={() => nextStep("../demographic")}/>}/>,
         <Route path="/demographic" element={<Demographic />} />
       </Routes>
     </div>
     </SystemContext.Provider>
+   {/*  </UserContext.Provider> */}
     </ThemeProvider>
   );
 }
