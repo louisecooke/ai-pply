@@ -2,7 +2,10 @@ import { motion } from "framer-motion/dist/framer-motion";
 import React from "react";
 import { flicker } from "./Lightswitch";
 import Timer from "../components/Timer";
-import { Net } from "../types";
+import { Net } from "../data-types/interfaces";
+import { Stack } from "@mui/material";
+
+import CardAnimation from './CardAnimation';
 
 const draw = {
     hidden: { pathLength: 0, opacity: 0 },
@@ -19,10 +22,10 @@ const draw = {
     },
 }
 
-const vSpace = 200; //pixels between elements in a column
-const hSpace = 500; //pixels between respective columns
-const dim = {x: -800, y: 900}; //initial coordinates
-const rad = 50;
+const vSpace = 80; //pixels between elements in a column
+const hSpace = 200; //pixels between respective columns
+export const dim = {x: 400, y: 400}; //initial coordinates
+const rad = 20;
 
 type element = {
   x: number;
@@ -83,15 +86,15 @@ export default function Network({net, callback}: Props) {
         return [...lights.slice(0, (stage - 1)), flicker(net.dims[stage-2]), ...lights.slice(stage,)];
     }
   }
-
-  return (<div>
+  
+  return (<Stack direction='row' alignItems='center' justifyContent='center'>
     <motion.svg
-      width="1600"
-      height="1000"
-      viewBox="0 0 100 2400"
+      viewBox="0 0 1500 1000"
       initial="hidden"
       animate="visible"
     >
+      
+      {/* <CardAnimation dim={dim}/> */}
     {
       layers.map( (column, i) => {
         return column.map( (elem, j) => {
@@ -124,5 +127,5 @@ export default function Network({net, callback}: Props) {
     }
     </motion.svg>
     {active && <Timer callback={() => setLights(newLights())} duration={.05} delay={5}/> } 
-  </div>);
+  </Stack>);
   }

@@ -1,7 +1,7 @@
 import { Stack } from '@mui/material';
 import { motion } from "framer-motion/dist/framer-motion";
 import blankProfile from "../imgs/avatar-g4549a99eb_640.png";
-
+import { dim } from "./Network";
 
 const listVariants = {
   start: {
@@ -18,14 +18,14 @@ const listVariants = {
 
 const loadVar = {
   start: {
-    x: -70,
-    y: -120,
+    x: dim.x,
+    y: dim.y - 600,
     width: 100,
     height: 100
   },
   end: {
-    x: 500,
-    y: -120,
+    x: dim.x + 100,
+    y: dim.y - 520,
     width: 0,
     height: 0
   },
