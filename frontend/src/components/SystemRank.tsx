@@ -1,5 +1,5 @@
 import { ImageList, ImageListItem } from "@mui/material";
-import { Applicant } from "../types";
+import { Applicant } from "../data-types/interfaces";
 import ApplicantCard from "./ApplicantCard";
 import { shortlistLength } from "../study-config/Configuration";
 import { displayId } from "../util/Functions";

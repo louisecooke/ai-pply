@@ -2,7 +2,7 @@ import { Stack } from '@mui/material';
 import Network from './Network';
 import CardAnimation from './CardAnimation';
 import LearningSystem from './LearningSystem';
-import { Manipulation, Net } from '../types';
+import { Manipulation, Net } from '../data-types/interfaces';
 import { thinkingText } from "../study-config/Configuration";
 import { lightBoard } from './Lightswitch';
 import * as React from "react";

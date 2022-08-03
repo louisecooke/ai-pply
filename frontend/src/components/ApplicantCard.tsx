@@ -1,7 +1,7 @@
 import * as React from 'react';
 import { Card, CardContent, CardMedia, Typography, CardActionArea, Slider, Stack, IconButton } from '@mui/material';
 import { motion, useMotionValue } from "framer-motion/dist/framer-motion";
-import { Applicant } from "../types";
+import { Applicant } from "../data-types/interfaces";
 
 import InfoIcon from '@mui/icons-material/Info';
 import { shortlistLength } from '../study-config/Configuration';
@@ -89,6 +89,8 @@ function ApplicantCard({animated = false, applicant, displayId, scale = false, l
 
   const displayCard = () => {
     return (
+      
+      <Stack justifyContent='center' alignItems='center' margin='0' padding='0'>
       <Card sx={{ border: 10, borderColor: selected || ranking ? selectedColor : defaultColor, minWidth: '220px',
       maxWidth: '250px'}}>
       <CardActionArea>
@@ -107,7 +109,8 @@ function ApplicantCard({animated = false, applicant, displayId, scale = false, l
             }
         </CardContent>
       </CardActionArea>
-     </Card>);
+     </Card>
+     </Stack>);
 
   }
   
@@ -128,17 +131,16 @@ function ApplicantCard({animated = false, applicant, displayId, scale = false, l
   function Selectable(element: any) {
     return (
       (applicant) ?
-      <Stack justifyContent='center' alignItems='center' margin='0' padding='0'>
-        <motion.div key={`orderitem-${applicant.id}`} value={applicant} style={itemStyle} onTap={() => shortlist(applicant, index)}>
+      <>
+      <motion.div key={`orderitem-${applicant.id}`} value={applicant} style={itemStyle} onTap={() => shortlist(applicant, index)}>
         {element}
-        </motion.div>
+      </motion.div>
        {transparent && applicant.reason && aiSelected && 
        <IconButton color={selected ? 'secondary' : 'info'} aria-label="view explanation" component="span" onClick={() => {writeExplanation(applicant)}}>
        <InfoIcon />
       </IconButton>}
-       
-      </Stack>
-      : <></>
+      </>
+      : <>{element}</>
     )
   }
 }

@@ -1,7 +1,7 @@
 import * as React from "react";
 import { Button, Stack, Typography } from "@mui/material";
 import ApplicantCard from "./ApplicantCard";
-import { Applicant } from "../types";
+import { Applicant } from "../data-types/interfaces";
 import { Reorder } from "framer-motion/dist/framer-motion";
 import { shortlistLength } from "../study-config/Configuration";
 import { displayId } from "../util/Functions";

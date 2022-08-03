@@ -1,5 +1,5 @@
 import { Stack, Typography } from '@mui/material';
-import { Manipulation } from '../types';
+import { Manipulation } from '../data-types/interfaces';
 import Typed from "react-typed";
 import SystemCard from '../components/SystemCard';
 import * as React from "react";

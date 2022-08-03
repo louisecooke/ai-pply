@@ -1,4 +1,4 @@
-import { Interaction } from "../types";
+import { Interaction } from "../data-types/interfaces";
 
 export function postId() {
     fetch("api/participants/", {

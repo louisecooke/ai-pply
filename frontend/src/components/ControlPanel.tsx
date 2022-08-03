@@ -1,6 +1,6 @@
 import * as React from "react";
 import { Card, CardContent, Stack, Typography, Slider, Button } from "@mui/material";
-import { FieldProperties } from "../types";
+import { FieldProperties } from "../data-types/interfaces";
 
 type PanelProps = {
     preferences: FieldProperties;

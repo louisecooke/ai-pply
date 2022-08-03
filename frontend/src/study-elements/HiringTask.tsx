@@ -5,7 +5,7 @@ import ControlPanel from "../components/ControlPanel";
 import SystemCard from "../components/SystemCard";
 import Spinner from "../components/Spinner";
 import Shortlist from "../components/Shortlist";
-import { Manipulation, FieldProperties, Applicant, Interaction } from "../types";
+import { Manipulation, FieldProperties, Applicant, Interaction } from "../data-types/interfaces";
 import { numApplicants, shortlistLength } from "../study-config/Configuration";
 import { objectsEqual, randomBetween, customSort, sumValues } from "../util/Functions";
 import { postInteraction } from "../actions/actions";

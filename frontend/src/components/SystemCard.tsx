@@ -6,7 +6,7 @@ import {
 } from "@mui/material";
 import React from 'react';
 
-import { Manipulation } from "../types";
+import { Manipulation } from "../data-types/interfaces";
 
 const defaultImg = require("../imgs/andrea-piacquadio-resume.jpg");
 

@@ -2,8 +2,10 @@ import * as React from "react";
 import { Button, Divider, Card,
   Typography, Stack, FormControl, FormLabel,
    RadioGroup, Radio, Container, CardContent } from "@mui/material";
-import { VARIANTS } from '../types';
+import { SCALE_VARS } from "../data-types/enums";
 import { useNavigate } from "react-router-dom";
+
+
 
 type Option = {
   id: number;
@@ -22,17 +24,17 @@ type Scale = {
 type Question = {
   id: number;
   text: string;
-  variant: VARIANTS;
+  variant: SCALE_VARS;
   scale: number;
   chosenOption: number;
 };
 
 type Props = {
-  variant: VARIANTS;
+  variant: SCALE_VARS;
   next: () => void;
 }
 
-export default function Questionnaire({variant, next} : Props) {
+export default function ScaleQuestionnaire({variant, next} : Props) {
   const [questions, setQuestions] = React.useState([] as Question[]);
   const [scales, setScales] = React.useState([] as Scale[]);
   const [error, setError] = React.useState(false);

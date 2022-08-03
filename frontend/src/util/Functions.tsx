@@ -1,5 +1,5 @@
 import { shortlistLength, numApplicants } from "../study-config/Configuration";
-import { FieldProperties, Applicant } from "../types";
+import { FieldProperties, Applicant } from "../data-types/interfaces";
 const { randomApplicant } = require("./DummyData");
 
 

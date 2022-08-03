@@ -1,4 +1,4 @@
-import { FieldProperties } from "../types";
+import { FieldProperties } from "../data-types/interfaces";
 import { randomBetween } from "./Functions";
 
 const { applicantFields, defaultToggles } = require("../study-config/Configuration");
