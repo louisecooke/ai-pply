@@ -1,16 +1,16 @@
 import * as React from "react";
 import HiringTask from "./HiringTask";
-import { Manipulation, VARIANTS } from "../types";
-import Questionnaire from "./Questionnaire";
+import { Manipulation } from "../data-types/interfaces";
+import ScaleQuestionnaire from "./Questionnaire";
 import SystemCard from "../components/SystemCard";
 import { Button, Container, Stack } from "@mui/material";
 import { systemThemes } from "../styling/SystemThemes";
 import { SystemContext } from "../App";
 import Training from "../animations/Training";
 
-enum ELEMENTS {
-    TRAINING, TASK, QUESTIONNAIRE, TRANSITION
-}
+import { SCALE_VARS, TASK_STAGES } from '../data-types/enums';
+
+
 
 type Props = {
   next: () => void;
@@ -24,7 +24,7 @@ export default function SystemList({next, setTheme}: Props) {
   const [systems, setSystems] = React.useState(React.useContext(SystemContext));
 
   //switch back to TRAINING when finished debugging
-  const [visibleElement, setVisibleElement] = React.useState(ELEMENTS.TASK);
+  const [visibleElement, setVisibleElement] = React.useState(TASK_STAGES.HIRING);
   const [penultimate, setPenultimate] = React.useState(false);
 
   const systemContext = React.useContext(SystemContext);
@@ -60,32 +60,32 @@ export default function SystemList({next, setTheme}: Props) {
   }
 
   const finishScenario = () => {
-    setVisibleElement(ELEMENTS.QUESTIONNAIRE);
+    setVisibleElement(TASK_STAGES.QUESTIONNAIRE);
     setCompleted([index, ...completed]);
   }
 
   const finishQuestionnaire = () => {
-    setVisibleElement(ELEMENTS.TRANSITION);
+    setVisibleElement(TASK_STAGES.TRANSITION);
   }
 
   const evaluateNext = () => {
     nextSystem();
-    setVisibleElement(ELEMENTS.TRAINING);
+    setVisibleElement(TASK_STAGES.TRAINING);
   }
 
   const currentElement = () => {
     switch (visibleElement) {
      /*  case (ELEMENTS.TRAINING):
         return (<Training index={index} system={chosenSystem} onFinish={() => setVisibleElement(ELEMENTS.TASK)} />) */
-      case (ELEMENTS.TASK): 
+      case (TASK_STAGES.HIRING): 
         return (<HiringTask system={chosenSystem} finish={finishScenario} setTheme={setTheme}/>)
   
-      case (ELEMENTS.QUESTIONNAIRE):
+      case (TASK_STAGES.QUESTIONNAIRE):
         return (
           <Container>
           <Stack alignItems='center'>
           <SystemCard system={chosenSystem}></SystemCard>
-          <Questionnaire variant={VARIANTS.EVALUATION} next={finishQuestionnaire} />
+          <ScaleQuestionnaire variant={SCALE_VARS.EVALUATION} next={finishQuestionnaire} />
           </Stack>
           </Container>)
 
@@ -103,7 +103,7 @@ export default function SystemList({next, setTheme}: Props) {
     <br/>
     <br/>
     {
-    chosenSystem.id && 
-    currentElement()} 
+    chosenSystem.id ?
+    currentElement() : "Looks like you've tried out all the systems!"} 
     </>);
 }
