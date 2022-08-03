@@ -31,15 +31,14 @@ export default function Tutorial({next: onFinish}: Props) {
   ];
 
   return (
-    <>
+    <Container>
     {workflow[page]}
-    </>
+    </Container>
   );
   
   function One() {
     return (
-      <Container sx={{margin: 20}}>
-      <Stack direction='row' spacing={20} justifyContent='center'>
+      <Stack direction='row' marginTop={30} spacing={20} justifyContent='center'>
       <Card sx={{padding: 3}}>
       <CardContent>
       You are the Operations Manager of a rapidly-growing company. After receiving funding for a new department, your human resources team must fill 40 new openings,
@@ -49,9 +48,6 @@ export default function Tutorial({next: onFinish}: Props) {
       </Card>
       <img src={desk} height='200' width='200' alt="a desk"/>
       </Stack>
-      <br />
-      <br />
-      </Container>
     );
   }
 
@@ -59,7 +55,8 @@ export default function Tutorial({next: onFinish}: Props) {
     const [dialog, setDialog] = React.useState(false);
 
     return (
-      <Container>
+      
+      <Stack direction='row' marginTop={30} spacing={20} justifyContent='center'>
       <Stack justifyContent='center'>
       <Card sx={{padding: 3, margin: 5, marginBottom: 0}}>
       <CardContent>
@@ -97,15 +94,13 @@ export default function Tutorial({next: onFinish}: Props) {
           </DialogActions>
           </DialogContent>
         </Dialog>
-      </Container>
-
+        </Stack>
     );
   }
 
   function Three() {
     return (
-      <Container>
-      <Card sx={{padding: 5}}>
+      <Card sx={{marginTop: 30, padding: 5}}>
       <CardContent>
       
       To help each AI tailor their decisions to your company values and hiring goals, you have compiled the hiring rankings from the past five years
@@ -115,17 +110,13 @@ export default function Tutorial({next: onFinish}: Props) {
       </CardContent> 
       {nextButton()}
       </Card>
-      <br />
-      <br />
-      </Container>
     );
   }
 
   function Four() {
     const [selected, setSelected] = React.useState(false);
     return (
-      <Container>
-      <Stack direction='row' spacing={20} justifyContent='center'>
+      <Stack direction='row' marginTop={30} spacing={10} justifyContent='center'>
         <Card sx={{padding: 5}}>
           <CardContent>
           <p>
@@ -143,21 +134,15 @@ export default function Tutorial({next: onFinish}: Props) {
         </Card>
         <Stack spacing={2} minWidth='40%' justifyContent='center' alignItems='stretch'>
         <ApplicantCard applicant={demoApplicants[0]} scale={true} ranking={selected} shortlist={() => {setSelected(true)}}/>
-        <Typography textAlign='left'>Click me to add me to your shortlist!</Typography>
+        <Typography textAlign='center'>Click me to add me to your shortlist!</Typography>
         </Stack>
-
-
       </Stack>
-
-      <br />
-      <br />
-      </Container>
     );
   }
 
   function Five() {
     return (
-      <Container>
+      <>
       <Card sx={{padding: 5, margin: 10}}>
       <CardContent>
       
@@ -173,16 +158,13 @@ export default function Tutorial({next: onFinish}: Props) {
 
         <ControlPanel preferences={{'Education': 50, 'Experience': 22, 'Culture Fit': 81}} setPreferences={()=>{}} defaultSaved={true} demo={true} />
       </Stack>
-
-      <br />
-      <br />
-      </Container>
+      </>
     );
   }
 
   function Six() {
     return (
-      <Container>
+      <>
       <Card sx={{padding: 5, margin: 10}}>
       <CardContent>
       
@@ -194,16 +176,14 @@ export default function Tutorial({next: onFinish}: Props) {
       </Card>
 
       <Shortlist shortlist={demoApplicants} rank={()=>{}} scale={false} demo={true}/>
-      <br />
-      <br />
-      </Container>
+      </>
     );
   }
 
   function Seven() {
     return (
-      <Container sx={{padding: 5}}>
-      <Card sx={{padding: 5}}>
+      <>
+      <Card sx={{marginTop: 30, padding: 5}}>
       <CardContent>
 
       The systems have their neural networks prepared to learn from your data. Are you ready to train?
@@ -217,9 +197,7 @@ export default function Tutorial({next: onFinish}: Props) {
         return <SystemCard system={s.system} />
       })}
       </Stack>
-      <br />
-      <br />
-      </Container>
+      </>
     );
   }
 
