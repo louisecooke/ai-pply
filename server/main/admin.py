@@ -14,7 +14,7 @@ class ReadOnly(admin.ModelAdmin):
         return False
 
 class ParticipantAdmin(ImportExportModelAdmin, ReadOnly):
-    list_display = ("id",)
+    list_display = ("id", "timestamp", "gender", "age", "education")
 
 class QuestionAdmin(ImportExportModelAdmin):
     list_display = ("text", "variant", "scale")
