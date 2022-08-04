@@ -2,7 +2,7 @@
 <project version="4">
   <component name="ProjectModuleManager">
     <modules>
-      <module fileurl="file://$PROJECT_DIR$/.idea/compass.iml" filepath="$PROJECT_DIR$/.idea/compass.iml" />
+      <module fileurl="file://$PROJECT_DIR$/.idea/ai-pply.iml" filepath="$PROJECT_DIR$/.idea/ai-pply.iml" />
     </modules>
   </component>
 </project>

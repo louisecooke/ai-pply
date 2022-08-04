@@ -1,4 +1,4 @@
 class Administration:
-    header = 'Manage Compass'
+    header = 'Manage AI-pply'
 
 
